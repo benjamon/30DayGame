@@ -62,7 +62,8 @@ Shader "Bentendo/CRT_Shader"
                 col = fixed4(coll.x, col.y, colr.z, col.w);
 
                 //scanlines
-                float scanLine = ceil((rv.y + _Time.w * _LineHeight * _ScanSpeed) % _LineHeight - _LineHeight * 0.5);
+                float modd = (rv.y + _Time.w * _LineHeight * _ScanSpeed) % _LineHeight - _LineHeight * 0.5;
+                float scanLine = ceil(modd);
                 col.rgb *= scanLine + (1.0 - scanLine) * _LineColor;
                 col.rgb *= lerp(1.0 - _Vignette, 1.0, .5 + edist);
                 return col;

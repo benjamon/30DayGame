@@ -60,7 +60,7 @@ Material:
     m_Floats:
     - _AbberationSize: 0.2
     - _BumpScale: 1
-    - _BumpSize: 0.53
+    - _BumpSize: 0.2
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -83,5 +83,5 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _LineColor: {r: 0.44025153, g: 0.95132625, b: 1, a: 1}
+    - _LineColor: {r: 0.7148451, g: 0.9056604, b: 0.83296883, a: 1}
   m_BuildTextureStacks: []
