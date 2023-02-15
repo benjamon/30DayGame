@@ -62,6 +62,9 @@ Shader "Bentendo/CRT_Shader"
                 float modd = (rv.y + rv.x * _LineHeight + _Time.w * _LineHeight * _ScanSpeed) % _LineHeight - _LineHeight * 0.5;
                 float scanLine = ceil(modd);
 
+                //flicker
+                float flicker = ceil(abs((rv.y + _Time.y * 0.5)) % 1.0 - .4 + _CosTime.y * .1);
+
                 //scanline horizontal disjoint (centered)
                 float disj = scanLine - .5;
                 rv += float2(sign(disj) * abs(disj) * max(edist, 0.0) * _LineHeight * _ScanlineDisjoint, 0.0);
@@ -77,6 +80,7 @@ Shader "Bentendo/CRT_Shader"
 
                 col.rgb *= scanLine + (1.0 - scanLine) * _LineColor;
                 col.rgb *= lerp(1.0 - _Vignette, 1.0, .5 + edist);
+                col.rgb *= .95 + .05*flicker;
                 return col;
             }
             ENDCG
