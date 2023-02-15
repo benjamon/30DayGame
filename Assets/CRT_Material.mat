@@ -58,27 +58,28 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AbberationSize: 0.2
+    - _AbberationSize: 0.64
     - _BumpScale: 1
-    - _BumpSize: 0.2
+    - _BumpSize: 0.1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _LineHeight: 0.015
+    - _LineHeight: 0.0085
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _ScanSpeed: 0.4
+    - _ScanSpeed: 0.02
+    - _ScanlineDisjoint: 1
     - _ScanlineSpeed: 0.2
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
-    - _Vignette: 0.62
+    - _Vignette: 1.03
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
