@@ -6,6 +6,7 @@ Shader "Bentendo/CRT_Shader"
         _LineHeight("ScanlineSize", Float) = 0.1
         _ScanSpeed("ScanlinesSpeed", Float) = .2
         _ScanlineDisjoint("ScanlineDisjoint", Float) = .2
+        _FlickerSpeed("FlickerSpeed", Float) = .5
         _BumpSize("BumpSize", Float) = .2
         _Vignette("Vignette", Float) = .3
         _AbberationSize("AbbertationSize", Float) = .5
@@ -44,6 +45,7 @@ Shader "Bentendo/CRT_Shader"
             sampler2D _MainTex;
             float _LineHeight;
             float _ScanSpeed;
+            float _FlickerSpeed;
             float4 _LineColor;
             float _BumpSize;
             float _Vignette;
@@ -59,11 +61,11 @@ Shader "Bentendo/CRT_Shader"
 
 
                 //scanlines
-                float modd = (rv.y + rv.x * _LineHeight + _Time.w * _LineHeight * _ScanSpeed) % _LineHeight - _LineHeight * 0.5;
+                float modd = (rv.y + _Time.w * _LineHeight * _ScanSpeed) % _LineHeight - _LineHeight * 0.5;
                 float scanLine = ceil(modd);
 
                 //flicker
-                float flicker = ceil(abs((rv.y + _Time.y * 0.5)) % 1.0 - .4 + _CosTime.y * .1);
+                float flicker = ceil(abs((rv.y + _Time.y * _FlickerSpeed)) % 1.0 - .4 + _CosTime.y * .1);
 
                 //scanline horizontal disjoint (centered)
                 float disj = scanLine - .5;
