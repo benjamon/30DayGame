@@ -40,17 +40,6 @@ public struct SimulateJob : IJob
                             pixels[i] = d;
                             break;
                         }
-                        if (i % size != size - 1) // not right-most
-                        {
-                            d = pixels[i - size + 1];
-                            rd = rules[d];
-                            if (rd < rp)
-                            {
-                                pixels[i - size + 1] = p;
-                                pixels[i] = d;
-                                break;
-                            }
-                        }
                         if (i % size != 0)
                         {
                             d = pixels[i - size - 1];
@@ -58,6 +47,17 @@ public struct SimulateJob : IJob
                             if (rd < rp)
                             {
                                 pixels[i - size - 1] = p;
+                                pixels[i] = d;
+                                break;
+                            }
+                        }
+                        if (i % size != size - 1) // not right-most
+                        {
+                            d = pixels[i - size + 1];
+                            rd = rules[d];
+                            if (rd < rp)
+                            {
+                                pixels[i - size + 1] = p;
                                 pixels[i] = d;
                                 break;
                             }

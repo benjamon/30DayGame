@@ -50,7 +50,7 @@ public class SandSim : MonoBehaviour
         for (int i = 0; i < pcount; i++)
         {
             float roll = Random.Range(0f, 1f);
-            pixels[i] = (byte)((roll > .5f + Mathf.Sin(((i%size)/(float)size) * Mathf.PI * 14f) * .15f) ? ((roll > .7f) ? ((roll > .85f) ? 2 : 3) : 1) : 0);
+            pixels[i] = (byte)((roll > .5f + Mathf.Sin(((i%size)/(float)size) * Mathf.PI * Random.Range(1f, 26f)) * .15f) ? ((roll > .7f) ? ((roll > .85f) ? 2 : 3) : 1) : 0);
         }
         DrawSim();
     }
