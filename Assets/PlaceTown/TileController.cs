@@ -1,21 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using System;
 
 public class TileController : MonoBehaviour
 {
     [HideInInspector]
     [System.NonSerialized]
-    public TileData info = new TileData();
+    public int id;
+    [HideInInspector]
+    [System.NonSerialized]
+    public TileController[,] surr = new TileController[3, 3];
+    [HideInInspector]
+    [System.NonSerialized]
+    public int x;
+    [HideInInspector]
+    [System.NonSerialized]
+    public int y;
+
     Bmap.TileDef[] tileSet;
     SpriteRenderer spriteRenderer;
+    Animation anim;
+    TMP_Text valueText;
+    Bmap.TileEvents tileEvents;
 
-    public void Init(int id, int x, int y, TileController[,] map, Bmap.TileDef[] tileSet_)
+    public void Init(int id_, int x_, int y_, Bmap bmap)
     {
-        info.x = x;
-        info.y = y;
-        tileSet = tileSet_;
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        valueText = GetComponentInChildren<TextMeshPro>();
+        anim = GetComponent<Animation>();
+
+        TileController[,] map = bmap.grid;
+        tileSet = bmap.TileSet;
+        tileEvents = bmap.tileEvents;
+
+        x = x_;
+        y = y_;
+        id = id_;
         SetTileId(id);
 
         for (int dx = -1; dx < 2; dx++)
@@ -24,51 +46,56 @@ public class TileController : MonoBehaviour
                 continue;
             for (int dy = -1; dy < 2; dy++)
             {
-                if ((x == 1 && y == 1) || (dy == -1 && y == 0) || (dy == 1 && y == map.GetLength(1) - 1))
+                if ((dx == 0 && dy == 0) || (dy == -1 && y == 0) || (dy == 1 && y == map.GetLength(1) - 1))
                     continue;
-                info.surrounding[dx+1, dy+1] = map[x + dx, y + dy].info;
+                surr[dx+1, dy+1] = map[x + dx, y + dy];
             }
         }
     }
 
-    public void SetTileId(int id)
+    internal void ShowValue(int id)
     {
+        valueText.gameObject.SetActive(true);
+        valueText.text = ((id > 0) ? "+" : "") + id;
+    }
+
+    internal void HideValue()
+    {
+        valueText.gameObject.SetActive(false);
+    }
+
+    public void SetTileId(int id_)
+    {
+        id = id_;
         spriteRenderer.sprite = tileSet[id].sprite;
-        info.index = id;
     }
 
     private void OnMouseDown()
     {
-        if (!locked)
-            StartCoroutine(Change((info.index == 0) ? 1 : 0));
+        tileEvents.OnPressed.Invoke(this);
     }
 
-    bool locked;
-
-    IEnumerator Change(int id)
+    private void OnMouseEnter()
     {
-        locked = true;
-        float t = Time.time;
-        float dur = .5f;
-        GetComponent<Animation>().Play();
-        while (Time.time - t < dur)
-        {
-            float norm = (Time.time - t) / dur;
-            norm = norm * norm;
-            transform.rotation = Quaternion.identity;
-            transform.Rotate(Vector3.forward, norm * 360f);
-            yield return new WaitForEndOfFrame();
-        }
-        transform.rotation = Quaternion.identity;
+        tileEvents.OnHovered.Invoke(this);
+    }
+
+    public bool changeLock { get; private set; }
+
+    public IEnumerator TryChange(int id)
+    {
+        if (changeLock)
+            yield break;
+        changeLock = true;
+        anim.Play("SelectAnim");
+        yield return new WaitForSeconds(.2f);
         SetTileId(id);
-        locked = false;
+        changeLock = false;
     }
 
-    public class TileData
+    public void PlayFail()
     {
-        public int index;
-        public TileData[,] surrounding = new TileData[3,3];
-        public int x;
-        public int y;
+        anim.Stop();
+        anim.Play("FailSelect");
     }
 }
