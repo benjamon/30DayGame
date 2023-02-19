@@ -87,7 +87,14 @@ public class SandSim : MonoBehaviour
         {
             Debug.Log(Input.mousePosition);
             Vector2 v = ((Vector2)Input.mousePosition) / new Vector2(Screen.width, Screen.height);
-            pixels[Mathf.Min(pcount - 1, Mathf.FloorToInt(Mathf.Clamp(v.x * size, 0, size - 1) + Mathf.Clamp(v.y * size, 0f, size - 1) * size))] = 0;
+            Debug.Log(v);
+            int x = Mathf.RoundToInt(v.x * (float)size);
+            int y = Mathf.RoundToInt(v.y * (float)size);
+            for (int i = 0; i < size; i++)
+                pixels[size * i + x] = 0;
+            for (int i = 0; i < size; i++)
+                pixels[size *  y+ i] = 0;
+
             DrawSim();
         }
     }

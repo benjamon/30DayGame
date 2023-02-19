@@ -80,6 +80,11 @@ public class TileController : MonoBehaviour
         tileEvents.OnHovered.Invoke(this);
     }
 
+    internal AudioClip GetClip()
+    {
+        return tileSet[id].placementSound;
+    }
+
     public bool changeLock { get; private set; }
 
     public IEnumerator TryChange(int id)
@@ -88,8 +93,10 @@ public class TileController : MonoBehaviour
             yield break;
         changeLock = true;
         anim.Play("SelectAnim");
-        yield return new WaitForSeconds(.2f);
+        yield return new WaitForSeconds(.15f);
         SetTileId(id);
+        while (anim.isPlaying)
+            yield return null;
         changeLock = false;
     }
 
