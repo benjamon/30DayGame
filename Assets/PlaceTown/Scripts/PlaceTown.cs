@@ -72,11 +72,9 @@ public class PlaceTown : MonoBehaviour
         {
             FailSource.Stop();
             FailSource.Play();
-            tile.PlayFail();
-            yield return new WaitForSeconds(.2f);
+            yield return StartCoroutine(tile.PlayFail());
             yield break;
         }
-        Tilemap.HideValues();
         SuccessSource.Stop();
         AudioClip clip = Tilemap.TileSet[CurrentCard].placementSound;
         SuccessSource.clip = (clip) ? clip : defaultPlacementClip;
@@ -85,9 +83,10 @@ public class PlaceTown : MonoBehaviour
         ScoreDisplay.text = score.ToString();
         ScoreAnim.Stop();
         ScoreAnim.Play();
+        StartCoroutine(ExploitTile(tile));
         yield return StartCoroutine(tile.TryChange(CurrentCard));
         if (playerDeck.DrawPileEmpty())
-            yield return StartCoroutine(playerDeck.ShuffleRoutine(DeckUI.UpdateWithSound, .12f));
+            yield return StartCoroutine(playerDeck.ShuffleRoutine(DeckUI.PlayShuffle, .15f));
         DrawNext();
         yield return StartCoroutine(DeckUI.UpdateUI());
     }
@@ -106,5 +105,20 @@ public class PlaceTown : MonoBehaviour
             }
         }
         return sum;
+    }
+    public IEnumerator ExploitTile(TileController tile)
+    {
+        int sum = 0;
+        var surr = tile.surr;
+        for (int x = 0; x < surr.GetLength(0); x++)
+        {
+            for (int y = 0; y < surr.GetLength(1); y++)
+            {
+                if (surr[x, y] == null)
+                    continue;
+                surr[x,y].PlayExploitTile();
+                yield return new WaitForSeconds(.04f);
+            }
+        }
     }
 }

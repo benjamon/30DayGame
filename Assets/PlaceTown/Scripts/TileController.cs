@@ -100,9 +100,17 @@ public class TileController : MonoBehaviour
         changeLock = false;
     }
 
-    public void PlayFail()
+    public void PlayExploitTile()
+    {
+        anim.Stop();
+        anim.Play("ExploitTile");
+    }
+
+    public IEnumerator PlayFail()
     {
         anim.Stop();
         anim.Play("FailSelect");
+        while (anim.isPlaying)
+            yield return null;
     }
 }

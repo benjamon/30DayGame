@@ -6,17 +6,23 @@ using UnityEngine.UI;
 
 public class DeckUI : MonoBehaviour
 {
+    public const string DRAW_ANIM = "DrawCard";
+    public const string DISCARD_ANIM = "Discard";
+    public const string DISCARD_TO_DRAW_ANIM = "ShuffleBack";
+
     public TMP_Text DrawPileCount;
     public TMP_Text DiscardCount;
     public Image ActiveCard;
-    public Image NextCard;
+    public Image DrawPile;
     public Image Discard;
+    public Image Animated;
     public AudioSource CardTransitionSound;
 
     PlaceTown town;
     Deck<int> playerDeck;
     Bmap.TileDef[] tileSet;
     Sprite emptySprite;
+    Animation anim;
 
     public void Init(Deck<int> deck_, Bmap.TileDef[] tileSet_, PlaceTown town_)
     {
@@ -24,16 +30,17 @@ public class DeckUI : MonoBehaviour
         emptySprite = Discard.sprite;
         town = town_;
         playerDeck = deck_;
+        anim = GetComponent<Animation>();
         UpdateInstant();
     }
 
     public IEnumerator UpdateUI()
     {
-
-        CardTransitionSound.Stop();
-        CardTransitionSound.Play();
+        PlayAnim(DISCARD_ANIM);
 
         ActiveCard.sprite = emptySprite;
+
+        yield return new WaitForSeconds(.2f);
 
         if (playerDeck.TryGetLastDiscarded(out int dscrd))
             Discard.sprite = tileSet[dscrd].sprite;
@@ -42,19 +49,41 @@ public class DeckUI : MonoBehaviour
 
         DiscardCount.text = playerDeck.Discard.Count.ToString();
 
-        yield return new WaitForSeconds(.15f);
+        PlayAnim(DRAW_ANIM);
 
-        CardTransitionSound.Stop();
-        CardTransitionSound.Play();
+        if (playerDeck.TryPeekNext(out int nxtCard))
+            DrawPile.sprite = tileSet[nxtCard].sprite;
+        else
+            DrawPile.sprite = emptySprite;
+
+        yield return new WaitForSeconds(.2f);
 
         ActiveCard.sprite = tileSet[town.CurrentCard].sprite;
 
-        if (playerDeck.TryPeekNext(out int nxtCard))
-            NextCard.sprite = tileSet[nxtCard].sprite;
-        else
-            NextCard.sprite = emptySprite;
-
         DrawPileCount.text = playerDeck.DrawPile.Count.ToString();
+    }
+
+    void PlayAnim(string title)
+    {
+        anim.Stop();
+        anim.Play(title);
+
+        switch (title)
+        {
+            case DRAW_ANIM:
+                Animated.sprite = DrawPile.sprite;
+                break;
+            case DISCARD_ANIM:
+                Animated.sprite = ActiveCard.sprite;
+                break;
+            case DISCARD_TO_DRAW_ANIM:
+                if (playerDeck.TryGetLastDiscarded(out int last))
+                    Animated.sprite = tileSet[last].sprite;
+                break;
+        }
+
+        CardTransitionSound.Stop();
+        CardTransitionSound.Play();
     }
 
     public void UpdateInstant()
@@ -65,16 +94,16 @@ public class DeckUI : MonoBehaviour
         else
             Discard.sprite = emptySprite;
         if (playerDeck.TryPeekNext(out int nxtCard))
-            NextCard.sprite = tileSet[nxtCard].sprite;
+            DrawPile.sprite = tileSet[nxtCard].sprite;
         else
-            NextCard.sprite = emptySprite;
+            DrawPile.sprite = emptySprite;
         DrawPileCount.text = playerDeck.DrawPile.Count.ToString();
         DiscardCount.text = playerDeck.Discard.Count.ToString();
     }
-    public void UpdateWithSound()
+
+    public void PlayShuffle()
     {
+        PlayAnim(DISCARD_TO_DRAW_ANIM);
         UpdateInstant();
-        CardTransitionSound.Stop();
-        CardTransitionSound.Play();
     }
 }
