@@ -19,7 +19,6 @@ public class TileDef
     public int id;
     public AudioClip placementSound;
 
-    [System.NonSerialized]
     public TileRule[] rules;
 
     public TILE_FLAGS flags;
@@ -37,6 +36,7 @@ public enum TILE_FLAGS {
     HAZARD = 128
 }
 
+[System.Serializable]
 public class TileRule
 {
     public int id;

@@ -12,14 +12,13 @@ public class Deck<T>
     public Deck(T[] cards)
     {
         DrawPile = new Queue<T>(cards);
+        Shuffle();
     }
 
     public void Shuffle()
     {
         while (DrawPile.Count > 0)
-        {
             Discard.Add(DrawPile.Dequeue());
-        }
         while (Discard.Count > 0)
         {
             int n = UnityEngine.Random.Range(0, Discard.Count - 1);

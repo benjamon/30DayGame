@@ -292,7 +292,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 33554431
+    rgba: 4294967295
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 2
@@ -728,83 +728,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 565330595}
   m_CullTransparentMesh: 1
---- !u!1001 &699720269
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3234155982552769513, guid: 2681149c27d52a246ad1d5c043c12371, type: 3}
-      propertyPath: m_RootOrder
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 3234155982552769513, guid: 2681149c27d52a246ad1d5c043c12371, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3234155982552769513, guid: 2681149c27d52a246ad1d5c043c12371, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3234155982552769513, guid: 2681149c27d52a246ad1d5c043c12371, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3234155982552769513, guid: 2681149c27d52a246ad1d5c043c12371, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3234155982552769513, guid: 2681149c27d52a246ad1d5c043c12371, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3234155982552769513, guid: 2681149c27d52a246ad1d5c043c12371, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3234155982552769513, guid: 2681149c27d52a246ad1d5c043c12371, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3234155982552769513, guid: 2681149c27d52a246ad1d5c043c12371, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3234155982552769513, guid: 2681149c27d52a246ad1d5c043c12371, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3234155982552769513, guid: 2681149c27d52a246ad1d5c043c12371, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4875073290428789298, guid: 2681149c27d52a246ad1d5c043c12371, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 4.458748
-      objectReference: {fileID: 0}
-    - target: {fileID: 6569943478339085304, guid: 2681149c27d52a246ad1d5c043c12371, type: 3}
-      propertyPath: m_Name
-      value: TileBase
-      objectReference: {fileID: 0}
-    - target: {fileID: 8606259615552674089, guid: 2681149c27d52a246ad1d5c043c12371, type: 3}
-      propertyPath: m_FlipY
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8606259615552674089, guid: 2681149c27d52a246ad1d5c043c12371, type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8606259615552674089, guid: 2681149c27d52a246ad1d5c043c12371, type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8606259615552674089, guid: 2681149c27d52a246ad1d5c043c12371, type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 2681149c27d52a246ad1d5c043c12371, type: 3}
 --- !u!114 &779943074 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5159089854310787258, guid: fbe442171237b9c48a5ba2d06a8991c4, type: 3}
@@ -852,7 +775,7 @@ MonoBehaviour:
   ScoreChange: {fileID: 102132985}
   FailSource: {fileID: 813170970}
   SuccessSource: {fileID: 813170971}
-  DefaultDeck: 01000000010000000200000002000000020000000100000001000000010000000100000003000000030000000100000001000000
+  DefaultDeck: 04000000040000000200000002000000040000000400000004000000040000000400000003000000040000000400000004000000
   DeckUI: {fileID: 407924752}
 --- !u!4 &813170969
 Transform:
@@ -1141,7 +1064,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.29411766, g: 0.37647063, b: 0.30980393, a: 1}
+  m_BackGroundColor: {r: 0.8235295, g: 0.76470596, b: 0.3803922, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1748,8 +1671,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4284205738
-  m_fontColor: {r: 0.6663181, g: 0.7924528, b: 0.35510856, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 2
   m_fontColorGradient:
@@ -1894,7 +1817,7 @@ PrefabInstance:
     - target: {fileID: 5159089854310787258, guid: fbe442171237b9c48a5ba2d06a8991c4, type: 3}
       propertyPath: BaseMap
       value: 
-      objectReference: {fileID: 2800000, guid: ce4e98286d9bff54ebb9b8995abca585, type: 3}
+      objectReference: {fileID: 2800000, guid: 61d929059e2957c4e9e98614a41e16b5, type: 3}
     - target: {fileID: 5159089854310787258, guid: fbe442171237b9c48a5ba2d06a8991c4, type: 3}
       propertyPath: Tileset
       value: 

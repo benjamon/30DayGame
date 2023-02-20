@@ -38,20 +38,36 @@ public class PlaceTown : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.R))
+        {
             Tilemap.ResetMap();
+            score = 0;
+            ScoreDisplay.text = score.ToString();
+        }
     }
 
     private void HoverTile(TileController tile)
     {
         var surr = tile.surr;
         Tilemap.HideValues();
+        TileRule[] rules = Tilemap.Tileset[CurrentCard].rules;
         for (int x = 0; x < surr.GetLength(0); x++)
         {
             for (int y =0; y < surr.GetLength(1); y++)
             {
                 if (surr[x, y] == null)
                     continue;
-                surr[x, y].ShowValue(surr[x, y].id);
+                int sum = 0;
+                int id = surr[x, y].id;
+                for (int i = 0; i < rules.Length; i++)
+                    if (id == rules[i].id)
+                        sum += rules[i].value;
+                if (sum == 0)
+                {
+                    surr[x, y].HideValue();
+                } else
+                {
+                    surr[x, y].ShowValue(sum);
+                }
             }
         }
     }
@@ -105,17 +121,24 @@ public class PlaceTown : MonoBehaviour
     {
         int sum = 0;
         var surr = tile.surr;
+        TileRule[] rules = Tilemap.Tileset[CurrentCard].rules;
+        if (rules.Length == 0)
+            return 0;
         for (int x = 0; x < surr.GetLength(0); x++)
         {
             for (int y = 0; y < surr.GetLength(1); y++)
             {
                 if (surr[x, y] == null)
                     continue;
-                sum += surr[x, y].id;
+                int id = surr[x, y].id;
+                for (int i = 0; i < rules.Length; i++)
+                    if (id == rules[i].id)
+                        sum += rules[i].value;
             }
         }
         return sum;
     }
+
     public IEnumerator ExploitTile(TileController tile)
     {
         int sum = 0;
