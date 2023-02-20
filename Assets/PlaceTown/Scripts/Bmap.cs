@@ -9,7 +9,7 @@ public class Bmap : MonoBehaviour
 
     public Texture2D BaseMap;
 
-    public TileDef[] TileSet;
+    public Tileset Tileset;
 
     [System.NonSerialized]
     [HideInInspector]
@@ -28,11 +28,11 @@ public class Bmap : MonoBehaviour
 
         grid = new TileController[width, height];
 
-        Dictionary<Color32, TileDef> tileSetDict = new Dictionary<Color32, TileDef>();
-        for(int i = 0; i < TileSet.Length; i++)
+        Dictionary<Color32, TileDef> TilesetDict = new Dictionary<Color32, TileDef>();
+        for(int i = 0; i < Tileset.tiles.Length; i++)
         {
-            TileSet[i].id = i;
-            tileSetDict.Add(TileSet[i].color, TileSet[i]);
+            Tileset[i].id = i;
+            TilesetDict.Add(Tileset[i].color, Tileset[i]);
         }
 
         Color32[] colors = BaseMap.GetPixels32();
@@ -52,7 +52,7 @@ public class Bmap : MonoBehaviour
             for (int y = 0; y < height; y++)
             {
                 Color32 c = colors[x + y * width];
-                TileDef td = (tileSetDict.ContainsKey(c) ? tileSetDict[c] : TileSet[0]);
+                TileDef td = (TilesetDict.ContainsKey(c) ? TilesetDict[c] : Tileset[0]);
                 grid[x, y].Init(td.id, x, y, this);
             }
         }
@@ -64,11 +64,11 @@ public class Bmap : MonoBehaviour
 
     public void ResetMap()
     {
-        Dictionary<Color32, TileDef> tileSetDict = new Dictionary<Color32, TileDef>();
-        for (int i = 0; i < TileSet.Length; i++)
+        Dictionary<Color32, TileDef> TilesetDict = new Dictionary<Color32, TileDef>();
+        for (int i = 0; i < Tileset.tiles.Length; i++)
         {
-            TileSet[i].id = i;
-            tileSetDict.Add(TileSet[i].color, TileSet[i]);
+            Tileset[i].id = i;
+            TilesetDict.Add(Tileset[i].color, Tileset[i]);
         }
 
         Color32[] colors = BaseMap.GetPixels32();
@@ -78,18 +78,8 @@ public class Bmap : MonoBehaviour
             for (int y = 0; y < height; y++)
             {
                 Color32 c = colors[x + y * width];
-                GameObject g = GameObject.Instantiate(TilePrefab);
-                g.transform.position = new Vector3(x, y, 0f);
-                grid[x, y] = g.GetComponent<TileController>();
-            }
-        }
-        for (int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < height; y++)
-            {
-                Color32 c = colors[x + y * width];
-                TileDef td = (tileSetDict.ContainsKey(c) ? tileSetDict[c] : TileSet[0]);
-                grid[x, y].Init(td.id, x, y, this);
+                TileDef td = (TilesetDict.ContainsKey(c) ? TilesetDict[c] : Tileset[0]);
+                grid[x, y].SetTileId(td.id);
             }
         }
     }
@@ -103,17 +93,6 @@ public class Bmap : MonoBehaviour
                 grid[x, y].HideValue();
             }
         }
-    }
-    
-    [System.Serializable]
-    public class TileDef
-    {
-        public string name;
-        public Color32 color;
-        public Sprite sprite;
-        [System.NonSerialized]
-        public int id;
-        public AudioClip placementSound;
     }
 
     public class TileEvents

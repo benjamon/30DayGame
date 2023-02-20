@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class PlaceTown : MonoBehaviour
 {
+    public const int MAX_QUEUED = 2;
+
     public Bmap Tilemap;
     public TMP_Text ScoreDisplay;
+    public TMP_Text ScoreChange;
     public AudioSource FailSource;
     public AudioSource SuccessSource;
     public int[] DefaultDeck;
@@ -14,6 +17,8 @@ public class PlaceTown : MonoBehaviour
     [System.NonSerialized]
     [HideInInspector]
     public int CurrentCard;
+
+    int queueCount = 0;
     
     AudioClip defaultPlacementClip;
     Animation ScoreAnim;
@@ -27,7 +32,7 @@ public class PlaceTown : MonoBehaviour
         defaultPlacementClip = SuccessSource.clip;
         playerDeck = new Deck<int>(DefaultDeck);
         playerDeck.TryDrawNext(out CurrentCard);
-        DeckUI.Init(playerDeck, Tilemap.TileSet, this);
+        DeckUI.Init(playerDeck, Tilemap.Tileset, this);
     }
 
     private void Update()
@@ -53,9 +58,10 @@ public class PlaceTown : MonoBehaviour
 
     private void ClickTile(TileController tile)
     {
-        if (!tile.changeLock)
+        if (queueCount < MAX_QUEUED && !tile.changeLock)
         {
             Sequencer.MainThread.Enqueue(ProcessPress, tile);
+            queueCount++;
         }
     }
 
@@ -68,18 +74,21 @@ public class PlaceTown : MonoBehaviour
 
     IEnumerator ProcessPress(TileController tile)
     {
-        if (tile.id != 1)
+        if ((Tilemap.Tileset[tile.id].flags & TILE_FLAGS.OPEN) == 0)
         {
             FailSource.Stop();
             FailSource.Play();
             yield return StartCoroutine(tile.PlayFail());
+            queueCount--;
             yield break;
         }
         SuccessSource.Stop();
-        AudioClip clip = Tilemap.TileSet[CurrentCard].placementSound;
+        AudioClip clip = Tilemap.Tileset.tiles[CurrentCard].placementSound;
         SuccessSource.clip = (clip) ? clip : defaultPlacementClip;
         SuccessSource.Play();
-        score += CalculateValue(tile);
+        int diff = CalculateValue(tile);
+        ScoreChange.text = (diff > 0) ? "+" + diff : diff.ToString();
+        score += diff;
         ScoreDisplay.text = score.ToString();
         ScoreAnim.Stop();
         ScoreAnim.Play();
@@ -89,6 +98,7 @@ public class PlaceTown : MonoBehaviour
             yield return StartCoroutine(playerDeck.ShuffleRoutine(DeckUI.PlayShuffle, .15f));
         DrawNext();
         yield return StartCoroutine(DeckUI.UpdateUI());
+        queueCount--;
     }
 
     public int CalculateValue(TileController tile)

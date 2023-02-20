@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cef34f8faeef80445be8cb8b48b01a16, type: 3}
+  m_Name: Tileset
+  m_EditorClassIdentifier: 
+  tiles:
+  - name: Open
+    color:
+      serializedVersion: 2
+      rgba: 4294967295
+    sprite: {fileID: -1058343735, guid: 066e13ea1f2e26749b2bc5b808af941f, type: 3}
+    placementSound: {fileID: 0}
+    flags: 1
+  - name: Rubble
+    color:
+      serializedVersion: 2
+      rgba: 4278190080
+    sprite: {fileID: 1987430537, guid: 066e13ea1f2e26749b2bc5b808af941f, type: 3}
+    placementSound: {fileID: 0}
+    flags: 4
+  - name: House
+    color:
+      serializedVersion: 2
+      rgba: 4278190335
+    sprite: {fileID: 1949818859, guid: b9c5ef2499a9b8b4b9073472f99798c2, type: 3}
+    placementSound: {fileID: 8300000, guid: 92ed8d7495322be4ca70870c6f39bc24, type: 3}
+    flags: 2
+  - name: BUSINESS
+    color:
+      serializedVersion: 2
+      rgba: 4294901760
+    sprite: {fileID: -328356663, guid: b9c5ef2499a9b8b4b9073472f99798c2, type: 3}
+    placementSound: {fileID: 8300000, guid: 3a2e5662ca3f4cd429fb623d7a4aa84a, type: 3}
+    flags: 34

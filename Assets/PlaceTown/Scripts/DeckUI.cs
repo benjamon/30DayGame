@@ -20,11 +20,11 @@ public class DeckUI : MonoBehaviour
 
     PlaceTown town;
     Deck<int> playerDeck;
-    Bmap.TileDef[] tileSet;
+    Tileset tileSet;
     Sprite emptySprite;
     Animation anim;
 
-    public void Init(Deck<int> deck_, Bmap.TileDef[] tileSet_, PlaceTown town_)
+    public void Init(Deck<int> deck_, Tileset tileSet_, PlaceTown town_)
     {
         tileSet = tileSet_;
         emptySprite = Discard.sprite;

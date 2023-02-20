@@ -19,7 +19,7 @@ public class TileController : MonoBehaviour
     [System.NonSerialized]
     public int y;
 
-    Bmap.TileDef[] tileSet;
+    Tileset tileSet;
     SpriteRenderer spriteRenderer;
     Animation anim;
     TMP_Text valueText;
@@ -32,7 +32,7 @@ public class TileController : MonoBehaviour
         anim = GetComponent<Animation>();
 
         TileController[,] map = bmap.grid;
-        tileSet = bmap.TileSet;
+        tileSet = bmap.Tileset;
         tileEvents = bmap.tileEvents;
 
         x = x_;
