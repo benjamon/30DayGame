@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ public class Sequencer : MonoBehaviour
 {
     const int MS_PER_CORO_CHECKUP = 12;
 
-    public static Sequencer MainThread;
+    public static Sequencer main;
     static Sequencer[] all = new Sequencer[26];
 
     [SerializeField]
@@ -42,82 +43,86 @@ public class Sequencer : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void OnDestroy()
     {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            MakeBreakfast();
-        }
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            QueueBreakfast();
-        }
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            PlanBreakfastRoutine();
-        }
+        cts?.Cancel();
     }
 
-    void EnqueueTask(Func<Task> ft)
+    public void EscapeSequence()
+    {
+        cts?.Cancel();
+    }
+
+    public void Enqueue(Func<Task> ft)
     {
         if (last == null || last.IsCompleted)
         {
-            last = ft.Invoke();
+            cts = new CancellationTokenSource();
+            last = Task.Run(() => ft(), cts.Token);
         } else
         {
-            last = last.Then(ft);
+            last = last.Then(ft, cts.Token);
         }
     }
 
-    void EnqueueTask<T>(Func<T, Task> ft, T v1)
+    #region Enqueue Overloads
+    public void Enqueue<T>(Func<T, Task> ft, T v1)
     {
-        if (last == null || last.IsCompleted)
+        if (last == null ||  last.IsCompleted)
         {
-            last = ft.Invoke(v1);
+            cts = new CancellationTokenSource();
+            last = Task.Run(() => ft(v1), cts.Token);
         }
         else
         {
-            last = last.Then(ft, v1);
+            last = last.Then(ft, v1, cts.Token);
         }
     }
 
-    void EnqueueTask<T, G>(Func<T, G, Task> ft, T v1, G v2)
+    public void Enqueue<T, G>(Func<T, G, Task> ft, T v1, G v2)
     {
         if (last == null || last.IsCompleted)
         {
-            last = ft.Invoke(v1, v2);
+            cts = new CancellationTokenSource();
+            last = Task.Run(() => ft.Invoke(v1, v2), cts.Token);
         }
         else
         {
-            last = last.Then(ft, v1, v2);
+            last = last.Then(ft, v1, v2, cts.Token);
         }
     }
-    void EnqueueTask<T, G, K>(Func<T, G, K, Task> ft, T v1, G v2, K v3)
+
+    public void  Enqueue<T, G, K>(Func<T, G, K, Task> ft, T v1, G v2, K v3)
     {
         if (last == null || last.IsCompleted)
         {
-            last = ft.Invoke(v1, v2, v3);
+            cts = new CancellationTokenSource();
+            last = Task.Run(() => ft.Invoke(v1, v2, v3), cts.Token);
         }
         else
         {
-            last = last.Then(ft, v1, v2, v3);
+            last = last.Then(ft, v1, v2, v3, cts.Token);
         }
     }
 
     public void Enqueue(Func<IEnumerator> c)
     {
-        EnqueueTask(RunTaskRoutine, c);
+        Enqueue(RunTaskRoutine, c);
     }
 
     public void Enqueue<T>(Func<T, IEnumerator> c, T v1)
     {
-        EnqueueTask(RunTaskRoutine, c, v1);
+        Enqueue(RunTaskRoutine, c, v1);
     }
 
     public void Enqueue<T, G>(Func<T, G, IEnumerator> c, T v1, G v2)
     {
-        EnqueueTask(RunTaskRoutine, c, v1, v2);
+        Enqueue(RunTaskRoutine, c, v1, v2);
     }
+    #endregion
+
+    //https://stackoverflow.com/questions/58469468/what-does-unitymainthreaddispatcher-do I broke coroutine await :O
+    #region Coroutine Lock Helpers
 
     async Task RunTaskRoutine(Func<IEnumerator> c)
     {
@@ -126,6 +131,7 @@ public class Sequencer : MonoBehaviour
         while (!rlock.IsComplete)
             await Task.Delay(MS_PER_CORO_CHECKUP);
     }
+
 
     async Task RunTaskRoutine<T>(Func<T, IEnumerator> c, T v1)
     {
@@ -154,13 +160,14 @@ public class Sequencer : MonoBehaviour
         public bool IsComplete;
     }
 
-    //examples
+    #endregion
 
+    #region examples or unit tests or whatever
     void QueueBreakfast()
     {
-        EnqueueTask(LogTask, 111);
-        EnqueueTask(LogTask, 222);
-        EnqueueTask(LogTask, 333);
+        Enqueue(LogTask, 111);
+        Enqueue(LogTask, 222);
+        Enqueue(LogTask, 333);
         Func<Task> grupo = () =>
         {
             Task t1 = LogTask(4);
@@ -168,7 +175,7 @@ public class Sequencer : MonoBehaviour
             Task t3 = LogTask(6);
             return Task.WhenAll(t1, t2, t3);
         };
-        EnqueueTask(grupo);
+        Enqueue(grupo);
     }
 
     void PlanBreakfastRoutine()
@@ -216,29 +223,50 @@ public class Sequencer : MonoBehaviour
         yield return new WaitForSeconds(.4f);
         Debug.Log(UnityEngine.Random.Range(0, 24));
     }
+    #endregion
 }
 public static class TaskExtensions
 {
-    public static async Task Then(this Task task, Func<Task> continuation)
+    public static async Task Then(this Task task, Func<Task> continuation, CancellationToken ct)
     {
         await task;
+        if (ct.IsCancellationRequested)
+        {
+            Debug.Log("canceleed");
+            return;
+        }
         await continuation();
     }
 
-    public static async Task Then<T>(this Task task, Func<T, Task> continuation, T v1)
+    public static async Task Then<T>(this Task task, Func<T, Task> continuation, T v1, CancellationToken ct)
     {
         await task;
+        if (ct.IsCancellationRequested)
+        {
+            Debug.Log("canceleed");
+            return;
+        }
         await continuation(v1);
     }
 
-    public static async Task Then<T, G>(this Task task, Func<T, G, Task> continuation, T v1, G v2)
+    public static async Task Then<T, G>(this Task task, Func<T, G, Task> continuation, T v1, G v2, CancellationToken ct)
     {
         await task;
+        if (ct.IsCancellationRequested)
+        {
+            Debug.Log("canceleed");
+            return;
+        }
         await continuation(v1, v2);
     }
-    public static async Task Then<T, G, K>(this Task task, Func<T, G, K, Task> continuation, T v1, G v2, K v3)
+    public static async Task Then<T, G, K>(this Task task, Func<T, G, K, Task> continuation, T v1, G v2, K v3, CancellationToken ct)
     {
         await task;
+        if (ct.IsCancellationRequested)
+        {
+            Debug.Log("canceleed");
+            return;
+        }
         await continuation(v1, v2, v3);
     }
 }

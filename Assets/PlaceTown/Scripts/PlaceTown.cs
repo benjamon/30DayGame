@@ -24,6 +24,7 @@ public class PlaceTown : MonoBehaviour
     
     AudioClip defaultPlacementClip;
     Animation ScoreAnim;
+    Sequencer sequencer;
     int score;
 
     private void Awake()
@@ -102,7 +103,8 @@ public class PlaceTown : MonoBehaviour
     {
         if (queueCount < MAX_QUEUED && !tile.changeLock && !shopLock)
         {
-            Sequencer.MainThread.Enqueue(ProcessPress, tile);
+            Debug.Log("clicking tile");
+            sequencer.Enqueue(ProcessPress, tile);
             queueCount++;
         }
     }
