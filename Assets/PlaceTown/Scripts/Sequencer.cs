@@ -9,12 +9,37 @@ public class Sequencer : MonoBehaviour
     const int MS_PER_CORO_CHECKUP = 12;
 
     public static Sequencer MainThread;
+    static Sequencer[] all = new Sequencer[26];
 
+    [SerializeField]
+    private bool is_main;
+
+    CancellationTokenSource cts;
     Task last;
+
+    public Sequencer this[char c] => all[(int)c - 'a' + 1];
+    public Sequencer this[string s] => all[(int)(s.ToLower()[0]) - 'a' + 1];
+
+    public static Sequencer get(char c) => all[(int)c - 'a' + 1];
+    public static Sequencer get(string s) => all[(int)(s.ToLower()[0]) - 'a' + 1];
 
     private void Awake()
     {
-        MainThread = this;
+        if (is_main)
+        {
+            main = this;
+
+            for (int i = 0; i < all.Length; i++) all[i] = null;
+            all[0] = this;
+            var allSequencers = GameObject.FindObjectsOfType<Sequencer>();
+            foreach (var sequencer in allSequencers)
+            {
+                if (sequencer == this)
+                    continue;
+                int i = sequencer.gameObject.name.ToLower()[0] - 'a' + 1;
+                all[i] = sequencer;
+            }
+        }
     }
 
     private void Update()

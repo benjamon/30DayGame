@@ -21,7 +21,16 @@ public class TileDef
 
     public TileRule[] rules;
 
+    public int placeOn = -1;
+
+    public TILE_FLAGS placeOnFlags = TILE_FLAGS.OPEN;
+
     public TILE_FLAGS flags;
+
+    public bool CheckPlaceable(int id, TileDef def)
+    {
+        return (placeOn == -1) ? (def.flags & placeOnFlags) != 0 : id == placeOn;
+    }
 }
 
 [System.Flags]

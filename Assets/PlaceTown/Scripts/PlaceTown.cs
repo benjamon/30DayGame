@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlaceTown : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class PlaceTown : MonoBehaviour
     public AudioSource SuccessSource;
     public int[] DefaultDeck;
     public DeckUI DeckUI;
+    public ShopUI ShopUI;
     Deck<int> playerDeck;
     [System.NonSerialized]
     [HideInInspector]
@@ -33,15 +35,19 @@ public class PlaceTown : MonoBehaviour
         playerDeck = new Deck<int>(DefaultDeck);
         playerDeck.TryDrawNext(out CurrentCard);
         DeckUI.Init(playerDeck, Tilemap.Tileset, this);
+        ShopUI.Init(this, Tilemap.Tileset);
+    }
+
+    private void Start()
+    {
+        sequencer = Sequencer.main;
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            Tilemap.ResetMap();
-            score = 0;
-            ScoreDisplay.text = score.ToString();
+            SceneManager.SetActiveScene(SceneManager.GetActiveScene());
         }
     }
 
@@ -49,6 +55,8 @@ public class PlaceTown : MonoBehaviour
     {
         var surr = tile.surr;
         Tilemap.HideValues();
+        if (!Tilemap.Tileset[CurrentCard].CheckPlaceable(tile.id, Tilemap.Tileset[tile.id]))
+            return;
         TileRule[] rules = Tilemap.Tileset[CurrentCard].rules;
         for (int x = 0; x < surr.GetLength(0); x++)
         {
@@ -72,9 +80,27 @@ public class PlaceTown : MonoBehaviour
         }
     }
 
+    bool shopLock = false;
+
+    IEnumerator WaitPurchase()
+    {
+        ShopUI.gameObject.SetActive(true);
+        ShopUI.RandomOptions();
+        shopLock = true;
+        while (shopLock)
+            yield return null;
+    }
+
+    public void PurchaseCardFromShop(int n)
+    {
+        playerDeck.AddToDiscard(n);
+        shopLock = false;
+        ShopUI.gameObject.SetActive(false);
+    }
+
     private void ClickTile(TileController tile)
     {
-        if (queueCount < MAX_QUEUED && !tile.changeLock)
+        if (queueCount < MAX_QUEUED && !tile.changeLock && !shopLock)
         {
             Sequencer.MainThread.Enqueue(ProcessPress, tile);
             queueCount++;
@@ -83,14 +109,13 @@ public class PlaceTown : MonoBehaviour
 
     void DrawNext()
     {
-        playerDeck.AddToDiscard(CurrentCard);
         if (playerDeck.TryDrawNext(out int newCard))
             CurrentCard = newCard;
     }
 
     IEnumerator ProcessPress(TileController tile)
     {
-        if ((Tilemap.Tileset[tile.id].flags & TILE_FLAGS.OPEN) == 0)
+        if (!Tilemap.Tileset[CurrentCard].CheckPlaceable(tile.id, Tilemap.Tileset[tile.id]))
         {
             FailSource.Stop();
             FailSource.Play();
@@ -110,8 +135,12 @@ public class PlaceTown : MonoBehaviour
         ScoreAnim.Play();
         StartCoroutine(ExploitTile(tile));
         yield return StartCoroutine(tile.TryChange(CurrentCard));
+        playerDeck.AddToDiscard(CurrentCard);
         if (playerDeck.DrawPileEmpty())
+        {
+            yield return StartCoroutine(WaitPurchase());
             yield return StartCoroutine(playerDeck.ShuffleRoutine(DeckUI.PlayShuffle, .15f));
+        }
         DrawNext();
         yield return StartCoroutine(DeckUI.UpdateUI());
         queueCount--;
@@ -141,7 +170,6 @@ public class PlaceTown : MonoBehaviour
 
     public IEnumerator ExploitTile(TileController tile)
     {
-        int sum = 0;
         var surr = tile.surr;
         for (int x = 0; x < surr.GetLength(0); x++)
         {
