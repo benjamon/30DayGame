@@ -24,6 +24,10 @@ public class Sequencer : MonoBehaviour
     public static Sequencer get(char c) => all[(int)c - 'a' + 1];
     public static Sequencer get(string s) => all[(int)(s.ToLower()[0]) - 'a' + 1];
 
+    private List<Action> actionQueue = new List<Action>();
+    private List<Action> actionQueueCopy = new List<Action>();
+    private volatile bool queueEmpty;
+
     private void Awake()
     {
         if (is_main)
@@ -41,6 +45,24 @@ public class Sequencer : MonoBehaviour
                 all[i] = sequencer;
             }
         }
+    }
+
+    private void Update()
+    {
+        if (queueEmpty)
+            return;
+
+        lock(actionQueue)
+        {
+            actionQueueCopy.AddRange(actionQueue);
+            actionQueue.Clear();
+            queueEmpty = true;
+        }
+
+        for (int i = 0; i < actionQueueCopy.Count; i++)
+            actionQueueCopy[i].Invoke();
+
+        actionQueueCopy.Clear();
     }
 
     private void OnDestroy()
@@ -124,29 +146,58 @@ public class Sequencer : MonoBehaviour
     //https://stackoverflow.com/questions/58469468/what-does-unitymainthreaddispatcher-do I broke coroutine await :O
     #region Coroutine Lock Helpers
 
-    async Task RunTaskRoutine(Func<IEnumerator> c)
+    public async Task RunTaskRoutine(System.Func<IEnumerator> c)
     {
         RoutineLock rlock = new RoutineLock();
-        StartCoroutine(WrapRoutine(StartCoroutine(c()), rlock));
+        System.Action action = () =>
+        {
+            StartCoroutine(WrapRoutine(StartCoroutine(c()), rlock));
+        };
+        lock (actionQueue)
+        {
+            actionQueue.Add(action);
+            queueEmpty = false;
+        }
         while (!rlock.IsComplete)
+        {
             await Task.Delay(MS_PER_CORO_CHECKUP);
+        }
     }
 
-
-    async Task RunTaskRoutine<T>(Func<T, IEnumerator> c, T v1)
+    public async Task RunTaskRoutine<T>(System.Func<T, IEnumerator> c, T v1)
     {
         RoutineLock rlock = new RoutineLock();
-        StartCoroutine(WrapRoutine(StartCoroutine(c(v1)), rlock));
+        System.Action action = () =>
+        {
+            StartCoroutine(WrapRoutine(StartCoroutine(c(v1)), rlock));
+        };
+        lock (actionQueue)
+        {
+            actionQueue.Add(action);
+            queueEmpty = false;
+        }
         while (!rlock.IsComplete)
+        {
             await Task.Delay(MS_PER_CORO_CHECKUP);
+        }
     }
 
-    async Task RunTaskRoutine<T, G>(Func<T, G, IEnumerator> c, T v1, G v2)
+    public async Task RunTaskRoutine<T, G>(System.Func<T, G, IEnumerator> c, T v1, G v2)
     {
         RoutineLock rlock = new RoutineLock();
-        StartCoroutine(WrapRoutine(StartCoroutine(c(v1, v2)), rlock));
+        System.Action action = () =>
+        {
+            StartCoroutine(WrapRoutine(StartCoroutine(c(v1, v2)), rlock));
+        };
+        lock (actionQueue)
+        {
+            actionQueue.Add(action);
+            queueEmpty = false;
+        }
         while (!rlock.IsComplete)
+        {
             await Task.Delay(MS_PER_CORO_CHECKUP);
+        }
     }
 
     IEnumerator WrapRoutine(Coroutine c, RoutineLock l)
@@ -155,7 +206,7 @@ public class Sequencer : MonoBehaviour
         l.IsComplete = true;
     }
 
-    public class RoutineLock
+    class RoutineLock
     {
         public bool IsComplete;
     }

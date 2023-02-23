@@ -103,7 +103,6 @@ public class PlaceTown : MonoBehaviour
     {
         if (queueCount < MAX_QUEUED && !tile.changeLock && !shopLock)
         {
-            Debug.Log("clicking tile");
             sequencer.Enqueue(ProcessPress, tile);
             queueCount++;
         }
