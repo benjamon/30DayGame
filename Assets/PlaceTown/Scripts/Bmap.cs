@@ -95,6 +95,15 @@ public class Bmap : MonoBehaviour
         }
     }
 
+    public int[,] GetBoardState()
+    {
+        int[,] board = new int[width, height];
+        for (int x = 0; x < width; x++)
+            for (int y = 0; y < height; y++)
+                board[x, y] = grid[x, y].id;
+        return board;
+    }
+
     public class TileEvents
     {
         [System.NonSerialized]

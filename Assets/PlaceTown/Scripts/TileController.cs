@@ -85,19 +85,14 @@ public class TileController : MonoBehaviour
         return tileSet[id].placementSound;
     }
 
-    public bool changeLock { get; private set; }
-
-    public IEnumerator TryChange(int id)
+    public IEnumerator PlayChange(int id)
     {
-        if (changeLock)
-            yield break;
-        changeLock = true;
         anim.Play("SelectAnim");
+        //swap mid animation
         yield return new WaitForSeconds(.15f);
         SetTileId(id);
         while (anim.isPlaying)
             yield return null;
-        changeLock = false;
     }
 
     public void PlayExploitTile()

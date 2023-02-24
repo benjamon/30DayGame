@@ -141,6 +141,19 @@ public class Sequencer : MonoBehaviour
     {
         Enqueue(RunTaskRoutine, c, v1, v2);
     }
+
+    public void Enqueue(Action a)
+    {
+        if (last == null || last.IsCompleted)
+        {
+            cts = new CancellationTokenSource();
+            last = Task.Run(() => PlayAction(a), cts.Token);
+        }
+        else
+        {
+            last = last.Then(PlayAction, a, cts.Token);
+        }
+    }
     #endregion
 
     //https://stackoverflow.com/questions/58469468/what-does-unitymainthreaddispatcher-do I broke coroutine await :O
@@ -211,6 +224,15 @@ public class Sequencer : MonoBehaviour
         public bool IsComplete;
     }
 
+    #endregion
+
+    #region Actions
+
+    public async Task PlayAction(Action a)
+    {
+        a.Invoke();
+        await Task.Delay(1);
+    }
     #endregion
 
     #region examples or unit tests or whatever

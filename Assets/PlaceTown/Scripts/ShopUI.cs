@@ -39,7 +39,9 @@ public class ShopUI : MonoBehaviour
         var options = new List<int>() { 2, 3, 4, 5 };
         for (int i = 0; i < choices.Length; i++)
         {
-            choices[i] = options[UnityEngine.Random.Range(0, options.Count)];
+            int n = Random.Range(0, options.Count);
+            choices[i] = options[n];
+            options.Remove(n);
         }
         UpdateDisplay();
     }

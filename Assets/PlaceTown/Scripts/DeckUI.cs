@@ -34,33 +34,54 @@ public class DeckUI : MonoBehaviour
         UpdateInstant();
     }
 
-    public IEnumerator UpdateUI()
+    public IEnumerator PlayDrawRoutine(Sprite newDrawn)
     {
-        PlayAnim(DISCARD_ANIM);
+        if (ActiveCard.sprite != emptySprite)
+        {
+            PlayAnim(DISCARD_ANIM);
 
-        ActiveCard.sprite = emptySprite;
+            var lastActive = ActiveCard.sprite;
+            ActiveCard.sprite = emptySprite;
 
-        yield return new WaitForSeconds(.2f);
+            yield return new WaitForSeconds(.2f);
 
-        if (playerDeck.TryGetLastDiscarded(out int dscrd))
-            Discard.sprite = tileSet[dscrd].sprite;
-        else
-            Discard.sprite = emptySprite;
+            if (lastActive != null)
+                Discard.sprite = lastActive;
+            else
+                Discard.sprite = emptySprite;
+        }
 
         DiscardCount.text = playerDeck.Discard.Count.ToString();
 
         PlayAnim(DRAW_ANIM);
 
-        if (playerDeck.TryPeekNext(out int nxtCard))
-            DrawPile.sprite = tileSet[nxtCard].sprite;
+        var prevDraw = DrawPile.sprite;
+
+        if (newDrawn != null)
+            DrawPile.sprite = newDrawn;
         else
             DrawPile.sprite = emptySprite;
 
         yield return new WaitForSeconds(.2f);
 
-        ActiveCard.sprite = tileSet[town.CurrentCard].sprite;
+        ActiveCard.sprite = prevDraw;
 
         DrawPileCount.text = playerDeck.DrawPile.Count.ToString();
+    }
+
+    public IEnumerator PlayShuffleRoutine(Sprite topCard)
+    {
+        PlayAnim(DISCARD_ANIM);
+        var lastActive = ActiveCard.sprite;
+        ActiveCard.sprite = emptySprite;
+        yield return new WaitForSeconds(.2f);
+        for (int i = 0; i < playerDeck.DrawPile.Count; i++)
+        {
+            PlayShuffle();
+            yield return new WaitForSeconds(.15f);
+        }
+        Discard.sprite = emptySprite;
+        DrawPile.sprite = tileSet[playerDeck.DrawPile.Peek()].sprite;
     }
 
     void PlayAnim(string title)
@@ -77,8 +98,6 @@ public class DeckUI : MonoBehaviour
                 Animated.sprite = ActiveCard.sprite;
                 break;
             case DISCARD_TO_DRAW_ANIM:
-                if (playerDeck.TryGetLastDiscarded(out int last))
-                    Animated.sprite = tileSet[last].sprite;
                 break;
         }
 
@@ -101,9 +120,9 @@ public class DeckUI : MonoBehaviour
         DiscardCount.text = playerDeck.Discard.Count.ToString();
     }
 
+
     public void PlayShuffle()
     {
         PlayAnim(DISCARD_TO_DRAW_ANIM);
-        UpdateInstant();
     }
 }

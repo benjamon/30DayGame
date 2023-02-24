@@ -27,22 +27,6 @@ public class Deck<T>
         }
     }
 
-    public IEnumerator ShuffleRoutine(Action afterSwap, float time)
-    {
-        while (DrawPile.Count > 0)
-        {
-            Discard.Add(DrawPile.Dequeue());
-        }
-        while (Discard.Count > 0)
-        {
-            int n = UnityEngine.Random.Range(0, Discard.Count - 1);
-            DrawPile.Enqueue(Discard[n]);
-            Discard.RemoveAt(n);
-            afterSwap.Invoke();
-            yield return new WaitForSeconds(time);
-        }
-    }
-
     public bool DrawPileEmpty() => DrawPile.Count == 0;
     public void AddToDiscard(T item) => Discard.Add(item);
 
