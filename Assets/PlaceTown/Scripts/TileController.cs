@@ -39,6 +39,7 @@ public class TileController : MonoBehaviour
         y = y_;
         id = id_;
         SetTileId(id);
+        spriteRenderer.sprite = tileSet[id].sprite;
 
         for (int dx = -1; dx < 2; dx++)
         {
@@ -67,7 +68,6 @@ public class TileController : MonoBehaviour
     public void SetTileId(int id_)
     {
         id = id_;
-        spriteRenderer.sprite = tileSet[id].sprite;
     }
 
     private void OnMouseDown()
@@ -90,15 +90,17 @@ public class TileController : MonoBehaviour
         anim.Play("SelectAnim");
         //swap mid animation
         yield return new WaitForSeconds(.15f);
-        SetTileId(id);
+        spriteRenderer.sprite = tileSet[id].sprite;
         while (anim.isPlaying)
             yield return null;
     }
 
-    public void PlayExploitTile()
+    public void PlayExploitTile(int id = -1)
     {
         anim.Stop();
         anim.Play("ExploitTile");
+        if (id != -1)
+            spriteRenderer.sprite = tileSet[id].sprite;
     }
 
     public IEnumerator PlayFail()

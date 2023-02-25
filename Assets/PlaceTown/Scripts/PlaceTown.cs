@@ -49,9 +49,7 @@ public class PlaceTown : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.R))
-        {
-            SceneManager.SetActiveScene(SceneManager.GetActiveScene());
-        }
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
     }
 
     private void HoverTile(TileController tile)
@@ -104,13 +102,16 @@ public class PlaceTown : MonoBehaviour
     {
         if (queueCount < MAX_QUEUED && !shopLock)
         {
-            if (!Tilemap.Tileset[CurrentCard].CheckPlaceable(tile.id, Tilemap.Tileset[tile.id]))
+            if (!Tilemap.Tileset[CurrentCard].CheckPlaceable(tile.id, tileSet[tile.id]))
             {
                 sequencer.Enqueue(FailAnim, tile);
             } else
             {
                 var value = CalculateValue(tile, CurrentCard);
+                tile.SetTileId(CurrentCard);
+                tileSet[CurrentCard].ApplyActions(tile.surr);
                 var move = new MoveData(Tilemap, tile, tileSet[tile.id], tileSet[CurrentCard], score, value);
+
                 score += value;
 
                 playerDeck.AddToDiscard(CurrentCard);
@@ -208,12 +209,21 @@ public class PlaceTown : MonoBehaviour
         {
             for (int y = 0; y < surr.GetLength(1); y++)
             {
-                
-                if (surr[x, y] == null)
+                var tile = surr[x, y];
+                if (tile == null)
                     continue;
-                surr[x,y].PlayExploitTile();
+                surr[x,y].PlayExploitTile(move.newBoardState[tile.x, tile.y]);
                 yield return new WaitForSeconds(.05f);
             }
+        }
+    }
+
+    public void ApplyActions(TileController tile, int card)
+    {
+        var actions = tileSet[card].actions;
+        for (int i = 0; i < actions.Length; i++)
+        {
+            actions[i].ApplyAction(tile.surr);
         }
     }
     
@@ -222,18 +232,18 @@ public class PlaceTown : MonoBehaviour
         public TileController tile;
         public TileDef prevCard;
         public TileDef cardPlayed;
-        public int[,] previousBoardState;
+        public int[,] newBoardState;
         public int score;
         public int moveScore;
 
         public MoveData(Bmap map_, TileController tile_, TileDef prevState_, TileDef nextState_, int score_, int moveScore_)
         {
-            previousBoardState = map_.GetBoardState();
+            newBoardState = map_.GetBoardState();
             tile = tile_;
             prevCard = prevState_;
             cardPlayed = nextState_;
             score = score_;
-            moveScore = score_;
+            moveScore = moveScore_;
         }
     }
 }

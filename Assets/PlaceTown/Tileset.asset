@@ -20,6 +20,7 @@ MonoBehaviour:
     sprite: {fileID: -1718004215, guid: 506f2de3a1683f74195be3e115b0dce5, type: 3}
     placementSound: {fileID: 0}
     rules: []
+    actions: []
     placeOn: 0
     placeOnFlags: 0
     flags: 1
@@ -30,6 +31,7 @@ MonoBehaviour:
     sprite: {fileID: -2020504505, guid: 506f2de3a1683f74195be3e115b0dce5, type: 3}
     placementSound: {fileID: 0}
     rules: []
+    actions: []
     placeOn: 0
     placeOnFlags: 0
     flags: 4
@@ -42,6 +44,11 @@ MonoBehaviour:
     rules:
     - id: 0
       value: 1
+    - id: 4
+      value: 1
+    - id: 7
+      value: 2
+    actions: []
     placeOn: 4
     placeOnFlags: 0
     flags: 8
@@ -54,6 +61,11 @@ MonoBehaviour:
     rules:
     - id: 0
       value: 1
+    - id: 2
+      value: 1
+    - id: 7
+      value: 2
+    actions: []
     placeOn: -1
     placeOnFlags: 1
     flags: 34
@@ -64,12 +76,15 @@ MonoBehaviour:
     sprite: {fileID: -448075981, guid: 506f2de3a1683f74195be3e115b0dce5, type: 3}
     placementSound: {fileID: 8300000, guid: f7e2e615817c2f340b6aac42ffbc2d1a, type: 3}
     rules:
+    - id: 0
+      value: 1
     - id: 2
       value: 2
     - id: 3
       value: 5
-    - id: 0
-      value: 1
+    - id: 7
+      value: 2
+    actions: []
     placeOn: -1
     placeOnFlags: 1
     flags: 0
@@ -84,6 +99,40 @@ MonoBehaviour:
       value: 1
     - id: 5
       value: 2
+    - id: 7
+      value: 4
+    actions: []
     placeOn: 4
     placeOnFlags: 0
     flags: 8
+  - name: Dump
+    color:
+      serializedVersion: 2
+      rgba: 4286644096
+    sprite: {fileID: -1277643979, guid: 506f2de3a1683f74195be3e115b0dce5, type: 3}
+    placementSound: {fileID: 8300000, guid: c7fe9cad3d1b4304d8cfdfeb728ea6e8, type: 3}
+    rules:
+    - id: 2
+      value: -1
+    - id: 3
+      value: -1
+    - id: 5
+      value: -1
+    actions:
+    - actionType: 0
+      targetIds: 020000000300000005000000
+      resultId: 0
+    placeOn: -1
+    placeOnFlags: 1
+    flags: 128
+  - name: Water Tower
+    color:
+      serializedVersion: 2
+      rgba: 4294934656
+    sprite: {fileID: 981020015, guid: 506f2de3a1683f74195be3e115b0dce5, type: 3}
+    placementSound: {fileID: 8300000, guid: c7fe9cad3d1b4304d8cfdfeb728ea6e8, type: 3}
+    rules: []
+    actions: []
+    placeOn: -1
+    placeOnFlags: 129
+    flags: 10

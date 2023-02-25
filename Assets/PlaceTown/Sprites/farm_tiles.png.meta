@@ -275,6 +275,48 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: farm_tiles_7
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 981728302d84a4842a7541bf03927de4
+      internalID: -1277643979
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: farm_tiles_8
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 22debe313d23967428e5394e488273f0
+      internalID: 981020015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -286,6 +328,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      farm_tiles_7: -1277643979
       farm_tiles_4: -1835215290
       farm_tiles_1: -1222858164
       farm_tiles_2: -448075981
@@ -293,6 +336,7 @@ TextureImporter:
       farm_tiles_6: -2020504505
       farm_tiles_5: 1682901995
       farm_tiles_3: 961487383
+      farm_tiles_8: 981020015
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

@@ -36,12 +36,12 @@ public class ShopUI : MonoBehaviour
 
     public void RandomOptions()
     {
-        var options = new List<int>() { 2, 3, 4, 5 };
+        var options = new List<int>() { 2, 2, 3, 3, 4, 4, 5, 6, 7 };
         for (int i = 0; i < choices.Length; i++)
         {
             int n = Random.Range(0, options.Count);
             choices[i] = options[n];
-            options.Remove(n);
+            options.RemoveAt(n);
         }
         UpdateDisplay();
     }
