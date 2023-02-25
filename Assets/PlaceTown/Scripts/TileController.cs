@@ -6,6 +6,10 @@ using System;
 
 public class TileController : MonoBehaviour
 {
+    public SpriteRenderer TileImage;
+    public SpriteRenderer HighlightImage;
+    public Sprite Possible, Impossibru;
+
     [HideInInspector]
     [System.NonSerialized]
     public int id;
@@ -20,14 +24,12 @@ public class TileController : MonoBehaviour
     public int y;
 
     Tileset tileSet;
-    SpriteRenderer spriteRenderer;
     Animation anim;
     TMP_Text valueText;
     Bmap.TileEvents tileEvents;
 
     public void Init(int id_, int x_, int y_, Bmap bmap)
     {
-        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         valueText = GetComponentInChildren<TextMeshPro>();
         anim = GetComponent<Animation>();
 
@@ -39,7 +41,7 @@ public class TileController : MonoBehaviour
         y = y_;
         id = id_;
         SetTileId(id);
-        spriteRenderer.sprite = tileSet[id].sprite;
+        TileImage.sprite = tileSet[id].sprite;
 
         for (int dx = -1; dx < 2; dx++)
         {
@@ -63,6 +65,17 @@ public class TileController : MonoBehaviour
     internal void HideValue()
     {
         valueText.gameObject.SetActive(false);
+    }
+
+    public void Highlight(bool positive)
+    {
+        HighlightImage.sprite = (positive) ? Possible : Impossibru;
+        HighlightImage.gameObject.SetActive(true);
+    }
+
+    public void HideHighlight()
+    {
+        HighlightImage.gameObject.SetActive(false);
     }
 
     public void SetTileId(int id_)
@@ -90,7 +103,7 @@ public class TileController : MonoBehaviour
         anim.Play("SelectAnim");
         //swap mid animation
         yield return new WaitForSeconds(.15f);
-        spriteRenderer.sprite = tileSet[id].sprite;
+        TileImage.sprite = tileSet[id].sprite;
         while (anim.isPlaying)
             yield return null;
     }
@@ -100,7 +113,7 @@ public class TileController : MonoBehaviour
         anim.Stop();
         anim.Play("ExploitTile");
         if (id != -1)
-            spriteRenderer.sprite = tileSet[id].sprite;
+            TileImage.sprite = tileSet[id].sprite;
     }
 
     public IEnumerator PlayFail()

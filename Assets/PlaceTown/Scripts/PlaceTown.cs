@@ -16,9 +16,18 @@ public class PlaceTown : MonoBehaviour
     public DeckUI DeckUI;
     public ShopUI ShopUI;
     Deck<int> playerDeck;
-    [System.NonSerialized]
     [HideInInspector]
-    public int CurrentCard;
+    public int CurrentCard
+    {
+        get => _currentCard;
+        set
+        {
+            _currentCard = value;
+            UpdateHovered();
+        }
+    }
+    int _currentCard;
+    TileController lastHovered;
 
     int queueCount = 0;
     
@@ -36,7 +45,7 @@ public class PlaceTown : MonoBehaviour
         tileSet = Tilemap.Tileset;
         defaultPlacementClip = SuccessSource.clip;
         playerDeck = new Deck<int>(DefaultDeck);
-        playerDeck.TryDrawNext(out CurrentCard);
+        playerDeck.TryDrawNext(out _currentCard);
         DeckUI.Init(playerDeck, tileSet, this);
         ShopUI.Init(this, tileSet);
     }
@@ -54,14 +63,26 @@ public class PlaceTown : MonoBehaviour
 
     private void HoverTile(TileController tile)
     {
+        if (lastHovered != null)
+            lastHovered.HideHighlight();
+        lastHovered = tile;
+        UpdateHovered();
+    }
+
+    void UpdateHovered()
+    {
+        var tile = lastHovered;
         var surr = tile.surr;
+        bool placeable = tileSet[CurrentCard].CheckPlaceable(tile.id, tileSet[tile.id]);
+        if (tile.id != 1)
+            tile.Highlight(placeable);
         Tilemap.HideValues();
-        if (!tileSet[CurrentCard].CheckPlaceable(tile.id, tileSet[tile.id]))
+        if (!placeable)
             return;
         TileRule[] rules = tileSet[CurrentCard].rules;
         for (int x = 0; x < surr.GetLength(0); x++)
         {
-            for (int y =0; y < surr.GetLength(1); y++)
+            for (int y = 0; y < surr.GetLength(1); y++)
             {
                 if (surr[x, y] == null)
                     continue;
@@ -73,7 +94,8 @@ public class PlaceTown : MonoBehaviour
                 if (sum == 0)
                 {
                     surr[x, y].HideValue();
-                } else
+                }
+                else
                 {
                     surr[x, y].ShowValue(sum);
                 }
