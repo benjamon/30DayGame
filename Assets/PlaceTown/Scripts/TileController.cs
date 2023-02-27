@@ -40,7 +40,6 @@ public class TileController : MonoBehaviour
         x = x_;
         y = y_;
         id = id_;
-        SetTileId(id);
         TileImage.sprite = tileSet[id].sprite;
 
         for (int dx = -1; dx < 2; dx++)
