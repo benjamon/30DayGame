@@ -31,7 +31,7 @@ public class Bmap : MonoBehaviour
         Dictionary<Color32, TileDef> TilesetDict = new Dictionary<Color32, TileDef>();
         for(int i = 0; i < Tileset.tiles.Length; i++)
         {
-            Tileset[i].id = i;
+            Tileset[i].setid(i);
             TilesetDict.Add(Tileset[i].color, Tileset[i]);
         }
 
@@ -67,7 +67,7 @@ public class Bmap : MonoBehaviour
         Dictionary<Color32, TileDef> TilesetDict = new Dictionary<Color32, TileDef>();
         for (int i = 0; i < Tileset.tiles.Length; i++)
         {
-            Tileset[i].id = i;
+            Tileset[i].setid(i);
             TilesetDict.Add(Tileset[i].color, Tileset[i]);
         }
 

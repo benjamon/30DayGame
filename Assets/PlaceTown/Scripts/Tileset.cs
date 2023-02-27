@@ -10,13 +10,13 @@ public class Tileset : ScriptableObject
 
 
 [System.Serializable]
-public class TileDef
+public class TileDef : tiledata
 {
+    public int id { get; private set; }
+
     public string name;
     public Color32 color;
     public Sprite sprite;
-    [System.NonSerialized]
-    public int id;
     public AudioClip placementSound;
 
     public TileRule[] rules;
@@ -31,6 +31,16 @@ public class TileDef
     public bool CheckPlaceable(int id, TileDef def)
     {
         return (placeOn == -1) ? (def.flags & placeOnFlags) != 0 : id == placeOn;
+    }
+
+    public int getid()
+    {
+        return id;
+    }
+
+    public void setid(int id)
+    {
+        this.id = id;
     }
 
     internal void ApplyActions(TileController[,] surr)
