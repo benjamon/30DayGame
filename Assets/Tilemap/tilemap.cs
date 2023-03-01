@@ -6,6 +6,5 @@ namespace Bentendo.Tilemaps
 {
     public class tilemap
     {
-        public tileset set;
     }
 }
