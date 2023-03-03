@@ -24,8 +24,8 @@ public class Sequencer : MonoBehaviour
     public static Sequencer get(char c) => all[(int)c - 'a' + 1];
     public static Sequencer get(string s) => all[(int)(s.ToLower()[0]) - 'a' + 1];
 
-    private List<Action> actionQueue = new List<Action>();
-    private List<Action> actionQueueCopy = new List<Action>();
+    private List<Action> actionQueue = new();
+    private List<Action> actionQueueCopy = new();
     private volatile bool queueEmpty;
 
     private void Awake()
@@ -79,7 +79,7 @@ public class Sequencer : MonoBehaviour
     {
         if (last == null || last.IsCompleted)
         {
-            cts = new CancellationTokenSource();
+            cts = new();
             last = Task.Run(() => ft(), cts.Token);
         } else
         {
@@ -92,7 +92,7 @@ public class Sequencer : MonoBehaviour
     {
         if (last == null ||  last.IsCompleted)
         {
-            cts = new CancellationTokenSource();
+            cts = new();
             last = Task.Run(() => ft(v1), cts.Token);
         }
         else
@@ -105,7 +105,7 @@ public class Sequencer : MonoBehaviour
     {
         if (last == null || last.IsCompleted)
         {
-            cts = new CancellationTokenSource();
+            cts = new();
             last = Task.Run(() => ft.Invoke(v1, v2), cts.Token);
         }
         else
@@ -118,7 +118,7 @@ public class Sequencer : MonoBehaviour
     {
         if (last == null || last.IsCompleted)
         {
-            cts = new CancellationTokenSource();
+            cts = new();
             last = Task.Run(() => ft.Invoke(v1, v2, v3), cts.Token);
         }
         else
@@ -146,13 +146,23 @@ public class Sequencer : MonoBehaviour
     {
         if (last == null || last.IsCompleted)
         {
-            cts = new CancellationTokenSource();
+            cts = new();
             last = Task.Run(() => PlayAction(a), cts.Token);
         }
         else
         {
             last = last.Then(PlayAction, a, cts.Token);
         }
+    }
+
+    public void WaitUntil(Func<bool> condition)
+    {
+        Enqueue(async () =>
+        {
+            var c = condition;
+            while (!c())
+                await Task.Delay(MS_PER_CORO_CHECKUP);
+        });
     }
     #endregion
 
@@ -161,7 +171,7 @@ public class Sequencer : MonoBehaviour
 
     public async Task RunTaskRoutine(System.Func<IEnumerator> c)
     {
-        RoutineLock rlock = new RoutineLock();
+        RoutineLock rlock = new();
         System.Action action = () =>
         {
             StartCoroutine(WrapRoutine(StartCoroutine(c()), rlock));
@@ -179,7 +189,7 @@ public class Sequencer : MonoBehaviour
 
     public async Task RunTaskRoutine<T>(System.Func<T, IEnumerator> c, T v1)
     {
-        RoutineLock rlock = new RoutineLock();
+        RoutineLock rlock = new();
         System.Action action = () =>
         {
             StartCoroutine(WrapRoutine(StartCoroutine(c(v1)), rlock));
@@ -197,7 +207,7 @@ public class Sequencer : MonoBehaviour
 
     public async Task RunTaskRoutine<T, G>(System.Func<T, G, IEnumerator> c, T v1, G v2)
     {
-        RoutineLock rlock = new RoutineLock();
+        RoutineLock rlock = new();
         System.Action action = () =>
         {
             StartCoroutine(WrapRoutine(StartCoroutine(c(v1, v2)), rlock));

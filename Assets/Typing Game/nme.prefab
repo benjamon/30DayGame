@@ -271,6 +271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5190e093cee18d4aa7f3111e21f9690, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DeathObject: {fileID: 2853113281122154690, guid: 011039de9d15a9e4fb655267b57539ca, type: 3}
   word: {fileID: 1431185935136386186}
   input: {fileID: 2377879657654810118}
 --- !u!1 &1431185935136386180
