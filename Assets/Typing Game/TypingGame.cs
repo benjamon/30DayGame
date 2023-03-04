@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class TypingGame : MonoBehaviour
 {
     public GameObject EnemyPrefab;
-    public TextAsset dictionary;
     public TMP_Text playerText;
-
+    public Image TestKeyboardAPIPanel;
     TouchScreenKeyboard m_Keyboard;
 
     Dictionary<string, EnemyDisplay> active = new Dictionary<string, EnemyDisplay>();
@@ -32,27 +32,30 @@ public class TypingGame : MonoBehaviour
 
     private void Update()
     {
-        if (m_Keyboard == null || !m_Keyboard.active || m_Keyboard.status != TouchScreenKeyboard.Status.Visible)
-        {
-            TouchScreenKeyboard.hideInput = false;
-            m_Keyboard = TouchScreenKeyboard.Open(inpt, TouchScreenKeyboardType.ASCIICapable, false, false, true);
-            TouchScreenKeyboard.hideInput = false;
-            TouchScreenKeyboard.Android.consumesOutsideTouches = false;
-        }
         if (Application.platform == RuntimePlatform.Android)
         {
-            len = Mathf.FloorToInt(Mathf.Min(max, min + Time.time / 15f));
-            if (m_Keyboard.text.Length > len)
+            if (m_Keyboard == null || !m_Keyboard.active || m_Keyboard.status != TouchScreenKeyboard.Status.Visible)
             {
-                m_Keyboard.text = m_Keyboard.text.Substring(m_Keyboard.text.Length - len, len);
+                inpt = "";
+                TouchScreenKeyboard.hideInput = true;
+                m_Keyboard = TouchScreenKeyboard.Open(inpt, TouchScreenKeyboardType.Default, false, false, true);
+                TouchScreenKeyboard.Android.consumesOutsideTouches = false;
             }
-            string txt = m_Keyboard.text;
-            playerText.text = txt;
-            if (active.ContainsKey(txt))
+            float height = GetKeyboardHeight(false);
+            float scaled = height / Screen.currentResolution.height;
+            TestKeyboardAPIPanel.rectTransform.anchoredPosition = new Vector2(0f, scaled * 100);
+            Debug.Log("KEYBOARD HEIGHT: " + height);
+            Debug.Log("KEYBOARD HEIGHT SCALED: " + scaled);
+            len = Mathf.FloorToInt(Mathf.Min(max, min + Time.time / 15f));
+            inpt = m_Keyboard.text;
+            playerText.text = inpt;
+            inpt = inpt.ToLower();
+            if (active.ContainsKey(inpt))
             {
-                active[txt].Kill();
-                active.Remove(txt);
+                active[inpt].Kill();
+                active.Remove(inpt);
                 m_Keyboard.text = "";
+                inpt = "";
             }
         } else
         {
@@ -65,7 +68,7 @@ public class TypingGame : MonoBehaviour
                         inpt = "";
                     if (Input.GetKeyDown(KeyCode.Backspace) && backPressed - Time.time < -.05f)
                     {
-                        inpt = (inpt.Length > 0) ? inpt.Substring(0, inpt.Length - 1) : "";
+                        inpt = (inpt.Length > len) ? inpt.Substring(len, inpt.Length - 1) : "";
                         backPressed = Time.time;
                     }
                     if (Input.GetKeyDown((KeyCode)i))
@@ -109,5 +112,39 @@ public class TypingGame : MonoBehaviour
         ed.Destroy();
         if (active.ContainsKey(w))
             active.Remove(w);
+    }
+
+    public static int GetKeyboardHeight(bool includeInput)
+    {
+#if UNITY_ANDROID
+        using (var unityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+        {
+            var unityPlayer = unityClass.GetStatic<AndroidJavaObject>("currentActivity").Get<AndroidJavaObject>("mUnityPlayer");
+            var view = unityPlayer.Call<AndroidJavaObject>("getView");
+            var dialog = unityPlayer.Get<AndroidJavaObject>("mSoftInputDialog");
+
+            if (view == null || dialog == null)
+                return 0;
+
+            var decorHeight = 0;
+
+            if (includeInput)
+            {
+                var decorView = dialog.Call<AndroidJavaObject>("getWindow").Call<AndroidJavaObject>("getDecorView");
+
+                if (decorView != null)
+                    decorHeight = decorView.Call<int>("getHeight");
+            }
+
+            using (var rect = new AndroidJavaObject("android.graphics.Rect"))
+            {
+                view.Call("getWindowVisibleDisplayFrame", rect);
+                return Display.main.systemHeight - rect.Call<int>("height") + decorHeight;
+            }
+        }
+#else
+        var height = Mathf.RoundToInt(TouchScreenKeyboard.area.height);
+        return height >= Display.main.systemHeight ? 0 : height;
+#endif
     }
 }
