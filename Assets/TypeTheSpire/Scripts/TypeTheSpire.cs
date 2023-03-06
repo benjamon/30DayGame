@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,9 +8,14 @@ public class TypeTheSpire : MonoBehaviour
 {
     public static TypeTheSpire Instance;
 
-    public GameObject CardPrefab;
     public WordTyper kInput;
+    public HandDisplay handManager;
     WordProvider words;
+
+    public WordSpell[] starterDeck;
+    public int handSize = 5;
+    Deck<WordCard> deck;
+    public Dictionary<char, TargetWord> active = new Dictionary<char, TargetWord>();
 
     private void Awake()
     {
@@ -20,22 +26,69 @@ public class TypeTheSpire : MonoBehaviour
             SceneManager.LoadScene(0);
             return;
         }
+        var cards = new List<WordCard>();
+        foreach (var spell in starterDeck)
+            cards.Add(new WordCard(spell));
+        deck = new Deck<WordCard>(cards.ToArray());
         words = WordProvider.Instance;
-        var tw = CardPrefab.gameObject.GetComponent<TargetWord>();
-        tw.Init(words.GetRandom(5));
-        kInput.SetTarget(tw.ProcessCharacter);
     }
 
     public void TryFind(char c)
     {
         Debug.Log("trying to find " + c);
+        if (active.ContainsKey(c))
+        {
+            active[c].ProcessCharacter(c);
+            kInput.SetTarget(active[c].ProcessCharacter);
+        }
+    }
+
+    internal void DrawCards()
+    {
+        active.Clear();
+        kInput.SetTarget(TryFind);
+        WordCard[] cards = new WordCard[handSize];
+        for (int i = 0; i < handSize; i++)
+        {
+            if (deck.DrawPile.Count == 0)
+                deck.Shuffle();
+            if (!deck.TryDrawNext(out WordCard card))
+                Debug.LogError("no card to draw");
+            cards[i] = card;
+        }
+        handManager.ShowHand(cards);
+    }
+
+
+    public void PlayCard(WordCard card)
+    {
+        card.spell.action.InvokeOn(hero, enemy);
+        kInput.SetTarget(TryFind);
+        deck.AddToDiscard(card);
+    }
+
+    internal void DiscardHand()
+    {
+        active.Clear();
+        handManager.ClearAll();
+    }
+
+    internal void Discard(WordCard card)
+    {
+        deck.AddToDiscard(card);
+    }
+
+    bEntity enemy;
+    bEntity hero;
+
+    public void DefineEntities(bEntity hero, bEntity enemy)
+    {
+        this.hero = hero;
+        this.enemy = enemy;
     }
 
     public void WordCompleted(TargetWord word)
     {
-        Debug.Log("completed " + word.word);
-        var tw = CardPrefab.gameObject.GetComponent<TargetWord>();
-        tw.Init(words.GetRandom(5));
-        kInput.SetTarget(tw.ProcessCharacter);
+        kInput.SetTarget(TryFind);
     }
 }

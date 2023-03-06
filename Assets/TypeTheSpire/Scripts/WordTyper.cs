@@ -16,6 +16,7 @@ public class WordTyper : MonoBehaviour
 
     private void LateUpdate()
     {
+        string s = "";
         if (Application.platform == RuntimePlatform.Android)
         {
             if (m_Keyboard == null || !m_Keyboard.active || m_Keyboard.status != TouchScreenKeyboard.Status.Visible)
@@ -26,13 +27,13 @@ public class WordTyper : MonoBehaviour
                 TouchScreenKeyboard.Android.consumesOutsideTouches = false;
             }
             m_Keyboard.selection = new RangeInt(m_Keyboard.text.Length, 0);
-            string s = m_Keyboard.text;
-            if (s.Length > lastInputLength)
-            {
-                for (int i = lastInputLength; i < s.Length; i++)
-                    ProcessLetter?.Invoke(s[i]);
-            }
-            lastInputLength = s.Length;
+            s = m_Keyboard.text;
         }
+        else
+            s = Input.inputString;
+        if (s.Length > lastInputLength)
+            for (int i = lastInputLength; i < s.Length; i++)
+                ProcessLetter?.Invoke(s[i]);
+        lastInputLength = s.Length;
     }
 }

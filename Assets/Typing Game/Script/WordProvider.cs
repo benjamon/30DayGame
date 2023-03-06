@@ -20,7 +20,6 @@ public class WordProvider : HashSet<string>
     static bool singletonBusy;
     public static IEnumerator InitSingleton(string fileName, int maxLength, int min = 1)
     {
-        Debug.Log("ssss");
         if (singletonBusy) yield break;
         singletonBusy = true;
         var wp = new WordProvider(maxLength);
@@ -28,7 +27,6 @@ public class WordProvider : HashSet<string>
         string filePath = System.IO.Path.Combine(Application.streamingAssetsPath, fileName);
         wp.min = min;
 
-        Debug.Log("initializing");
         if (Application.platform == RuntimePlatform.Android)
         {
             using (var www = UnityWebRequest.Get(filePath))
@@ -66,16 +64,15 @@ public class WordProvider : HashSet<string>
                         string s = reader.ReadLine();
                         wp.AddWord(s);
                     }
-                    yield break;
                 }
             } catch (System.Exception e)
             {
                 Debug.LogError(e.ToString());
             }
+            wp.IsSetup = true;
+            Instance = wp;
+            singletonBusy = false;
         }
-        wp.IsSetup = true;
-        Instance = wp;
-        singletonBusy = false;
     }
 
     WordProvider(int maxLength)

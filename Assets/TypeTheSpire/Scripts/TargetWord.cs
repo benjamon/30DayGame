@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class TargetWord : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class TargetWord : MonoBehaviour
     public TMP_Text CompletedText;
     public string word { get; private set; }
     public int completion { get; private set; }
+    public UnityEvent OnComplete = new UnityEvent();
 
     public void Init(string word)
     {
@@ -27,12 +29,6 @@ public class TargetWord : MonoBehaviour
             CompletedText.text = word.Substring(0, completion);
         }
         if (completion >= word.Length)
-            CompleteWord();
-    }
-
-    public void CompleteWord()
-    {
-        TypeTheSpire.Instance.WordCompleted(this);
-        Debug.Log("word completed");
+            OnComplete.Invoke();
     }
 }
