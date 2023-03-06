@@ -7,18 +7,78 @@ using UnityEngine.Networking;
 
 public class WordProvider : HashSet<string>
 {
+    public static WordProvider Instance { get; internal set; }
+
     List<string> ordered;
     List<string>[] orderedByLength;
     HashSet<string>[] groupedByLength;
     public int LinesLoaded;
     public int maxLength { get; }
-    public bool IsSetup()
-    {
-        return _isSetup;
-    }
-    bool _isSetup;
+    public int min = 1;
 
-    public WordProvider(string fileName, int maxLength = 10)
+    [System.NonSerialized]
+    static bool singletonBusy;
+    public static IEnumerator InitSingleton(string fileName, int maxLength, int min = 1)
+    {
+        Debug.Log("ssss");
+        if (singletonBusy) yield break;
+        singletonBusy = true;
+        var wp = new WordProvider(maxLength);
+
+        string filePath = System.IO.Path.Combine(Application.streamingAssetsPath, fileName);
+        wp.min = min;
+
+        Debug.Log("initializing");
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            using (var www = UnityWebRequest.Get(filePath))
+            {
+                www.SendWebRequest();
+                Debug.Log("sending");
+                while (!www.downloadHandler.isDone)
+                    yield return null;
+                Debug.Log("adding request success");
+                string[] dict = www.downloadHandler.text.Split(System.Environment.NewLine);
+                if (www.result != UnityWebRequest.Result.Success)
+                {
+                    Debug.Log(www.error);
+                }
+                else
+                {
+                    Debug.Log("adding words");
+                    foreach (string s in dict)
+                        wp.AddWord(s);
+                }
+                wp.IsSetup = true;
+                Instance = wp;
+                singletonBusy = false;
+            }
+        }
+        else
+        {
+            Debug.Log("wrong plat lol");
+            try
+            {
+                using (var reader = new StreamReader(filePath))
+                {
+                    while (!reader.EndOfStream)
+                    {
+                        string s = reader.ReadLine();
+                        wp.AddWord(s);
+                    }
+                    yield break;
+                }
+            } catch (System.Exception e)
+            {
+                Debug.LogError(e.ToString());
+            }
+        }
+        wp.IsSetup = true;
+        Instance = wp;
+        singletonBusy = false;
+    }
+
+    WordProvider(int maxLength)
     {
         this.maxLength = maxLength;
         orderedByLength = new List<string>[maxLength];
@@ -29,15 +89,19 @@ public class WordProvider : HashSet<string>
             groupedByLength[i] = new HashSet<string>();
         }
         ordered = new List<string>();
+    }
+
+    public WordProvider(string fileName, int maxLength = 10) : this(maxLength)
+    {
         ReadDictionary(fileName);
     }
 
+    public bool IsSetup;
     async void ReadDictionary(string fileName)
     {
         string filePath = System.IO.Path.Combine(Application.streamingAssetsPath, fileName);
         if (Application.platform == RuntimePlatform.Android)
         {
-
             using (var www = UnityWebRequest.Get(filePath))
             {
                 www.SendWebRequest();
@@ -71,7 +135,7 @@ public class WordProvider : HashSet<string>
                 }
             }
         }
-        _isSetup = true;
+        IsSetup = true;
     }
 
     void ProcessLine(string line)
@@ -84,14 +148,20 @@ public class WordProvider : HashSet<string>
             if (line[i] == '"' || !IsValid(line[i]))
             {
                 string s = line.Substring(1, i - 1);
-                this.Add(s);
-                ordered.Add(s);
-                orderedByLength[i - 2].Add(s);
-                groupedByLength[i - 2].Add(s);
-                LinesLoaded++;
-                break;
             }
         }
+    }
+
+    void AddWord(string s)
+    {
+        s = s.Trim();
+        if (s.Length < min || s.Length > maxLength)
+            return;
+        this.Add(s);
+        ordered.Add(s);
+        orderedByLength[s.Length - 1].Add(s);
+        groupedByLength[s.Length-1].Add(s);
+        LinesLoaded++;
     }
 
     bool IsValid(char c)

@@ -21,35 +21,38 @@ public class TouchScreenAnchor : MonoBehaviour
 
     public static int GetKeyboardHeight(bool includeInput)
     {
-#if UNITY_ANDROID
-        using (var unityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+        if (Application.platform == RuntimePlatform.Android)
         {
-            var unityPlayer = unityClass.GetStatic<AndroidJavaObject>("currentActivity").Get<AndroidJavaObject>("mUnityPlayer");
-            var view = unityPlayer.Call<AndroidJavaObject>("getView");
-            var dialog = unityPlayer.Get<AndroidJavaObject>("mSoftInputDialog");
-
-            if (view == null || dialog == null)
-                return 0;
-
-            var decorHeight = 0;
-
-            if (includeInput)
+            using (var unityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
             {
-                var decorView = dialog.Call<AndroidJavaObject>("getWindow").Call<AndroidJavaObject>("getDecorView");
+                var unityPlayer = unityClass.GetStatic<AndroidJavaObject>("currentActivity").Get<AndroidJavaObject>("mUnityPlayer");
+                var view = unityPlayer.Call<AndroidJavaObject>("getView");
+                var dialog = unityPlayer.Get<AndroidJavaObject>("mSoftInputDialog");
 
-                if (decorView != null)
-                    decorHeight = decorView.Call<int>("getHeight");
-            }
+                if (view == null || dialog == null)
+                    return 0;
 
-            using (var rect = new AndroidJavaObject("android.graphics.Rect"))
-            {
-                view.Call("getWindowVisibleDisplayFrame", rect);
-                return Display.main.systemHeight - rect.Call<int>("height") + decorHeight;
+                var decorHeight = 0;
+
+                if (includeInput)
+                {
+                    var decorView = dialog.Call<AndroidJavaObject>("getWindow").Call<AndroidJavaObject>("getDecorView");
+
+                    if (decorView != null)
+                        decorHeight = decorView.Call<int>("getHeight");
+                }
+
+                using (var rect = new AndroidJavaObject("android.graphics.Rect"))
+                {
+                    view.Call("getWindowVisibleDisplayFrame", rect);
+                    return Display.main.systemHeight - rect.Call<int>("height") + decorHeight;
+                }
             }
         }
-#else
-        var height = Mathf.RoundToInt(TouchScreenKeyboard.area.height);
-        return height >= Display.main.systemHeight ? 0 : height;
-#endif
+        else
+        {
+            var height = Mathf.RoundToInt(TouchScreenKeyboard.area.height);
+            return height >= Display.main.systemHeight ? 0 : height;
+        }
     }
 }

@@ -29,7 +29,7 @@ public class TypingGame : MonoBehaviour
     {
         Application.targetFrameRate = 45;
         words = new WordProvider("dictionary.txt", max);
-        Sequencer.main.WaitUntil(words.IsSetup);
+        Sequencer.main.WaitUntil(() => words.IsSetup);
         Sequencer.main.Enqueue(() =>
         {
             StartGame();
