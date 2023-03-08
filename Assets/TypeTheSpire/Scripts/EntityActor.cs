@@ -8,13 +8,12 @@ public class EntityActor : MonoBehaviour
 {
     public TMP_Text health;
     public TMP_Text armor;
+    public SpriteRenderer charImage;
     public SpriteRenderer intentImage;
     public TMP_Text intentValue;
     public bEntity entity { get; private set; }
 
-    public Sprite[] intents;
-
-    public void Setup(bEntity entity)
+    public virtual void Setup(bEntity entity)
     {
         this.entity = entity;
         entity.UpdateUI.AddListener(UpdateUI);
@@ -27,18 +26,30 @@ public class EntityActor : MonoBehaviour
         armor.text = Mathf.FloorToInt(entity.block).ToString();
     }
 
-    internal void ShowIntent(WordSpellAction wordSpellAction)
+    internal void ShowIntent(WordCard card)
     {
-        intentValue.text = Mathf.FloorToInt(wordSpellAction.amount).ToString();
-        switch (wordSpellAction.actionType)
+        intentValue.text = Mathf.FloorToInt(card.spell.action.amount).ToString();
+        intentImage.sprite = card.spell.icon;
+    }
+
+    Deck<WordCard> actionDeck;
+    WordCard lastAction;
+    public WordCard GetNext()
+    {
+        if (lastAction != null)
         {
-            case wSpellAction.block:
-                intentImage.sprite = intents[0];
-                break;
-            case wSpellAction.attack:
-            default:
-                intentImage.sprite = intents[1];
-                break;
+            actionDeck.AddToDiscard(lastAction);
         }
+        if (actionDeck.DrawPileEmpty())
+            actionDeck.Shuffle();
+        if (!actionDeck.TryDrawNext(out WordCard card))
+            Debug.LogError(gameObject.name + " has no cards");
+        lastAction = card;
+        return card;
+    }
+
+    internal void SetDeck(Deck<WordCard> deck)
+    {
+        actionDeck = deck;
     }
 }

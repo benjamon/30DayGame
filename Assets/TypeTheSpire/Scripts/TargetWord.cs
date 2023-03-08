@@ -11,6 +11,7 @@ public class TargetWord : MonoBehaviour
     public string word { get; private set; }
     public int completion { get; private set; }
     public UnityEvent OnComplete = new UnityEvent();
+    public UnityEvent OnTyped = new UnityEvent();
 
     public void Init(string word)
     {
@@ -27,6 +28,7 @@ public class TargetWord : MonoBehaviour
         {
             completion++;
             CompletedText.text = word.Substring(0, completion);
+            OnTyped.Invoke();
         }
         if (completion >= word.Length)
             OnComplete.Invoke();

@@ -15,7 +15,7 @@ public class WordBattle : MonoBehaviour
 
     public float turnLength = 10f;
 
-    public WordSpellAction[] enemyActions;
+    public EnemyDef enemyConfig;
 
     public AudioSource basic;
     public AudioSource turnStart;
@@ -25,8 +25,9 @@ public class WordBattle : MonoBehaviour
 
     private void Start()
     {
-        bEntity hero = new bEntity(100, LogDeath);
+        bEntity hero = new bEntity(10, LogDeath);
         bEntity enemy = new bEntity(50, LogDeath);
+        enemyConfig.Setup(this.enemy);
         StartBattle(hero, enemy);
         Timer.gameObject.SetActive(false);
     }
@@ -41,12 +42,13 @@ public class WordBattle : MonoBehaviour
         this.hero.Setup(hero);
         this.enemy.Setup(enemy);
         StartCoroutine(StartTurn());
+        TypeTheSpire.Instance.DefineEntities(hero, enemy);
     }
 
     private IEnumerator StartTurn()
     {
         TypeTheSpire.Instance.DefineEntities(hero.entity, enemy.entity);
-        var intent = enemyActions[UnityEngine.Random.Range(0, enemyActions.Length)];
+        var intent = enemy.GetNext();
         enemy.ShowIntent(intent);
         basic.Play();
         yield return new WaitForSeconds(1f);
@@ -78,7 +80,7 @@ public class WordBattle : MonoBehaviour
         Timer.gameObject.SetActive(false);
         status = BattleStatus.Between;
         enemy.entity.EndTurn();
-        intent.InvokeOn(enemy.entity, hero.entity);
+        intent.spell.action.InvokeOn(enemy.entity, hero.entity);
         yield return new WaitForSeconds(2f);
         hero.entity.EndTurn();
         StartCoroutine(StartTurn());

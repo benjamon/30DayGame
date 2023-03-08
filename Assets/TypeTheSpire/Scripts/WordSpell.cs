@@ -7,13 +7,10 @@ public class WordSpell : ScriptableObject
 {
     public Sprite icon;
 
-    //temp  temp temp
+    //expand into an array and maybe have different word types
     public int wordLength;
-    public WordSpellAction action;
     public wSpellTarget spellTarget;
-
-    public WordSpellAction[] actions;
-    public WordSpellPayment[] payments;
+    public WordSpellAction action;
 }
 
 [System.Serializable]
@@ -21,17 +18,22 @@ public class WordSpellAction
 {
     public wSpellAction actionType;
     public wSpellTarget target;
-    public float amount;
+    public wStatusEffect status;
+    public int amount;
 
     public void InvokeOn(bEntity self, bEntity enemy)
     {
+        var targ = (target != wSpellTarget.self) ? enemy : self;
         switch (actionType)
         {
             case wSpellAction.block:
-                self.AddBlock(amount);
+                targ.AddBlock(amount);
                 break;
             case wSpellAction.attack:
-                enemy.DealDamage(amount);
+                targ.DealDamage(amount);
+                break;
+            case wSpellAction.applyStatus:
+                targ.ApplyStatus(status, amount);
                 break;
             default:
                 Debug.Log(actionType.ToString() + " for " + amount);
@@ -40,10 +42,11 @@ public class WordSpellAction
     }
 }
 
-[System.Serializable]
-public class WordSpellPayment {
-    public wSpellPaymentMethod paymentType;
-    public float cost;
+[SerializeField]
+public class WordSpellStatusEffect
+{
+    public wStatusEffect statusType;
+    public int amount;
 }
 
 public enum wSpellAction
@@ -52,8 +55,7 @@ public enum wSpellAction
     attack,
     heal,
     addTime,
-    applyBuff,
-    applyDebuff,
+    applyStatus,
 }
 
 public enum wSpellTarget
@@ -67,9 +69,13 @@ public enum wSpellTarget
    all,
 }
 
-public enum wSpellPaymentMethod
+public enum wStatusEffect
 {
-    word,
-    hp,
-    time,
+    vulernable,
+    weak,
+    rage,
+    protect,
+    slow,
+    poison,
+    doom,
 }
