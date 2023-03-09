@@ -59,10 +59,11 @@ public class TypeTheSpire : MonoBehaviour
         handManager.ShowHand(cards);
     }
 
-
+    public AudioSource successSound;
     public void PlayCard(WordCard card)
     {
         card.spell.action.InvokeOn(hero, enemy);
+        successSound.Play();
         kInput.SetTarget(TryFind);
         deck.AddToDiscard(card);
     }

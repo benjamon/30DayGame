@@ -86,6 +86,7 @@ public class WordBattle : MonoBehaviour
         StartCoroutine(StartTurn());
     }
 }
+
 public enum BattleStatus
 {
     Between,

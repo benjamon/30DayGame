@@ -9,6 +9,7 @@ public class bEntity
     public int health { get; private set; }
     public int block { get; private set; }
     public UnityEvent UpdateUI = new UnityEvent();
+    public UnityEvent StatusUpdate = new UnityEvent();
     public Dictionary<wStatusEffect, StatusData> statusEffects = new Dictionary<wStatusEffect, StatusData>();
     UnityAction<bEntity> onDeathAction;
 
@@ -56,6 +57,7 @@ public class bEntity
             statusEffects[status].ApplyStacks(amount);
         else
             statusEffects.Add(status, new StatusData(this, status, amount));
+        StatusUpdate.Invoke();
     }
 
     public void AddBlock(int value)
@@ -67,8 +69,14 @@ public class bEntity
     public void EndTurn()
     {
         block = 0;
+        bool updatestatus = false;
         foreach (var status in statusEffects.Values)
+        {
             status.ProcessEOT();
+            updatestatus = true;
+        }
+        if (updatestatus)
+            StatusUpdate.Invoke();
         UpdateUI.Invoke();
     }
 

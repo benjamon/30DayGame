@@ -11,12 +11,14 @@ public class EntityActor : MonoBehaviour
     public SpriteRenderer charImage;
     public SpriteRenderer intentImage;
     public TMP_Text intentValue;
+    public StatusDisplay statuses;
     public bEntity entity { get; private set; }
 
     public virtual void Setup(bEntity entity)
     {
         this.entity = entity;
         entity.UpdateUI.AddListener(UpdateUI);
+        statuses.Setup(entity);
         UpdateUI();
     }
 
@@ -24,6 +26,7 @@ public class EntityActor : MonoBehaviour
     {
         health.text = Mathf.FloorToInt(entity.health) + "/" + Mathf.FloorToInt(entity.maxHealth);
         armor.text = Mathf.FloorToInt(entity.block).ToString();
+        
     }
 
     internal void ShowIntent(WordCard card)

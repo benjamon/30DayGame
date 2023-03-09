@@ -23,17 +23,17 @@ public class WordSpellAction
 
     public void InvokeOn(bEntity self, bEntity enemy)
     {
-        var targ = (target != wSpellTarget.self) ? enemy : self;
+        var e = (target != wSpellTarget.self) ? enemy : self;
         switch (actionType)
         {
             case wSpellAction.block:
-                targ.AddBlock(amount);
+                e.AddBlock(amount);
                 break;
             case wSpellAction.attack:
-                targ.DealDamage(amount);
+                e.DealDamage(amount);
                 break;
             case wSpellAction.applyStatus:
-                targ.ApplyStatus(status, amount);
+                e.ApplyStatus(status, amount);
                 break;
             default:
                 Debug.Log(actionType.ToString() + " for " + amount);
