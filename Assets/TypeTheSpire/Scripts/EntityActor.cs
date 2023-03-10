@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class EntityActor : MonoBehaviour
 {
+    public Animation charContainer;
     public TMP_Text health;
     public TMP_Text armor;
     public SpriteRenderer charImage;
@@ -26,7 +27,6 @@ public class EntityActor : MonoBehaviour
     {
         health.text = Mathf.FloorToInt(entity.health) + "/" + Mathf.FloorToInt(entity.maxHealth);
         armor.text = Mathf.FloorToInt(entity.block).ToString();
-        
     }
 
     internal void ShowIntent(WordCard card)
@@ -55,4 +55,11 @@ public class EntityActor : MonoBehaviour
     {
         actionDeck = deck;
     }
+}
+public enum eSpellCastAnimations
+{
+    b,
+    smallAttack,
+    defend,
+    debuff,
 }

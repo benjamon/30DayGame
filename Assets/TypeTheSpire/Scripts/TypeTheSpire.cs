@@ -35,7 +35,6 @@ public class TypeTheSpire : MonoBehaviour
 
     public void TryFind(char c)
     {
-        Debug.Log("trying to find " + c);
         if (active.ContainsKey(c))
         {
             active[c].ProcessCharacter(c);
@@ -57,6 +56,11 @@ public class TypeTheSpire : MonoBehaviour
             cards[i] = card;
         }
         handManager.ShowHand(cards);
+    }
+
+    internal void ShowHand()
+    {
+        handManager.ShowWords();
     }
 
     public AudioSource successSound;

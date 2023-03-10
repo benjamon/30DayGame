@@ -9,6 +9,8 @@ public class typeSounds : MonoBehaviour
 
     public SpriteRenderer bg;
 
+    public Color highlighted;
+
     private void Awake()
     {
         GetComponent<TargetWord>().OnTyped.AddListener(Soundoff);
@@ -17,6 +19,6 @@ public class typeSounds : MonoBehaviour
     private void Soundoff()
     {
         sound.Play();
-        bg.color = Color.white;
+        bg.color = highlighted;
     }
 }

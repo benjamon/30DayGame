@@ -6,17 +6,33 @@ public class TouchScreenAnchor : MonoBehaviour
 {
     public bool AnchorLeft;
     public bool AboveText;
+    public Transform ScaleToFillWidthMeasure;
 
     Camera cam;
     private void Awake()
     {
         cam = Camera.main;
     }
+
+    private void Start()
+    {
+        if (!ScaleToFillWidthMeasure)
+            return;
+        transform.position = (Vector2)cam.ScreenToWorldPoint(new Vector2(((AnchorLeft) ? 0f : cam.pixelWidth), 0f));
+        float width = ScaleToFillWidthMeasure.position.x - transform.position.x;
+        float idealWidth = cam.ScreenToWorldPoint(new Vector2((!AnchorLeft) ? 0f : cam.pixelWidth, 0f)).x - transform.position.x;
+        transform.localScale = Vector3.one * (idealWidth / width);
+    }
+    float lastHeight = 0f;
     void LateUpdate()
     {
         float height = GetKeyboardHeight(AboveText);
-        float scaled = height / Screen.currentResolution.height;
-        transform.position = (Vector2)cam.ScreenToWorldPoint(new Vector2(((AnchorLeft) ? 0f : cam.pixelWidth), scaled * cam.pixelHeight));
+        if (height != lastHeight)
+        {
+            lastHeight = height;
+            float scaled = height / Screen.currentResolution.height;
+            transform.position = (Vector2)cam.ScreenToWorldPoint(new Vector2(((AnchorLeft) ? 0f : cam.pixelWidth), scaled * cam.pixelHeight));
+        }
     }
 
     public static int GetKeyboardHeight(bool includeInput)

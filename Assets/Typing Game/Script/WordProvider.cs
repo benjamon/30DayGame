@@ -32,10 +32,8 @@ public class WordProvider : HashSet<string>
             using (var www = UnityWebRequest.Get(filePath))
             {
                 www.SendWebRequest();
-                Debug.Log("sending");
                 while (!www.downloadHandler.isDone)
                     yield return null;
-                Debug.Log("adding request success");
                 string[] dict = www.downloadHandler.text.Split(System.Environment.NewLine);
                 if (www.result != UnityWebRequest.Result.Success)
                 {
@@ -43,7 +41,6 @@ public class WordProvider : HashSet<string>
                 }
                 else
                 {
-                    Debug.Log("adding words");
                     foreach (string s in dict)
                         wp.AddWord(s);
                 }

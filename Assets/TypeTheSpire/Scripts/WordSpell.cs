@@ -30,6 +30,9 @@ public class WordSpellAction
                 e.AddBlock(amount);
                 break;
             case wSpellAction.attack:
+                if (self.has(wStatusEffect.weak))
+                    if (amount > 0)
+                        amount = System.Math.Max(1, amount / 2);
                 e.DealDamage(amount);
                 break;
             case wSpellAction.applyStatus:

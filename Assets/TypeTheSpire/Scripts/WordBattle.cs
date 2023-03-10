@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class WordBattle : MonoBehaviour
@@ -11,7 +10,7 @@ public class WordBattle : MonoBehaviour
 
     public TypeTheSpire game;
 
-    public TMP_Text Timer;
+    public TimerDisplay Timer;
 
     public float turnLength = 10f;
 
@@ -29,7 +28,6 @@ public class WordBattle : MonoBehaviour
         bEntity enemy = new bEntity(50, LogDeath);
         enemyConfig.Setup(this.enemy);
         StartBattle(hero, enemy);
-        Timer.gameObject.SetActive(false);
     }
 
     void LogDeath(bEntity e)
@@ -41,8 +39,14 @@ public class WordBattle : MonoBehaviour
     {
         this.hero.Setup(hero);
         this.enemy.Setup(enemy);
-        StartCoroutine(StartTurn());
+        StartCoroutine(StartSequence());
         TypeTheSpire.Instance.DefineEntities(hero, enemy);
+    }
+    
+    private IEnumerator StartSequence()
+    {
+        yield return new WaitForSeconds(2f);
+        StartCoroutine(StartTurn());
     }
 
     private IEnumerator StartTurn()
@@ -50,34 +54,30 @@ public class WordBattle : MonoBehaviour
         TypeTheSpire.Instance.DefineEntities(hero.entity, enemy.entity);
         var intent = enemy.GetNext();
         enemy.ShowIntent(intent);
+        game.DrawCards();
         basic.Play();
-        yield return new WaitForSeconds(1f);
+        Timer.SetTime(3f);
+        yield return new WaitForSeconds(2f);
         basic.Play();
-        yield return new WaitForSeconds(1f);
+        Timer.SetTime(2f);
+        yield return new WaitForSeconds(2f);
         basic.Play();
-        yield return new WaitForSeconds(1f);
+        Timer.SetTime(1f);
+        yield return new WaitForSeconds(2f);
         turnStart.Play();
 
         float t = Time.time;
-        Timer.text = turnLength.ToString();
-        Timer.gameObject.SetActive(true);
         status = BattleStatus.InProgress;
-        game.DrawCards();
+        game.ShowHand();
         while (Time.time - t < turnLength)
         {
             float tl = turnLength - (Time.time - t);
-            if (tl < 2f)
-            {
-                tl = Mathf.Round(tl * 10f) / 10f;
-            }
-            else
-                tl = Mathf.Round(tl);
-            Timer.text = tl.ToString();
+            Timer.SetTime(tl);
             yield return null;
         }
         TypeTheSpire.Instance.DiscardHand();
         turnEnd.Play();
-        Timer.gameObject.SetActive(false);
+        Timer.SetTime(0f);
         status = BattleStatus.Between;
         enemy.entity.EndTurn();
         intent.spell.action.InvokeOn(enemy.entity, hero.entity);

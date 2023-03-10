@@ -23,6 +23,14 @@ public class HandDisplay : MonoBehaviour
         }
     }
 
+    public void ShowWords()
+    {
+        foreach (var card in activeCards)
+        {
+            card.ShowWord();
+        }
+    }
+
     internal void ClearAll()
     {
         foreach (var card in activeCards)

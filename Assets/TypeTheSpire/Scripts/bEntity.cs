@@ -33,13 +33,13 @@ public class bEntity
         {
             value -= block;
             block = 0;
+            if (has(wStatusEffect.vulernable))
+                value *= 2;
             health -= value;
         } else
         {
             block -= value;
         }
-        if (has(wStatusEffect.vulernable))
-            value *= 2;
         if (health <= 0f)
             onDeathAction.Invoke(this);
         UpdateUI.Invoke();
@@ -70,11 +70,16 @@ public class bEntity
     {
         block = 0;
         bool updatestatus = false;
-        foreach (var status in statusEffects.Values)
+        var removeList = new List<wStatusEffect>();
+        foreach (var kvp in statusEffects)
         {
-            status.ProcessEOT();
+            kvp.Value.ProcessEOT();
+            if (kvp.Value.shouldExpire)
+                removeList.Add(kvp.Key);
             updatestatus = true;
         }
+        foreach (var s in removeList)
+            statusEffects.Remove(s);
         if (updatestatus)
             StatusUpdate.Invoke();
         UpdateUI.Invoke();
@@ -87,10 +92,10 @@ public class bEntity
 
     public class StatusData
     {
+        public bool shouldExpire;
+        public int amount;
         wStatusEffect status;
         bEntity owner;
-
-        public int amount;
 
         public StatusData(bEntity owner, wStatusEffect status, int amount)
         {
@@ -113,6 +118,8 @@ public class bEntity
                 case wStatusEffect.rage:
                 case wStatusEffect.slow:
                     amount--;
+                    if (amount <= 0)
+                        shouldExpire = true;
                     break;
                 case wStatusEffect.poison:
                     ProcessPoison();
@@ -127,6 +134,8 @@ public class bEntity
         {
             owner.DealDamage(amount);
             amount--;
+            if (amount <= 0)
+                shouldExpire = true;
         }
     }
 }
