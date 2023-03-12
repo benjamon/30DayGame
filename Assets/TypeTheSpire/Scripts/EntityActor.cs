@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class EntityActor : MonoBehaviour
 {
-    public Animation charContainer;
     public TMP_Text health;
     public TMP_Text armor;
     public SpriteRenderer charImage;

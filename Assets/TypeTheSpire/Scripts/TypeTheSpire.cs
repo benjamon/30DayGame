@@ -39,18 +39,29 @@ public class TypeTheSpire : MonoBehaviour
         {
             active[c].ProcessCharacter(c);
             kInput.SetTarget(active[c].ProcessCharacter);
+            active.Remove(c);
         }
     }
 
     internal void DrawCards()
     {
+        string s = deck.DrawPile.Count.ToString() + " init: ";
+        foreach (var item in deck.DrawPile)
+            s += item.spell.name + "\n";
+                Debug.Log(s);
         active.Clear();
         kInput.SetTarget(TryFind);
         WordCard[] cards = new WordCard[handSize];
         for (int i = 0; i < handSize; i++)
         {
             if (deck.DrawPile.Count == 0)
+            {
                 deck.Shuffle();
+                s = deck.DrawPile.Count.ToString() + ": ";
+                foreach (var item in deck.DrawPile)
+                    s += item.spell.name + "\n";
+                Debug.Log(s);
+            }
             if (!deck.TryDrawNext(out WordCard card))
                 Debug.LogError("no card to draw");
             cards[i] = card;
@@ -72,6 +83,15 @@ public class TypeTheSpire : MonoBehaviour
         deck.AddToDiscard(card);
     }
 
+    bEntity enemy;
+    bEntity hero;
+
+    public void DefineEntities(bEntity hero, bEntity enemy)
+    {
+        this.hero = hero;
+        this.enemy = enemy;
+    }
+
     internal void DiscardHand()
     {
         active.Clear();
@@ -81,15 +101,6 @@ public class TypeTheSpire : MonoBehaviour
     internal void Discard(WordCard card)
     {
         deck.AddToDiscard(card);
-    }
-
-    bEntity enemy;
-    bEntity hero;
-
-    public void DefineEntities(bEntity hero, bEntity enemy)
-    {
-        this.hero = hero;
-        this.enemy = enemy;
     }
 
     public void WordCompleted(TargetWord word)

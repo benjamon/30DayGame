@@ -7,6 +7,7 @@ public class EnemyDef : ScriptableObject
 {
     public SpellDeck deck;
     public Sprite sprite;
+    public int hp;
 
     public void Setup(EntityActor actor)
     {

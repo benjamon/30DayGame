@@ -14,6 +14,7 @@ public class StatusDisplay : MonoBehaviour
     public void Setup(bEntity e)
     {
         entity = e;
+        UpdateStatuses();
         e.StatusUpdate.AddListener(UpdateStatuses);
     }
 

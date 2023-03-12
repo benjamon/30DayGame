@@ -14,19 +14,29 @@ public class WordBattle : MonoBehaviour
 
     public float turnLength = 10f;
 
-    public EnemyDef enemyConfig;
+    public EnemyDef[] enemyConfig;
 
     public AudioSource basic;
     public AudioSource turnStart;
     public AudioSource turnEnd;
 
+    public Bentendo.typeSpire.ShopUI shop;
+
     public BattleStatus status { get; private set; }
+    int round = 0;
 
     private void Start()
     {
-        bEntity hero = new bEntity(10, LogDeath);
-        bEntity enemy = new bEntity(50, LogDeath);
-        enemyConfig.Setup(this.enemy);
+        SetupBattle();
+    }
+
+    public void SetupBattle()
+    {
+        var config = enemyConfig[UnityEngine.Random.Range(0, enemyConfig.Length)];
+        bEntity hero = new bEntity(6, LogDeath);
+        bEntity enemy = new bEntity(config.hp + round * 3, LogDeath);
+        config.Setup(this.enemy);
+        round++;
         StartBattle(hero, enemy);
     }
 
@@ -45,7 +55,9 @@ public class WordBattle : MonoBehaviour
     
     private IEnumerator StartSequence()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
+        yield return StartCoroutine(shop.WaitShopChoice());
+        yield return new WaitForSeconds(1f);
         StartCoroutine(StartTurn());
     }
 
@@ -80,6 +92,11 @@ public class WordBattle : MonoBehaviour
         Timer.SetTime(0f);
         status = BattleStatus.Between;
         enemy.entity.EndTurn();
+        if (enemy.entity.health <= 0)
+        {
+            SetupBattle();
+            yield break;
+        }
         intent.spell.action.InvokeOn(enemy.entity, hero.entity);
         yield return new WaitForSeconds(2f);
         hero.entity.EndTurn();

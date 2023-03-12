@@ -35,7 +35,8 @@ public class HandDisplay : MonoBehaviour
     {
         foreach (var card in activeCards)
         {
-            TypeTheSpire.Instance.Discard(card.card);
+            if (card.gameObject.activeSelf)
+                TypeTheSpire.Instance.Discard(card.card);
             Destroy(card.gameObject);
         }
 
