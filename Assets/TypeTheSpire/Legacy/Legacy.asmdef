@@ -1,0 +1,17 @@
+{
+    "name": "Bentendo.TTS.Legacy",
+    "rootNamespace": "Bentendo.TTS",
+    "references": [
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:7c44b8ea4017f474abd6278b8a4324bb"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
