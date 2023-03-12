@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "new word spell", menuName = "create new word spell", order = 0)]
+[CreateAssetMenu(fileName = "new word spell", menuName = "create new word spell", order = 5)]
 public class WordSpell : ScriptableObject
 {
     public Sprite icon;

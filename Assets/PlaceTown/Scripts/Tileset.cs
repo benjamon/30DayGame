@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "tileset", menuName = "new tileset", order = 0)]
+[CreateAssetMenu(fileName = "tileset", menuName = "new tileset", order = 5)]
 public class Tileset : ScriptableObject
 {
     public TileDef[] tiles;

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "new enemy", menuName = "create new enemy def", order = 0)]
+[CreateAssetMenu(fileName = "new enemy", menuName = "create new enemy def", order = 5)]
 public class EnemyDef : ScriptableObject
 {
     public SpellDeck deck;
