@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace Bentendo.TTS
 {
-	public class BattleTimeline
+	public class EncounterRunner
 	{
-		//maintain
+		//RunEncounter
 	}
 }

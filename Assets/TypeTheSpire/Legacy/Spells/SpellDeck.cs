@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "new deck", menuName = "create new spell deck", order = 5)]
+//[CreateAssetMenu(fileName = "new deck", menuName = "create new spell deck", order = 5)]
 public class SpellDeck : ScriptableObject
 {
     public WordSpell[] spells;

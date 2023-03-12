@@ -46,9 +46,6 @@ public class TypeTheSpire : MonoBehaviour
     internal void DrawCards()
     {
         string s = deck.DrawPile.Count.ToString() + " init: ";
-        foreach (var item in deck.DrawPile)
-            s += item.spell.name + "\n";
-                Debug.Log(s);
         active.Clear();
         kInput.SetTarget(TryFind);
         WordCard[] cards = new WordCard[handSize];
@@ -57,10 +54,6 @@ public class TypeTheSpire : MonoBehaviour
             if (deck.DrawPile.Count == 0)
             {
                 deck.Shuffle();
-                s = deck.DrawPile.Count.ToString() + ": ";
-                foreach (var item in deck.DrawPile)
-                    s += item.spell.name + "\n";
-                Debug.Log(s);
             }
             if (!deck.TryDrawNext(out WordCard card))
                 Debug.LogError("no card to draw");
