@@ -6,6 +6,8 @@ namespace Bentendo.TTS
 {
 	public class EncounterGroupDef
 	{
-		
+		public Sprite Icon;
+		public string Title;
+		public EncounterDef[] Encounters;
 	}
 }
