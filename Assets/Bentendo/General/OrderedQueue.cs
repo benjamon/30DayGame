@@ -1,21 +1,24 @@
 using System;
+using UnityEngine;
 
 namespace Bentendo.TTS
 {
-    public class OrderedQueue<Item>
+    public class OrderedQueue<Item> where Item : class
     {
 		Node next = null;
 		Func<Item, float> GetItemValue;
 		bool greatestFirst = false;
+		bool firstComeFirstServed = false;
 
-		public OrderedQueue(Func<Item, float> func, bool greatestFirst = false)
+		public OrderedQueue(Func<Item, float> func, bool greatestFirst = false, bool firstComeFirstServed = true)
         {
 			GetItemValue = func;
 			this.greatestFirst = greatestFirst;
-        }
+			this.firstComeFirstServed = firstComeFirstServed;
+		}
 
-		public Item Peek() => next.item;
-
+		public Item Peek() => (next != null) ? next.item : null;
+			
 		public Item Dequeue()
         {
 			var node = next;
@@ -34,16 +37,22 @@ namespace Bentendo.TTS
 				Node pcrnt = null;
 				Node crnt = next;
 				var nodeValue = GetItemValue(item);
-				while (crnt.prev != null && crnt.prev != node)
+				while (crnt != null && crnt.prev != node)
 				{
-					if ((GetItemValue(crnt.item) < nodeValue) == greatestFirst)
+					var crntValue = GetItemValue(crnt.item);
+					if ((crntValue < nodeValue) == greatestFirst && 
+						((crntValue != nodeValue) || ((crntValue == nodeValue) && !firstComeFirstServed)))
                     {
+						Debug.Log("inserted " + node.item.ToString());
 						node.Insert(crnt, pcrnt);
+						if (pcrnt == null)
+							next = node;
 						return;
                     }
 					pcrnt = crnt;
 					crnt = crnt.prev;
 				}
+				Debug.Log("inserted " + node.item.ToString());
 				node.Insert(crnt, pcrnt);
 			}
         }

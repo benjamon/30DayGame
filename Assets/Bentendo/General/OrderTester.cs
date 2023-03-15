@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,9 +7,21 @@ namespace Bentendo.TTS
 {
 	public class OrderTester : MonoBehaviour
 	{
+        public bool greatestFirst;
+        public bool firstComeFirstServed;
         public void Start()
         {
-            var queue = new OrderedQueue<Person>(value => value.Age);
+        }
+
+        public void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+                RerunExperiment();
+        }
+
+        private void RerunExperiment()
+        {
+            var queue = new OrderedQueue<Person>(value => value.Age, greatestFirst, firstComeFirstServed);
             queue.Enqueue(new Person
             {
                 Name = "Ben",
@@ -34,13 +47,20 @@ namespace Bentendo.TTS
                 Height = 6.5f,
             });
             while (queue.Peek() != null)
-                Debug.Log(queue.Dequeue().Name);
+                Debug.Log(queue.Dequeue().ToString() + " then ");
+            Debug.Log("end");
         }
+
         class Person
         {
 			public string Name;
 			public int Age;
 			public float Height;
+
+            public override string ToString()
+            {
+                return Name + ", " + Age + "\n";
+            }
         }
 	}
 }
