@@ -4,10 +4,16 @@ using UnityEngine;
 
 namespace Bentendo.TTS
 {
-	public class BattleRunner
+	public class BattleRunner : MonoBehaviour
 	{
-		public BattleTimeline timeline;
-		BattleContext context;
-		//StartBattle(PlayerState, EncounterEvent)
+        BattleTimeline timeline = new BattleTimeline();
+        BattleContext context = new BattleContext();
+        //StartBattle(PlayerState, EncounterEvent)
+
+        public void PlayCard(Entity caster, Card card, int timeUntil)
+        {
+			//timeline.EnqueueAction(() => card.def.Cast(context, caster, card), timeUntil);
+			timeline.EnqueueAction(() => Debug.Log("castu desu ne " + timeUntil), timeUntil);
+		}
 	}
 }
