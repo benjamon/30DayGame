@@ -18,6 +18,17 @@ namespace Bentendo.TTS
 		}
 
 		public Item Peek() => (next != null) ? next.item : null;
+
+		public bool TryPeek(out Item nextItem)
+        {
+			if (next != null)
+            {
+				nextItem = next.item;
+				return true;
+            }
+			nextItem = null;
+			return false;
+        }
 			
 		public Item Dequeue()
         {
@@ -25,7 +36,21 @@ namespace Bentendo.TTS
 			next = node.prev;
 			node.Dequeue();
 			return node.item;
-        }
+		}
+
+		public bool TryDequeue(out Item nextItem)
+		{
+			var node = next;
+			if (node != null)
+			{
+				nextItem = node.item;
+				next = node.prev;
+				node.Dequeue();
+				return true;
+			}
+			nextItem = null;
+			return false;
+		}
 
 		public void Enqueue(Item item)
         {
@@ -43,7 +68,6 @@ namespace Bentendo.TTS
 					if ((crntValue < nodeValue) == greatestFirst && 
 						((crntValue != nodeValue) || ((crntValue == nodeValue) && !firstComeFirstServed)))
                     {
-						Debug.Log("inserted " + node.item.ToString());
 						node.Insert(crnt, pcrnt);
 						if (pcrnt == null)
 							next = node;
@@ -52,7 +76,6 @@ namespace Bentendo.TTS
 					pcrnt = crnt;
 					crnt = crnt.prev;
 				}
-				Debug.Log("inserted " + node.item.ToString());
 				node.Insert(crnt, pcrnt);
 			}
         }

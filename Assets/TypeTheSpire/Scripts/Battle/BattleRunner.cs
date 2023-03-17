@@ -6,14 +6,35 @@ namespace Bentendo.TTS
 {
 	public class BattleRunner : MonoBehaviour
 	{
-        BattleTimeline timeline = new BattleTimeline();
-        BattleContext context = new BattleContext();
+        public CardDef testCard;
+        BattleTimeline timeline;
+        BattleContext context;
         //StartBattle(PlayerState, EncounterEvent)
+
+        private void Awake()
+        {
+            timeline = new BattleTimeline(this);
+            context = new BattleContext(this);
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.V))
+            {
+                PlayCard(null, new Card(testCard), 1);
+            }
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                PlayCard(null, new Card(testCard), 0);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Space))
+                timeline.Tick();
+        }
 
         public void PlayCard(Entity caster, Card card, int timeUntil)
         {
-			//timeline.EnqueueAction(() => card.def.Cast(context, caster, card), timeUntil);
-			timeline.EnqueueAction(() => Debug.Log("castu desu ne " + timeUntil), timeUntil);
+			timeline.EnqueueAction(() => card.def.Cast(context, caster, card), timeUntil);
 		}
 	}
 }

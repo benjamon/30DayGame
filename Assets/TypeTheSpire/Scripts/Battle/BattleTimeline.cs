@@ -7,35 +7,62 @@ namespace Bentendo.TTS
 {
 	public class BattleTimeline
 	{
-		//maintain
-		public OrderedQueue<BattleAction> futureActions = new OrderedQueue<BattleAction>(val => val.time);
 		public int Time;
 
-		public void EnqueueAction(Action act, int timeUntil)
+		OrderedQueue<BattleAction> futureActions = new OrderedQueue<BattleAction>(val => val.time);
+		Queue<BattleAction> imminentActions = new Queue<BattleAction>();
+		BattleRunner runner;
+
+		public BattleTimeline(BattleRunner runner)
         {
-			futureActions.Enqueue(new BattleAction
+			this.runner = runner;
+        }
+
+		public void EnqueueAction(Func<IEnumerator> func, int timeUntil)
+        {
+			var ba = new BattleAction
 			{
-				action = act,
+				func = func,
 				time = Time + timeUntil,
-			});
+			};
+			if (timeUntil <= 0)
+            {
+				imminentActions.Enqueue(ba);
+				if (!playing)
+					runner.StartCoroutine(PlayImminentActions());
+			} else
+            {
+				futureActions.Enqueue(ba);
+			}
         }
 
 		public void Tick()
         {
 			Time++;
-			var next = futureActions.Peek();
-			while (next != null && Time >= next.time)
+			while (futureActions.TryDequeue(out var next) && Time >= next.time)
             {
-				futureActions.Dequeue();
-				next.action.Invoke();
-				next = futureActions.Peek();
+				imminentActions.Enqueue(next);
+				if (!playing)
+					runner.StartCoroutine(PlayImminentActions());
             }
+        }
+
+		bool playing;
+		IEnumerator PlayImminentActions()
+        {
+			playing = true;
+			var imm = imminentActions;
+			while (imm.TryDequeue(out var crnt))
+            {
+				yield return runner.StartCoroutine(crnt.func.Invoke());
+            }
+			playing = false;
         }
 
 		public class BattleAction
         {
 			public int time;
-			public Action action;
+			public Func<IEnumerator> func;
         }
 	}
 }

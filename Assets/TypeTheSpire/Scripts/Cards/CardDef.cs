@@ -15,10 +15,10 @@ namespace Bentendo.TTS
 		public WordCost[] cost;
 		public CardAction[] actions;
 
-        internal void Cast(BattleContext context, Entity self, Card card)
+        internal IEnumerator Cast(BattleContext context, Entity self, Card card)
         {
 			for (int i = 0; i < actions.Length; i++)
-				actions[i].Cast(context, self, card);
+				yield return context.runner.StartCoroutine(actions[i].Cast(context, self, card));
         }
         //
         //CardAction[]
@@ -38,10 +38,13 @@ namespace Bentendo.TTS
 		public CardDef card;
 		public int amount;
 
-		public void Cast(BattleContext context, Entity self, Card card)
+		public IEnumerator Cast(BattleContext context, Entity self, Card card)
         {
-
-        }
+			Debug.Log("casting " + actionId);
+			yield return new WaitForSeconds(1f);
+			Debug.Log("casted " + actionId);
+			yield return new WaitForSeconds(.2f);
+		}
 		//Cast(Context, caster, cardInstance, ?CardActionParent, ?Target)
 		//..cardData
 	}

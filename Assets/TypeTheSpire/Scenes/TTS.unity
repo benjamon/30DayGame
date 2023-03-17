@@ -220,3 +220,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5856d75e82c1e948bdfb18283cb6efd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  testCard: {fileID: 11400000, guid: 77826be8074e95543858ebe7f873f1c9, type: 2}
