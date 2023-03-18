@@ -7,13 +7,13 @@ namespace Bentendo.TTS
 {
 	public class BattleContext
 	{
-		public BattleRunner runner;
-		public Entity[] player;
-		public Entity[] opponent;
+		public BattleAnimator battleAnim;
+		public Entity[] leftEnts;
+		public Entity[] rightEnts;
 
-		public BattleContext(BattleRunner runner)
+		public BattleContext(BattleAnimator runner)
         {
-			this.runner = runner;
+			this.battleAnim = runner;
         }
 		
 		//entity[] player

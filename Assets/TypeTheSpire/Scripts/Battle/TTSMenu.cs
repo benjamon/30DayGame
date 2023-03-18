@@ -6,6 +6,6 @@ namespace Bentendo.TTS
 {
 	public class TTSMenu
 	{
-		public RunDef RunDef;
+		public RunGenerationSpec RunDef;
 	}
 }

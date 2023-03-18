@@ -5,7 +5,8 @@ using UnityEngine;
 
 namespace Bentendo.TTS
 {
-	public class CardDefCollection
+    [CreateAssetMenu(fileName = "new Card Deck", menuName = "new TTS Card Deck", order = 0)]
+    public class CardDefCollection : ScriptableObject
 	{
 		public CardDef[] cardDefs;
 

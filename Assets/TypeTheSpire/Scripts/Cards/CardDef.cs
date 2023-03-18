@@ -18,10 +18,8 @@ namespace Bentendo.TTS
         internal IEnumerator Cast(BattleContext context, Entity self, Card card)
         {
 			for (int i = 0; i < actions.Length; i++)
-				yield return context.runner.StartCoroutine(actions[i].Cast(context, self, card));
+				yield return context.battleAnim.StartCoroutine(actions[i].Cast(context, self, card));
         }
-        //
-        //CardAction[]
     }
 
 	[System.Serializable]
@@ -30,23 +28,44 @@ namespace Bentendo.TTS
 		public ActionType actionId;
 		public ActionTarget targetId;
 		public StatusEffect statusType;
+		public string animationId;
+		public bool doNotAnimate;
+
+		//general card reference to be used in different ways depending on need,
+		//maybe you could "draw shivs", play a separate set of actions if you kill,
+		//or get a temporary card reward on kill... this is all hypothetical though.
+		public CardDef cardAction;
+		//public bool replaceWithCardOnKill;
+		//public bool playCardOnKill;
 		
-		//IF STRIKE
-		public bool replaceWithCardOnKill;
-		public bool playCardOnKill;
-
-		public CardDef card;
 		public int amount;
-
-		public IEnumerator Cast(BattleContext context, Entity self, Card card)
+		
+		public IEnumerator Cast(BattleContext context, Entity caster, Card card)
         {
-			Debug.Log("casting " + actionId);
-			yield return new WaitForSeconds(1f);
-			Debug.Log("casted " + actionId);
-			yield return new WaitForSeconds(.2f);
+			var castLock = new CastLock();
+			if (doNotAnimate)
+			{
+				Apply(context, caster, card);
+				yield break;
+			}
+			Action action = () => {
+				castLock.applied = true;
+				Apply(context, caster, card);
+			};
+			yield return context.battleAnim.Animate(this, caster, action);
+			if (!castLock.applied)
+				action.Invoke();
 		}
-		//Cast(Context, caster, cardInstance, ?CardActionParent, ?Target)
-		//..cardData
+
+		void Apply(BattleContext context, Entity caster, Card card)
+        {
+			Debug.Log("applied");
+        }
+
+		class CastLock
+        {
+			public bool applied;
+        }
 	}
 
 	[System.Serializable]

@@ -4,7 +4,9 @@ using UnityEngine;
 
 namespace Bentendo.TTS
 {
-	public class RunDef
+
+	[CreateAssetMenu(fileName = "new RunGenerationSpec", menuName = "new TTS RunGenerationSpec", order = 0)]
+	public class RunGenerationSpec : ScriptableObject
 	{
 		public LayerDef[] Layers;
 	}

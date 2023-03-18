@@ -7,6 +7,7 @@ namespace Bentendo.TTS
 	public class BattleRunner : MonoBehaviour
 	{
         public CardDef testCard;
+        public BattleAnimator battleAnims;
         BattleTimeline timeline;
         BattleContext context;
         //StartBattle(PlayerState, EncounterEvent)
@@ -14,7 +15,7 @@ namespace Bentendo.TTS
         private void Awake()
         {
             timeline = new BattleTimeline(this);
-            context = new BattleContext(this);
+            context = new BattleContext(battleAnims);
         }
 
         private void Update()
