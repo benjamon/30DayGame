@@ -6,18 +6,19 @@ namespace Bentendo.TTS
 {
 	public class Entity
 	{
-		public IEntityProvider source { get; private set; }
-		public int maxHP { get; private set; }
+		public IEntityProvider Source { get; private set; }
+		public int MaxHP { get; private set; }
 		public int HP { get; private set; }
 		//statuses
-		public Deck<Card> deck { get; private set; }
+		public Deck<Card> Deck { get; private set; }
+		public EntityBody Body { get; private set; }
 
-		public Entity(IEntityProvider provider)
+		public Entity(IEntityProvider provider, EntityBody body)
         {
-			this.source = provider;
-			maxHP = provider.GetMaxHP();
+			this.Source = provider;
+			MaxHP = provider.GetMaxHP();
 			HP = provider.GetHP();
-			deck = new Deck<Card>(provider.GetCards());
+			Deck = new Deck<Card>(provider.GetCards());
         }
 	}
 }

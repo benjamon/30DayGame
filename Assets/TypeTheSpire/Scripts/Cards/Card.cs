@@ -12,10 +12,5 @@ namespace Bentendo.TTS
         {
 			this.def = def;
         }
-
-		public void Cast(BattleContext context, Entity self)
-        {
-			def.Cast(context, self, this);
-        }
 	}
 }
