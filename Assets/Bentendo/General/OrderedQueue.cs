@@ -1,9 +1,10 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Bentendo.TTS
 {
-    public class OrderedQueue<Item> where Item : class
+    public class OrderedQueue<Item> : IEnumerable where Item : class
     {
 		Node next = null;
 		Func<Item, float> GetItemValue;
@@ -80,7 +81,17 @@ namespace Bentendo.TTS
 			}
         }
 
-		class Node
+        public IEnumerator GetEnumerator()
+        {
+			var crnt = next;
+			while (next != null)
+            {
+				crnt = next.prev;
+				yield return crnt;
+            }
+        }
+
+        class Node
 		{
 			public Node next { get; private set; }
 			public Node prev { get; private set; }

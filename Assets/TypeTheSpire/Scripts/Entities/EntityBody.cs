@@ -40,9 +40,9 @@ namespace Bentendo.TTS
 
         public void ApplyAction()
         {
-            Debug.Log("applied");
             if (nextAction != null)
                 nextAction.Invoke();
+            nextAction = null;
         }
 	}
 }

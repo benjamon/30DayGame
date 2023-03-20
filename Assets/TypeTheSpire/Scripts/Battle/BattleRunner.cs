@@ -8,29 +8,34 @@ namespace Bentendo.TTS
 	{
         public CardDef testCard;
         public BattleAnimator battleAnims;
+        public TimelineUI timelineUI;
         BattleTimeline timeline;
         BattleContext context;
         //StartBattle(PlayerState, EncounterEvent)
 
         private void Awake()
         {
-            timeline = new BattleTimeline(this);
             context = new BattleContext(battleAnims);
+            timeline = new BattleTimeline(this, 10);
+            timelineUI.Setup(timeline);
         }
-
+        int time = 0;
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.V))
             {
-                PlayCard(null, new Card(testCard), 1);
+                PlayCard(null, new Card(testCard), 30);
             }
             if (Input.GetKeyDown(KeyCode.C))
             {
-                PlayCard(null, new Card(testCard), 0);
+                PlayCard(null, new Card(testCard), 60);
             }
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+                timeline.TimeScale *= 1.1f;
+            if (Input.GetKeyDown(KeyCode.DownArrow))
+                timeline.TimeScale *= .9f;
 
-            if (Input.GetKeyDown(KeyCode.Space))
-                timeline.Tick();
+            timeline.AddTime(Time.deltaTime);
         }
 
         public void PlayCard(Entity caster, Card card, int timeUntil)
