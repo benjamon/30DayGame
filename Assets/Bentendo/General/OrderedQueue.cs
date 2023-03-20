@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-namespace Bentendo.TTS
+namespace Bentendo
 {
     public class OrderedQueue<Item> : IEnumerable where Item : class
     {
@@ -33,6 +33,8 @@ namespace Bentendo.TTS
 			
 		public Item Dequeue()
         {
+			if (next == null)
+				return null;
 			var node = next;
 			next = node.prev;
 			node.Dequeue();
@@ -84,9 +86,9 @@ namespace Bentendo.TTS
         public IEnumerator GetEnumerator()
         {
 			var crnt = next;
-			while (next != null)
+			while (crnt != null)
             {
-				crnt = next.prev;
+				crnt = crnt.prev;
 				yield return crnt;
             }
         }
