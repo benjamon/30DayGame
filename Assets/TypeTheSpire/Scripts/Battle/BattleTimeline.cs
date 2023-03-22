@@ -12,8 +12,8 @@ namespace Bentendo.TTS
 		public float TimeScale = 1f;
 		public float TicksPerSecond;
 
-		public BattleActionEvent ActionAdded = new BattleActionEvent();
-
+		public BattleActionEvent OnActionAdded = new BattleActionEvent();
+		public BattleActionEvent OnActionImminent = new BattleActionEvent();
 
 		OrderedQueue<BattleAction> futureActions = new OrderedQueue<BattleAction>(val => val.tick);
 		Queue<BattleAction> imminentActions = new Queue<BattleAction>();
@@ -31,6 +31,7 @@ namespace Bentendo.TTS
 			var ba = new BattleAction(CurrentTick + ticksUntil, func);
 			if (ticksUntil <= 0)
             {
+				OnActionImminent.Invoke(ba);
 				imminentActions.Enqueue(ba);
 				ba.OnImminent.Invoke();
 				if (!playing)
@@ -38,7 +39,7 @@ namespace Bentendo.TTS
 			} else
             {
 				futureActions.Enqueue(ba);
-				ActionAdded.Invoke(ba);
+				OnActionAdded.Invoke(ba);
 			}
         }
 
@@ -57,6 +58,7 @@ namespace Bentendo.TTS
 			while (crnt != null && CurrentTick >= crnt.tick)
             {
 				imminentActions.Enqueue(futureActions.Dequeue());
+				OnActionImminent.Invoke(crnt);
 				crnt.OnImminent.Invoke();
 				crnt = futureActions.Peek();
 				if (!playing)
@@ -70,8 +72,10 @@ namespace Bentendo.TTS
 			playing = true;
 			var imm = imminentActions;
 			while (imm.TryDequeue(out var crnt))
-            {
+			{
+				crnt.OnCastStart.Invoke();
 				yield return runner.StartCoroutine(crnt.func.Invoke());
+				crnt.OnCastComplete.Invoke();
             }
 			playing = false;
         }
@@ -90,9 +94,12 @@ namespace Bentendo.TTS
 					OnTimeChanged.Invoke(_tick);
                 }
             }
-			public Func<IEnumerator> func;
+
+            public Func<IEnumerator> func;
 			public UnityEvent OnImminent = new UnityEvent();
 			public UnityEvent OnRemoved = new UnityEvent();
+			public UnityEvent OnCastStart = new UnityEvent();
+			public UnityEvent OnCastComplete = new UnityEvent();
 			public TimeChangeEvent OnTimeChanged = new TimeChangeEvent();
 
 			public BattleAction(int time, Func<IEnumerator> func)

@@ -11,9 +11,12 @@ namespace Bentendo.TTS
 		public Entity[] leftEnts;
 		public Entity[] rightEnts;
 
-		public BattleContext(BattleAnimator runner)
+		public BattleContext(BattleAnimator anim, Entity[] leftEnts, Entity[] rightEnts)
         {
-			this.battleAnim = runner;
+			this.leftEnts = leftEnts;
+			this.rightEnts = rightEnts;
+			this.battleAnim = anim;
+			anim.Setup(this);
         }
 		
 		//entity[] player

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,31 +9,50 @@ namespace Bentendo.TTS
 	public class TimelineUI : MonoBehaviour
 	{
 		public GameObject EventPrefab;
-		public Transform NodeParent;
-		public float tickScale { get; private set; }
+		public GameObject ImminentPrefab;
+		public Transform TimelineParent;
+		public Transform ImminentParent;
+
+		public Vector3 ImminentQueueShift;
 
 		List<EventNode> nodes = new List<EventNode>();
 
 		BattleTimeline timeline;
+		Vector3 tickDist;
+		int lastPlaced;
 
 		public void Setup(BattleTimeline timeline)
         {
 			this.timeline = timeline;
 			//tickScale = calculated distance / future_ticks_to_show
-			tickScale = .1f;
-			timeline.ActionAdded.AddListener(AddNode);
+			timeline.OnActionAdded.AddListener(AddNodeToTimeline);
+			timeline.OnActionImminent.AddListener(AddNodeToImminentQueue);
+			tickDist = new Vector3(.1f, 0f, 0f);
 		}
 
-		public void AddNode(BattleAction action) 
+        private void AddNodeToImminentQueue(BattleAction action)
 		{
-			var go = GameObject.Instantiate(EventPrefab, NodeParent);
-			var en = new EventNode(go, action, this);
+			var go = GameObject.Instantiate(ImminentPrefab, ImminentParent);
+			var en = new EventNode(go, action, ImminentQueueShift);
+			action.OnCastStart.AddListener(() => {
+				en.KillNode();
+				ImminentParent.position -= ImminentQueueShift;
+			});
+			en.PlaceNode(lastPlaced++);
+			nodes.Add(en);
+		}
+
+        public void AddNodeToTimeline(BattleAction action) 
+		{
+			var go = GameObject.Instantiate(EventPrefab, TimelineParent);
+			var en = new EventNode(go, action, tickDist);
+			action.OnImminent.AddListener(en.KillNode);
 			nodes.Add(en);
 		}
 
         private void Update()
         {
-			NodeParent.transform.localPosition = new Vector3(-timeline.CurrentTime * tickScale, 0f, 0f);
+			TimelineParent.transform.localPosition = -timeline.CurrentTime * tickDist;
         }
 
         class EventNode
@@ -40,21 +60,26 @@ namespace Bentendo.TTS
 			public BattleAction action;
 			public GameObject visual;
 
-			private TimelineUI timelineUI;
+			Vector3 stepShift;
 
-			public EventNode(GameObject visual, BattleAction action, TimelineUI timeline)
+			public EventNode(GameObject visual, BattleAction action, Vector3 stepShift)
             {
 				this.action = action;
 				this.visual = visual;
-				this.timelineUI = timeline;
+				this.stepShift = stepShift;
 				PlaceNode(action.tick);
-				action.OnImminent.AddListener(() => visual.SetActive(false));
 				action.OnTimeChanged.AddListener(PlaceNode);
+            }
+
+			public void KillNode()
+            {
+				//return to pool lol
+				GameObject.Destroy(visual);
             }
 
 			public void PlaceNode(int tick)
 			{
-				visual.transform.localPosition = new Vector3(tick * timelineUI.tickScale, 0f, 0f);
+				visual.transform.localPosition = tick * stepShift;
 			}
         }
 	}

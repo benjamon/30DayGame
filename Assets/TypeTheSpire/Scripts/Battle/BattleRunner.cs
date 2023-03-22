@@ -9,26 +9,31 @@ namespace Bentendo.TTS
         public CardDef testCard;
         public BattleAnimator battleAnims;
         public TimelineUI timelineUI;
+        public EntityDef testEntity;
+        public BattleEventDef enemies;
         BattleTimeline timeline;
         BattleContext context;
+        Entity testHero;
         //StartBattle(PlayerState, EncounterEvent)
 
         private void Awake()
         {
-            context = new BattleContext(battleAnims);
+            testHero = new Entity(testEntity);
+            var allied = new Entity[] { testHero };
+            context = new BattleContext(battleAnims, allied, enemies.ToEntityInstances());
             timeline = new BattleTimeline(this, 10);
             timelineUI.Setup(timeline);
         }
-        int time = 0;
+
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.V))
             {
-                PlayCard(null, new Card(testCard), 30);
+                PlayCard(testHero, new Card(testCard), 30);
             }
             if (Input.GetKeyDown(KeyCode.C))
             {
-                PlayCard(null, new Card(testCard), 60);
+                PlayCard(testHero, new Card(testCard), 60);
             }
             if (Input.GetKeyDown(KeyCode.UpArrow))
                 timeline.TimeScale *= 1.1f;
