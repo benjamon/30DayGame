@@ -7,5 +7,7 @@ namespace Bentendo.TTS
 	public class EncounterRunner
 	{
 		//RunEncounter
+
+		//switch encounter type and pass encounter to relevant runers
 	}
 }
