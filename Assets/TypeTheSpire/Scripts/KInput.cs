@@ -46,6 +46,8 @@ namespace Bentendo.TTS
 
         private void OnDisable()
         {
+            if (m_Keyboard == null)
+                return;
             if (m_Keyboard.active) m_Keyboard.active = false;
         }
     }
