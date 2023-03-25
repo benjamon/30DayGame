@@ -8,9 +8,10 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: LiberationSans SDF - Bentexdo
-  m_Shader: {fileID: 4800000, guid: a85bcfebb256f3645a86ec96242463ca, type: 3}
+  m_Shader: {fileID: 4800000, guid: 17c53ffa9d21e4d4e9f7c4dc859fdd36, type: 3}
   m_ValidKeywords:
   - OUTLINE_ON
+  - UNDERLAY_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 0
@@ -54,7 +55,7 @@ Material:
     - _ColorMask: 15
     - _CullMode: 0
     - _Diffuse: 0.5
-    - _FaceDilate: 0.1
+    - _FaceDilate: 0
     - _FaceUVSpeedX: 0
     - _FaceUVSpeedY: 0
     - _GlowInner: 0.05
@@ -73,7 +74,7 @@ Material:
     - _Reflectivity: 10
     - _ScaleRatioA: 0.9
     - _ScaleRatioB: 0.64125
-    - _ScaleRatioC: 0.64125
+    - _ScaleRatioC: 0.3751924
     - _ScaleX: 1
     - _ScaleY: 1
     - _ShaderFlags: 0
@@ -86,10 +87,10 @@ Material:
     - _StencilWriteMask: 255
     - _TextureHeight: 1024
     - _TextureWidth: 1024
-    - _UnderlayDilate: 0
-    - _UnderlayOffsetX: 0
-    - _UnderlayOffsetY: 0
-    - _UnderlaySoftness: 0
+    - _UnderlayDilate: 0.493
+    - _UnderlayOffsetX: 0.102
+    - _UnderlayOffsetY: -0.614
+    - _UnderlaySoftness: 0.842
     - _VertexOffsetX: 0
     - _VertexOffsetY: 0
     - _WeightBold: 0.75
@@ -104,5 +105,5 @@ Material:
     - _ReflectFaceColor: {r: 0, g: 0, b: 0, a: 1}
     - _ReflectOutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
-    - _UnderlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+    - _UnderlayColor: {r: 0.9829347, g: 1, b: 0, a: 0.5}
   m_BuildTextureStacks: []

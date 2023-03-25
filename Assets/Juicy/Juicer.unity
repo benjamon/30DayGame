@@ -725,11 +725,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShakeParent: {fileID: 2044756006}
   ShiftSpring:
-    k: 250
-    damp: 0.6
+    k: 600
+    damp: 0.95
     mass: 1
   ShakeSpring:
-    k: 250
+    k: 300
     damp: 0.93
     mass: 1
 --- !u!1 &2044756005

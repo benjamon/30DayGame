@@ -38,9 +38,10 @@ namespace Bentendo.TTS
             if (s.Length > lastInputLength)
                 for (int i = lastInputLength; i < s.Length; i++)
                     ProcessLetter?.Invoke(s[i]);
-            else if (s.Length < lastInputLength)
+            /*else if (s.Length < lastInputLength)
                 for (int i = 0; i < lastInputLength - s.Length; i++)
                     Backspace?.Invoke();
+            */
             lastInputLength = s.Length;
         }
 
