@@ -36,7 +36,7 @@ namespace Bentendo.TTS
 
         public void ResetTarget()
         {
-            word = words.GetRandom(5);
+            word = words.GetRandom(8);
             target = new WordTarget(word);
             target.onCharTyped = UpdateText;
             target.onCompleteed = ResetTarget;
@@ -50,8 +50,16 @@ namespace Bentendo.TTS
             var n = target.completion;
             string str;
             str = WrapColor(word.Substring(0, n), doneColor);
-            var go = GameObject.Instantiate(effect, WordText.transform);
-            go.transform.localPosition = (WordText.textInfo.characterInfo[n].vertex_BL.position + WordText.textInfo.characterInfo[n].vertex_BR.position) * .5f;
+            var go = GameObject.Instantiate(effect, null);
+            var charTMP = go.GetComponent<TMP_Text>();
+            go.transform.localScale = WordText.transform.localScale;
+            if (charTMP != null)
+            {
+                charTMP.text = word[n - 1].ToString();
+                charTMP.fontSize = WordText.fontSize;
+                AlignWords(WordText, n - 1, charTMP, 0);
+            }
+            GameObject.Destroy(go, .125f);
             if (n != word.Length)
                 str += WrapColor(word[n].ToString(), lastColor);
             if (n <= word.Length - 2)
@@ -77,6 +85,32 @@ namespace Bentendo.TTS
 
             string hex = string.Format("#{0:X2}{1:X2}{2:X2}{3:X2}", r, g, b, a);
             return hex;
+        }
+
+        public Vector2 GetLetterCenter(int x)
+        {
+            var ci = WordText.textInfo.characterInfo[x];
+            return (ci.vertex_BL.position + ci.vertex_BR.position +
+                   ci.vertex_TL.position + ci.vertex_TR.position) * .25f;
+        }
+
+        public Vector2 GetLetterLeft(int x)
+        {
+            var ci = WordText.textInfo.characterInfo[x];
+            return new Vector2(ci.vertex_BL.position.x, 0f);
+        }
+
+        public void AlignWords(TMP_Text a, int an, TMP_Text b, int bn)
+        {
+            if (an == 0)
+            {
+                b.transform.position = a.transform.TransformPoint(a.textBounds.min.x * Vector3.right);
+                return;
+            }
+            var aci = a.textInfo.characterInfo[an-1];
+            var bci = b.textInfo.characterInfo[bn];
+            Vector2 worldDiff = new Vector2((b.transform.TransformPoint(Vector3.right * bci.xAdvance) - a.transform.TransformPoint(Vector3.right * aci.xAdvance)).x, 0f);
+            b.transform.position -= new Vector3(worldDiff.x, 0f, 0f);
         }
     }
 }

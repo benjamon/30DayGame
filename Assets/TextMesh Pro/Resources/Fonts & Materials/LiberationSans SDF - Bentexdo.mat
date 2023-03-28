@@ -8,10 +8,9 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: LiberationSans SDF - Bentexdo
-  m_Shader: {fileID: 4800000, guid: 17c53ffa9d21e4d4e9f7c4dc859fdd36, type: 3}
+  m_Shader: {fileID: 4800000, guid: 68e6db2ebdc24f95958faec2be5558d6, type: 3}
   m_ValidKeywords:
   - OUTLINE_ON
-  - UNDERLAY_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 0
@@ -73,7 +72,7 @@ Material:
     - _PerspectiveFilter: 0.875
     - _Reflectivity: 10
     - _ScaleRatioA: 0.9
-    - _ScaleRatioB: 0.64125
+    - _ScaleRatioB: 0.73125
     - _ScaleRatioC: 0.3751924
     - _ScaleX: 1
     - _ScaleY: 1

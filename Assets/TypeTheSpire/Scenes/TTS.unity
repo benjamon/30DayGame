@@ -2489,7 +2489,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Slaughtered
+  m_text: gaslighting
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: a4516240c45dd464895f3761ecc525e2, type: 2}
@@ -2524,9 +2524,9 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 1024
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: 5
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -2537,7 +2537,7 @@ MonoBehaviour:
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
-  m_enableKerning: 1
+  m_enableKerning: 0
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -2621,7 +2621,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -0.02, y: -4.99}
-  m_SizeDelta: {x: 20, y: 5}
+  m_SizeDelta: {x: 25.0309, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!82 &1176250412
 AudioSource:
@@ -2635,7 +2635,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 1a1851e41c1c80543a0bb7d938175848, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.59
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -2732,7 +2732,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WordText: {fileID: 1176250409}
-  effect: {fileID: 3563926424781533476, guid: 75286e9098bcc8a4db29d88effa92bfc, type: 3}
+  effect: {fileID: 4583025543330092782, guid: 2c634728731fd114bab934721e5f2f5c, type: 3}
   honker: {fileID: 1176250412}
   doneColor: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 1}
   lastColor: {r: 1, g: 0.8153527, b: 0.3066038, a: 1}
