@@ -9,6 +9,11 @@ public class Deck<T>
     public Queue<T> DrawPile;
     public List<T> Discard = new List<T>();
 
+    public Deck(List<T> cards)
+    {
+        DrawPile = new Queue<T>(cards);
+        Shuffle();
+    }
     public Deck(T[] cards)
     {
         DrawPile = new Queue<T>(cards);

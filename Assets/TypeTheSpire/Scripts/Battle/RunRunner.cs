@@ -7,6 +7,11 @@ namespace Bentendo.TTS
 	public class RunRunner
 	{
 		public PlayerState playerState;
-		//EncounterMap
+		
+
+		public RunRunner(IEntityProvider playerDef, RunGenerationSpec spec)
+        {
+			playerState = new PlayerState(playerDef);
+        }
 	}
 }

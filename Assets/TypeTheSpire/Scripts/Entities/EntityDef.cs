@@ -12,7 +12,7 @@ namespace Bentendo.TTS
 		public Sprite EntitySprite;
 		public CardDefCollection StarterDeck;
 
-        public Card[] GetCards() => StarterDeck.GetCards();
+        public List<Card> GetCards() => StarterDeck.GetCards();
         public Entity GetEntity() => new Entity(this);
         public int GetHP() => MaxHP;
         public int GetMaxHP() => MaxHP;

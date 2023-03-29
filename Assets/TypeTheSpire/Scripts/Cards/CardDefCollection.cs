@@ -10,12 +10,12 @@ namespace Bentendo.TTS
 	{
 		public CardDef[] cardDefs;
 
-        internal Card[] GetCards()
+        internal List<Card> GetCards()
         {
-            Card[] cards = new Card[cardDefs.Length];
-            for (int i = 0; i < cards.Length; i++)
-                cards[i] = new Card(cardDefs[i]);
-            return cards;
+            List<Card> result = new List<Card>();
+            for (int i = 0; i < cardDefs.Length; i++)
+                result.Add(new Card(cardDefs[i]))
+            return result;
         }
     }
 }

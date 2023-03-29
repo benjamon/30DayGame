@@ -9,7 +9,7 @@ namespace Bentendo.TTS
 		Entity GetEntity();
 		int GetHP();
 		int GetMaxHP();
-		Card[] GetCards();
+		List<Card> GetCards();
 		Sprite GetSprite();
 	}
 }
