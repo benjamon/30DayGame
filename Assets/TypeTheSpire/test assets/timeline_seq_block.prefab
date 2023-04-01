@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7037094388423642696}
   - component: {fileID: 2127044917316898807}
   m_Layer: 0
-  m_Name: seq
+  m_Name: timeline_seq_block
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

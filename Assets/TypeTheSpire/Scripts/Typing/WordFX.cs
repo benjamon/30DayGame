@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static UnityEngine.GraphicsBuffer;
 
 namespace Bentendo.TTS
 {
@@ -10,7 +11,6 @@ namespace Bentendo.TTS
 	{
 		public TMP_Text WordText;
 		public GameObject effect;
-        public AudioSource honker;
         public Color doneColor;
         public Color lastColor;
         public Color notDoneColor;
@@ -21,7 +21,12 @@ namespace Bentendo.TTS
         {
             word = target.word;
             target.completion.action = UpdateText;
-            target.OnTypo = Honk;
+            WordText.text = WrapColor(word, inactiveColor);
+        }
+
+        public void Setup(string word)
+        {
+            this.word = word;
             WordText.text = WrapColor(word, inactiveColor);
         }
 
@@ -51,10 +56,6 @@ namespace Bentendo.TTS
             return $"<color={ColorToHexString(c)}>{s}</color>";
         }
 
-        public void Honk()
-        {
-            honker.Play();
-        }
         public static string ColorToHexString(Color color)
         {
             int r = (int)(color.r * 255);
@@ -81,11 +82,9 @@ namespace Bentendo.TTS
 
         public void AlignWords(TMP_Text a, int an, TMP_Text b, int bn)
         {
+            b.transform.position = a.transform.TransformPoint(a.textBounds.min.x * Vector3.right);
             if (an == 0)
-            {
-                b.transform.position = a.transform.TransformPoint(a.textBounds.min.x * Vector3.right);
                 return;
-            }
             var aci = a.textInfo.characterInfo[an-1];
             var bci = b.textInfo.characterInfo[bn];
             Vector2 worldDiff = new Vector2((b.transform.TransformPoint(Vector3.right * bci.xAdvance) - a.transform.TransformPoint(Vector3.right * aci.xAdvance)).x, 0f);

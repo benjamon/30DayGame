@@ -1,13 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Events;
+using System;
 
 namespace Bentendo
 {
 	public class Actvar<T>
 	{
-		public UnityAction<T> action;
+		public Action<T> action;
 		private T _crnt;
 		public T crnt
         {

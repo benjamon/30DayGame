@@ -10,7 +10,7 @@ namespace Bentendo.TTS
 	{
 		public SpriteRenderer Icon;
 		public TMP_Text Title;
-		public TMP_Text Word;
+		public WordFX Word;
 
 		WordTarget target;
 		Action castAction;
@@ -26,7 +26,7 @@ namespace Bentendo.TTS
         {
 			target = new WordTarget(word);
             target.onCompleted += OnComplete;
-			Word.text = word;
+			Word.SubscribeWordTarget(target);
         }
 
 		public void FocusCard(KInput input, char c)

@@ -9,6 +9,7 @@ namespace Bentendo.TTS
 	{
         public SpriteRenderer BodyImage;
         public Transform ProceduralRoot;
+        public GameObject HitEffect;
 		Animation anim;
         Action nextAction;
 
@@ -43,6 +44,9 @@ namespace Bentendo.TTS
             if (nextAction != null)
                 nextAction.Invoke();
             nextAction = null;
+            var go = GameObject.Instantiate(HitEffect);
+            go.transform.position = BodyImage.transform.position;
+            Destroy(go, .5f);
         }
 	}
 }
