@@ -7,7 +7,7 @@ namespace Bentendo.TTS
 	{
 		public EntityDef[] Enemies;
 
-		public Entity[] ToEntityInstances()
+		public Entity[] GetEntities()
         {
 			var res = new Entity[Enemies.Length];
 			for (int i = 0; i < Enemies.Length; i++)

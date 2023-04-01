@@ -20,6 +20,7 @@ namespace Bentendo.TTS
 		BattleTimeline timeline;
 		Vector3 tickDist;
 		int lastPlaced;
+		bool isSetup;
 
 		public void Setup(BattleTimeline timeline)
         {
@@ -28,7 +29,9 @@ namespace Bentendo.TTS
 			timeline.OnActionAdded.AddListener(AddNodeToTimeline);
 			timeline.OnActionImminent.AddListener(AddNodeToImminentQueue);
 			tickDist = new Vector3(.1f, 0f, 0f);
-		}
+			isSetup = true;
+
+        }
 
         private void AddNodeToImminentQueue(BattleAction action)
 		{
@@ -52,7 +55,9 @@ namespace Bentendo.TTS
 
         private void Update()
         {
-			TimelineParent.transform.localPosition = -timeline.CurrentTime * tickDist;
+            if (!isSetup)
+                return;
+            TimelineParent.transform.localPosition = -timeline.CurrentTime * tickDist;
         }
 
         class EventNode

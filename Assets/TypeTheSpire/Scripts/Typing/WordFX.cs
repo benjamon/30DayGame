@@ -15,39 +15,18 @@ namespace Bentendo.TTS
         public Color lastColor;
         public Color notDoneColor;
         public Color inactiveColor;
-        WordTarget target;
         string word;
-        KInput kin;
-        WordProvider words;
 
-        private void Start()
+        public void SubscribeWordTarget(WordTarget target)
         {
-            if (WordProvider.Instance == null)
-            {
-                Debug.LogError("word provider not found");
-                SceneManager.LoadScene(0);
-                return;
-            }
-            words = WordProvider.Instance;
-
-            kin = GameObject.FindObjectOfType<KInput>();
-            ResetTarget();
-        }
-
-        public void ResetTarget()
-        {
-            word = words.GetRandom(8);
-            target = new WordTarget(word);
-            target.onCharTyped = UpdateText;
-            target.onCompleteed = ResetTarget;
+            word = target.word;
+            target.completion.action = UpdateText;
             target.OnTypo = Honk;
             WordText.text = WrapColor(word, inactiveColor);
-            kin.SetAction(target.ProcessPress, Honk);
         }
 
-        public void UpdateText()
+        public void UpdateText(int n)
         {
-            var n = target.completion;
             string str;
             str = WrapColor(word.Substring(0, n), doneColor);
             var go = GameObject.Instantiate(effect, null);

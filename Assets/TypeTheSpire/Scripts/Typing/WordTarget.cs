@@ -8,10 +8,10 @@ namespace Bentendo.TTS
 	public class WordTarget
 	{
 		public string word { get; private set; }
-		public int completion { get; private set; }
+		public Actvar<int> completion = new Actvar<int>(0);
 		public UnityAction onCharTyped;
 		public UnityAction OnTypo;
-		public UnityAction onCompleteed;
+		public UnityAction onCompleted;
 		public bool Completed => completion == word.Length;
 
 		public WordTarget(string word)
@@ -28,12 +28,12 @@ namespace Bentendo.TTS
 			}
 			if (word[completion] == c)
 			{
-				completion++;
-				onCharTyped.Invoke();
+				completion.crnt++;
+				onCharTyped?.Invoke();
 			}
 			else
-				OnTypo.Invoke();
-			if (Completed) onCompleteed.Invoke();
+				OnTypo?.Invoke();
+			if (Completed) onCompleted?.Invoke();
 		}
 	}
 }

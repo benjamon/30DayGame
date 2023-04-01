@@ -12,9 +12,13 @@ namespace Bentendo.TTS
         TouchScreenKeyboard m_Keyboard;
         int lastInputLength;
 
-        public void SetAction(UnityAction<char> CharTyped, UnityAction backspace)
+        public void SetProcessAction(UnityAction<char> CharTyped)
         {
             this.ProcessLetter = CharTyped;
+        }
+
+        public void SetBackspaceAction(UnityAction backspace)
+        {
             this.Backspace = backspace;
         }
 

@@ -12,7 +12,7 @@ namespace Bentendo.TTS
 		public Sprite Icon;
 		[TextArea(2,4)]
 		public string description;
-		public WordCost[] cost;
+		public WordCost cost;
 		public CardAction[] actions;
 
         internal IEnumerator Cast(BattleContext context, Entity self, Card card)

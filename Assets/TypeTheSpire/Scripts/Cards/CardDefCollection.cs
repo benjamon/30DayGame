@@ -14,7 +14,7 @@ namespace Bentendo.TTS
         {
             List<Card> result = new List<Card>();
             for (int i = 0; i < cardDefs.Length; i++)
-                result.Add(new Card(cardDefs[i]))
+                result.Add(new Card(cardDefs[i]));
             return result;
         }
     }
