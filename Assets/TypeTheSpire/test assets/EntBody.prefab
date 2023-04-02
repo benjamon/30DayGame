@@ -191,6 +191,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7568213207471162194}
+  - component: {fileID: 519906659207791051}
   m_Layer: 0
   m_Name: ProceduralRoot
   m_TagString: Untagged
@@ -214,3 +215,71 @@ Transform:
   m_Father: {fileID: 7568213207215101877}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &519906659207791051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7568213207471162197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb2ad74fcb42ad5488b83da798ac66a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.0043640137
+      inSlope: 0.044409484
+      outSlope: 0.044409484
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.5785675
+    - serializedVersion: 3
+      time: 0.42826748
+      value: -0.2403282
+      inSlope: 0.3081318
+      outSlope: 0.3081318
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.5770271
+    - serializedVersion: 3
+      time: 0.73203397
+      value: 0.5492342
+      inSlope: 8.521781
+      outSlope: Infinity
+      tangentMode: 97
+      weightedMode: 0
+      inWeight: 0.045835067
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.80927116
+      value: 1.2521396
+      inSlope: -0.1804532
+      outSlope: -4.657854
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.975882
+      outWeight: 0.19270997
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0.029722461
+      outSlope: 0.029722461
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 1
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  useCurve: 0
+  OnComplete:
+    m_PersistentCalls:
+      m_Calls: []
+  Style: 0

@@ -8,10 +8,11 @@ namespace Bentendo.TTS
 	public class EntityBody : MonoBehaviour
 	{
         public SpriteRenderer BodyImage;
-        public Transform ProceduralRoot;
         public GameObject HitEffect;
+        public LerpTrolley Lerper;
 		Animation anim;
         Action nextAction;
+        Transform target;
 
         private void Awake()
         {
@@ -21,6 +22,11 @@ namespace Bentendo.TTS
         public void Setup(Entity e)
         {
             BodyImage.sprite = e.Source.GetSprite();
+        }
+
+        public void SetTarget(Transform target)
+        {
+            this.target = target;
         }
 
         //we could support animations and programattic stuff by bringing this logic out
@@ -47,6 +53,18 @@ namespace Bentendo.TTS
             var go = GameObject.Instantiate(HitEffect);
             go.transform.position = BodyImage.transform.position;
             Destroy(go, .5f);
+        }
+
+        public void StrikeTarget(float duration)
+        {
+            StartCoroutine(StrikeReturn(duration));
+        }
+
+        IEnumerator StrikeReturn(float duration)
+        {
+            yield return Lerper.LerpTo(target.position, duration);
+            ApplyAction();
+            yield return Lerper.LerpTo(Vector3.zero, duration*.3f);
         }
 	}
 }

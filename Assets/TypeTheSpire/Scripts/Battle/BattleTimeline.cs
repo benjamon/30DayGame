@@ -26,7 +26,7 @@ namespace Bentendo.TTS
 			TicksPerSecond = ticksPerSecond;
         }
 
-		public void EnqueueAction(Func<IEnumerator> func, int ticksUntil)
+		public BattleAction EnqueueAction(Func<IEnumerator> func, int ticksUntil)
         {
 			var ba = new BattleAction(CurrentTick + ticksUntil, func);
 			if (ticksUntil <= 0)
@@ -41,6 +41,7 @@ namespace Bentendo.TTS
 				futureActions.Enqueue(ba);
 				OnActionAdded.Invoke(ba);
 			}
+			return ba;
         }
 
 		public void AddTime(float delta)
@@ -81,34 +82,34 @@ namespace Bentendo.TTS
         }
 
 		public class BattleActionEvent : UnityEvent<BattleAction> { }
+    }
 
-		public class BattleAction
+    public class BattleAction
+    {
+        int _tick;
+        public int tick
         {
-			int _tick;
-			public int tick
+            get => _tick;
+            set
             {
-				get => _tick;
-				set
-                {
-					_tick = value;
-					OnTimeChanged.Invoke(_tick);
-                }
+                _tick = value;
+                OnTimeChanged.Invoke(_tick);
             }
-
-            public Func<IEnumerator> func;
-			public UnityEvent OnImminent = new UnityEvent();
-			public UnityEvent OnRemoved = new UnityEvent();
-			public UnityEvent OnCastStart = new UnityEvent();
-			public UnityEvent OnCastComplete = new UnityEvent();
-			public TimeChangeEvent OnTimeChanged = new TimeChangeEvent();
-
-			public BattleAction(int time, Func<IEnumerator> func)
-            {
-				this._tick = time;
-				this.func = func;
-            }
-
-			public class TimeChangeEvent : UnityEvent<int> { }
         }
-	}
+
+        public Func<IEnumerator> func;
+        public UnityEvent OnImminent = new UnityEvent();
+        public UnityEvent OnRemoved = new UnityEvent();
+        public UnityEvent OnCastStart = new UnityEvent();
+        public UnityEvent OnCastComplete = new UnityEvent();
+        public TimeChangeEvent OnTimeChanged = new TimeChangeEvent();
+
+        public BattleAction(int time, Func<IEnumerator> func)
+        {
+            this._tick = time;
+            this.func = func;
+        }
+
+        public class TimeChangeEvent : UnityEvent<int> { }
+    }
 }

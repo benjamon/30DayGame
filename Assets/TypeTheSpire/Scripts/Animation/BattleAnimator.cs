@@ -54,7 +54,7 @@ namespace Bentendo.TTS
 			//we'll want to move this to either some meta animation or timeline scriptable object to play
 			//animations involving environmental changes, multiple entities screenshake etc
 			var id = (string.IsNullOrWhiteSpace(action.animationId)) ? DefaultAnimation : action.animationId;
-			yield return caster.Body.PlayAnimation(DefaultAnimation, apply);
+			yield return caster.Body.PlayAnimation(id, apply);
 		}
 
         private void OnDrawGizmosSelected()
