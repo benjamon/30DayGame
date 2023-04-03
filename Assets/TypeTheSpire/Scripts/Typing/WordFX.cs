@@ -41,6 +41,7 @@ namespace Bentendo.TTS
             {
                 charTMP.text = word[n - 1].ToString();
                 charTMP.fontSize = WordText.fontSize;
+                charTMP.font = WordText.font;
                 AlignWords(WordText, n - 1, charTMP, 0);
             }
             GameObject.Destroy(go, .125f);
@@ -87,6 +88,7 @@ namespace Bentendo.TTS
                 return;
             var aci = a.textInfo.characterInfo[an-1];
             var bci = b.textInfo.characterInfo[bn];
+
             Vector2 worldDiff = new Vector2((b.transform.TransformPoint(Vector3.right * bci.xAdvance) - a.transform.TransformPoint(Vector3.right * aci.xAdvance)).x, 0f);
             b.transform.position -= new Vector3(worldDiff.x, 0f, 0f);
         }
