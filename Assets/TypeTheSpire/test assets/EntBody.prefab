@@ -148,8 +148,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BodyImage: {fileID: 7568213205756344949}
-  ProceduralRoot: {fileID: 7568213207471162194}
-  HitEffect: {fileID: 5396084738697552018, guid: 1c05328cf9688b64aa2c2470759fa334, type: 3}
+  HitEffect: {fileID: 1136226937204801886, guid: f0bc4f7e31aca96479685e874629649d, type: 3}
+  Lerper: {fileID: 519906659207791051}
 --- !u!1 &7568213207215101876
 GameObject:
   m_ObjectHideFlags: 0

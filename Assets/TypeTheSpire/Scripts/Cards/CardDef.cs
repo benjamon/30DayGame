@@ -13,6 +13,7 @@ namespace Bentendo.TTS
 		[TextArea(2,4)]
 		public string description;
 		public WordCost cost;
+		public GameObject hitEffect;
 		public CardAction[] actions;
 
         internal IEnumerator Cast(BattleContext context, Entity self, Card card)
@@ -52,7 +53,7 @@ namespace Bentendo.TTS
 				castLock.applied = true;
 				Apply(context, caster, card);
 			};
-			yield return context.battleAnim.Animate(this, caster, action);
+			yield return context.battleAnim.Animate(this, caster, action, context.rightEnts[0].Body.transform, card.def.hitEffect);
 			if (!castLock.applied)
 				action.Invoke();
 		}

@@ -47,14 +47,14 @@ namespace Bentendo.TTS
 			}
 		}
 
-		public IEnumerator Animate(CardAction action, Entity caster, Action apply)
+		public IEnumerator Animate(CardAction action, Entity caster, Action apply, Transform target, GameObject hitEffect)
         {
 			if (action.doNotAnimate)
 				yield break;
 			//we'll want to move this to either some meta animation or timeline scriptable object to play
 			//animations involving environmental changes, multiple entities screenshake etc
 			var id = (string.IsNullOrWhiteSpace(action.animationId)) ? DefaultAnimation : action.animationId;
-			yield return caster.Body.PlayAnimation(id, apply);
+			yield return caster.Body.PlayAnimation(id, apply, target, hitEffect);
 		}
 
         private void OnDrawGizmosSelected()

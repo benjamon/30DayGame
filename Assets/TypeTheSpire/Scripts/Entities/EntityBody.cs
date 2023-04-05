@@ -13,6 +13,7 @@ namespace Bentendo.TTS
 		Animation anim;
         Action nextAction;
         Transform target;
+        GameObject currentEffect;
 
         private void Awake()
         {
@@ -24,14 +25,11 @@ namespace Bentendo.TTS
             BodyImage.sprite = e.Source.GetSprite();
         }
 
-        public void SetTarget(Transform target)
+        //we could support animations and programattic stuff by bringing this logic out
+        public IEnumerator PlayAnimation(string animId, Action action, Transform target, GameObject hitEffect)
         {
             this.target = target;
-        }
-
-        //we could support animations and programattic stuff by bringing this logic out
-        public IEnumerator PlayAnimation(string animId, Action action)
-        {
+            this.currentEffect = hitEffect;
             var clip = anim.GetClip(animId);
             nextAction = action;
             if (clip != null)
@@ -50,7 +48,7 @@ namespace Bentendo.TTS
             if (nextAction != null)
                 nextAction.Invoke();
             nextAction = null;
-            var go = GameObject.Instantiate(HitEffect);
+            var go = GameObject.Instantiate((currentEffect == null) ? HitEffect : currentEffect);
             go.transform.position = BodyImage.transform.position;
             Destroy(go, .5f);
         }
@@ -62,9 +60,9 @@ namespace Bentendo.TTS
 
         IEnumerator StrikeReturn(float duration)
         {
-            yield return Lerper.LerpTo(target.position, duration);
+            yield return Lerper.LerpTo(target.position, duration*.7f);
             ApplyAction();
-            yield return Lerper.LerpTo(Vector3.zero, duration*.3f);
+            yield return Lerper.LerpTo(transform.parent.position, duration*.3f);
         }
 	}
 }

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 28e13e3e82a0891409ed074518dc794f
+guid: 303e82349b1b0794b9ecb4179fc8c99e
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 64
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -129,64 +129,64 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: scratchy_textbox_0
+      name: timelineLineThin_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 485
-        height: 125
+        width: 300
+        height: 25
       alignment: 0
       pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 32, y: 0, z: 32, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5ad328420dca4e545bb2f07f1041e458
-      internalID: -1829734487
+      spriteID: eedb1f261ecadd348a67e36e9ea69109
+      internalID: -70274770
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scratchy_textbox_1
+      name: timelineLineThin_1
       rect:
         serializedVersion: 2
-        x: 485
+        x: 300
         y: 0
-        width: 485
-        height: 125
+        width: 300
+        height: 25
       alignment: 0
       pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 32, y: 0, z: 32, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d5cf3d8abf667024abfb8b8bf2ff056c
-      internalID: -1195196721
+      spriteID: 621e649da396708419874c6faaf0b1ff
+      internalID: -848552325
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scratchy_textbox_2
+      name: timelineLineThin_2
       rect:
         serializedVersion: 2
-        x: 970
+        x: 600
         y: 0
-        width: 485
-        height: 125
+        width: 300
+        height: 25
       alignment: 0
       pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 32, y: 0, z: 32, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 48b7ad8ddf9119e4a9897e31161f01db
-      internalID: 2113472258
+      spriteID: e4a7d6d3af05cac44b396d2909de1d1b
+      internalID: -1253063528
       vertices: []
       indices: 
       edges: []
@@ -202,9 +202,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      scratchy_textbox_0: -1829734487
-      scratchy_textbox_1: -1195196721
-      scratchy_textbox_2: 2113472258
+      timelineLineThin_0: -70274770
+      timelineLineThin_1: -848552325
+      timelineLineThin_2: -1253063528
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

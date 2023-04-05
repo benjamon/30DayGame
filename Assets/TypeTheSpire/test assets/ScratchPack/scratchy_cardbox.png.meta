@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 28e13e3e82a0891409ed074518dc794f
+guid: dfe6e4929b3bcb84db3dabe527a22a5a
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 64
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -129,13 +129,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: scratchy_textbox_0
+      name: scratchy_cardbox_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 485
-        height: 125
+        width: 112
+        height: 56
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,20 +143,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5ad328420dca4e545bb2f07f1041e458
-      internalID: -1829734487
+      spriteID: 9ea1944f5ff11e6478721494d2f4a7d2
+      internalID: -1433944362
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scratchy_textbox_1
+      name: scratchy_cardbox_1
       rect:
         serializedVersion: 2
-        x: 485
+        x: 112
         y: 0
-        width: 485
-        height: 125
+        width: 112
+        height: 56
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -164,20 +164,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d5cf3d8abf667024abfb8b8bf2ff056c
-      internalID: -1195196721
+      spriteID: f2b400bcafa413245875edfb4084fe7d
+      internalID: -1599667388
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scratchy_textbox_2
+      name: scratchy_cardbox_2
       rect:
         serializedVersion: 2
-        x: 970
+        x: 224
         y: 0
-        width: 485
-        height: 125
+        width: 112
+        height: 56
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -185,8 +185,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 48b7ad8ddf9119e4a9897e31161f01db
-      internalID: 2113472258
+      spriteID: 4cb01c61455beba4c9fa4c04edb64851
+      internalID: 1615347794
       vertices: []
       indices: 
       edges: []
@@ -202,9 +202,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      scratchy_textbox_0: -1829734487
-      scratchy_textbox_1: -1195196721
-      scratchy_textbox_2: 2113472258
+      scratchy_cardbox_2: 1615347794
+      scratchy_cardbox_0: -1433944362
+      scratchy_cardbox_1: -1599667388
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
