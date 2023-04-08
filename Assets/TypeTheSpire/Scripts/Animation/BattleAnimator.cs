@@ -30,6 +30,7 @@ namespace Bentendo.TTS
 					go.transform.localPosition = placementOffset * flip * ((i+1) / 2);
 				var ebod = go.GetComponent<EntityBody>();
 				ent.SetBody(ebod);
+				go.GetComponent<EntityUI>().Setup(ent);
 				flip *= -1;
 			}
 
@@ -43,6 +44,7 @@ namespace Bentendo.TTS
 					go.transform.localPosition = flippedOffset * flip * ((i + 1) / 2);
 				var ebod = go.GetComponent<EntityBody>();
 				ent.SetBody(ebod);
+				go.GetComponent<EntityUI>().Setup(ent);
 				flip *= -1;
 			}
 		}

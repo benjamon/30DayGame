@@ -23,7 +23,7 @@ namespace Bentendo
 
         [NonSerialized]
         public List<IAnimRunnerTarget> Sprites = new List<IAnimRunnerTarget>();
-        public static float FPS = 4f;
+        public static float FPS = 3.5f;
         int lastStep = 0;
         void Update()
         {

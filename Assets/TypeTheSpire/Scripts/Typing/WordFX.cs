@@ -20,7 +20,7 @@ namespace Bentendo.TTS
         public void SubscribeWordTarget(WordTarget target)
         {
             word = target.word;
-            target.completion.action = UpdateText;
+            target.completion.onChanged = UpdateText;
             WordText.text = WrapColor(word, inactiveColor);
         }
 

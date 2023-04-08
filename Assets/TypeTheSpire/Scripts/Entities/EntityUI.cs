@@ -8,23 +8,31 @@ namespace Bentendo.TTS
 	public class EntityUI : MonoBehaviour
 	{
 		public TMP_Text HP_Text;
-		public TMP_Text MaxHP_Text;
+		int lastHP;
+		int lastMaxHP;
 		public void Setup(Entity e)
         {
-			e.HP.action = UpdateHP;
-			e.MaxHP.action = UpdateMaxHP;
+			e.HP.onChanged.AddListener(UpdateHP);
+			e.MaxHP.onChanged.AddListener(UpdateMaxHP);
 			UpdateHP(e.HP);
 			UpdateMaxHP(e.MaxHP);
         }
 
 		public void UpdateHP(int hp)
         {
-			HP_Text.text = hp.ToString();
-        }
+			lastHP = hp;
+			UpdateHealthText();
+		}
 
 		public void UpdateMaxHP(int maxHP)
         {
-			MaxHP_Text.text = maxHP.ToString();
+			lastMaxHP = maxHP;
+			UpdateHealthText();
+        }
+
+		public void UpdateHealthText()
+        {
+			HP_Text.text = $"hp {lastHP} max {lastMaxHP}";
         }
 	}
 }

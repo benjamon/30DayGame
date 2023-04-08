@@ -1,19 +1,21 @@
+using UnityEngine.Events;
+
 namespace Bentendo.TTS
 {
     public class Entity
 	{
 		public IEntityProvider Source { get; private set; }
-		public Actvar<int> MaxHP;
-		public Actvar<int> HP;
+		public Subvar<int> MaxHP;
+		public Subvar<int> HP;
 		public Deck<Card> Deck { get; private set; }
 		public EntityBody Body { get; private set; }
-		//public List<StatusEffect> { etc }
+		public UnityEvent OnDeceased = new UnityEvent();
 
 		public Entity(IEntityProvider provider)
         {
 			this.Source = provider;
-			MaxHP = new Actvar<int>(provider.GetMaxHP());
-			HP = new Actvar<int>(provider.GetHP());
+			MaxHP = new Subvar<int>(provider.GetMaxHP());
+			HP = new Subvar<int>(provider.GetHP());
 			Deck = new Deck<Card>(provider.GetCards());
         }
 
@@ -22,5 +24,24 @@ namespace Bentendo.TTS
 			this.Body = body;
 			body.Setup(this);
         }
+
+		public void ApplyDamage(Damage dmg)
+        {
+			HP.crnt -= dmg.amount;
+			if (HP.crnt < 0)
+				OnDeceased.Invoke();
+        }
 	}
+
+	public class Damage
+	{
+		public Entity source;
+		public int amount;
+
+		public Damage(Entity e, int amt)
+        {
+			source = e;
+			amount = amt;
+        }
+    }
 }
