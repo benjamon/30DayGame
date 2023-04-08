@@ -121,7 +121,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0.00080013275, y: 0.282}
-  m_SizeDelta: {x: 13.6978, y: 3.2786}
+  m_SizeDelta: {x: 13.3292, y: 3.2786}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &1199383729052694209
 MeshRenderer:
@@ -212,8 +212,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 31
-  m_fontSizeBase: 31
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -325,7 +325,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Icon: {fileID: 1199383728873399926}
   Title: {fileID: 1199383729560409060}
-  Word: {fileID: 1559868388391626060}
+  FX: {fileID: 1559868388391626060}
 --- !u!114 &1559868388391626060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -344,6 +344,12 @@ MonoBehaviour:
   lastColor: {r: 1, g: 0.6443304, b: 0, a: 1}
   notDoneColor: {r: 0.5, g: 0.21791041, b: 0.011792451, a: 1}
   inactiveColor: {r: 0, g: 0, b: 0, a: 1}
+  TypoSpring:
+    k: 500
+    damp: 0.88
+    mass: 1
+  TypoPosition: 0.2
+  TypoVelocity: 3
 --- !u!1 &1199383729560409062
 GameObject:
   m_ObjectHideFlags: 0
@@ -380,8 +386,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.029600114, y: 0.8483}
-  m_SizeDelta: {x: 13.2156, y: 1.9291}
+  m_AnchoredPosition: {x: 0.0609, y: 0.8483}
+  m_SizeDelta: {x: 12.9315, y: 1.9291}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &1199383729560409059
 MeshRenderer:
@@ -561,7 +567,7 @@ Transform:
   m_GameObject: {fileID: 2088186534185127536}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.46, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.9305041, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1199383729443901693}

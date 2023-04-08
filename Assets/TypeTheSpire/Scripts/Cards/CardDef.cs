@@ -16,10 +16,10 @@ namespace Bentendo.TTS
 		public GameObject hitEffect;
 		public CardAction[] actions;
 
-        internal IEnumerator Cast(BattleContext context, Entity self, Card card)
+        internal IEnumerator Cast(BattleContext context, Entity self, CastInfo info)
         {
 			for (int i = 0; i < actions.Length; i++)
-				yield return context.battleAnim.StartCoroutine(actions[i].Cast(context, self, card));
+				yield return context.battleAnim.StartCoroutine(actions[i].Cast(context, self, info.card));
         }
     }
 
@@ -77,4 +77,12 @@ namespace Bentendo.TTS
 		public int maxLength = 0;
 		public int reps = 1;
 	}
+
+	public class CastInfo
+	{
+		public Card card;
+		public string word;
+		public float timeToType;
+		public int typos;
+    }
 }

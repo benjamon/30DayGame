@@ -6,9 +6,9 @@ namespace Bentendo
 {
     public class TouchScreenAnchor : MonoBehaviour
     {
+        public float ReferenceWidth;
         public bool AnchorLeft;
         public bool AboveText;
-        public Transform ScaleToFillWidthMeasure;
 
         Camera cam;
         private void Awake()
@@ -18,13 +18,21 @@ namespace Bentendo
 
         private void Start()
         {
-            if (!ScaleToFillWidthMeasure)
-                return;
             transform.position = (Vector2)cam.ScreenToWorldPoint(new Vector2(((AnchorLeft) ? 0f : cam.pixelWidth), 0f));
-            float width = ScaleToFillWidthMeasure.position.x - transform.position.x;
             float idealWidth = cam.ScreenToWorldPoint(new Vector2((!AnchorLeft) ? 0f : cam.pixelWidth, 0f)).x - transform.position.x;
-            transform.localScale = Vector3.one * (idealWidth / width);
+            transform.localScale = Vector3.one * (idealWidth / ReferenceWidth);
+            float testScale = Random.Range(.2f, .5f);
+            Debug.Log("test scale: " + testScale);
+            transform.position = (Vector2)cam.ScreenToWorldPoint(new Vector2(((AnchorLeft) ? 0f : cam.pixelWidth), testScale * cam.pixelHeight));
         }
+
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireCube(transform.position + ReferenceWidth * Vector3.right * .5f * transform.localScale.x, new Vector3(ReferenceWidth * transform.localScale.x, 0f, 0f));
+        }
+
+#if !UNITY_EDITOR
         float lastHeight = 0f;
         void LateUpdate()
         {
@@ -32,10 +40,10 @@ namespace Bentendo
             if (height != lastHeight)
             {
                 lastHeight = height;
-                float scaled = height / Screen.currentResolution.height;
-                transform.position = (Vector2)cam.ScreenToWorldPoint(new Vector2(((AnchorLeft) ? 0f : cam.pixelWidth), scaled * cam.pixelHeight));
+                float scale = height / Screen.currentResolution.height;
+                transform.position = (Vector2)cam.ScreenToWorldPoint(new Vector2(((AnchorLeft) ? 0f : cam.pixelWidth), scale * cam.pixelHeight));
             }
-        }
+    }
 
         public static int GetKeyboardHeight(bool includeInput)
         {
@@ -73,5 +81,6 @@ namespace Bentendo
                 return height >= Display.main.systemHeight ? 0 : height;
             }
         }
+#endif
     }
 }

@@ -260,14 +260,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 267493373}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.7199998, z: 0}
+  m_LocalPosition: {x: 5, y: 6.97, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 857430309}
   - {fileID: 1716119580}
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_Father: {fileID: 568321226}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &267493376
 MonoBehaviour:
@@ -323,7 +323,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &530782381
 GameObject:
@@ -367,7 +367,7 @@ GameObject:
   - component: {fileID: 568321226}
   - component: {fileID: 568321225}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: TouchScreenAnchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -385,9 +385,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0362f895b9eb3694785d5453f682f0db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ReferenceWidth: 10
   AnchorLeft: 1
   AboveText: 0
-  ScaleToFillWidthMeasure: {fileID: 1117275864}
 --- !u!4 &568321226
 Transform:
   m_ObjectHideFlags: 0
@@ -396,13 +396,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 568321224}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.26, y: 0, z: 0}
+  m_LocalPosition: {x: -5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1188971525}
+  - {fileID: 267493375}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &618522585
 GameObject:
@@ -596,37 +597,6 @@ Transform:
   m_Father: {fileID: 1188971525}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1117275863
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1117275864}
-  m_Layer: 0
-  m_Name: scaleAnchor
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1117275864
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1117275863}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.252, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1188971525}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1188971523
 GameObject:
   m_ObjectHideFlags: 0
@@ -652,7 +622,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1188971523}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.26, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -664,7 +634,6 @@ Transform:
   - {fileID: 530782382}
   - {fileID: 886203277}
   - {fileID: 1649393995}
-  - {fileID: 1117275864}
   m_Father: {fileID: 568321226}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -684,13 +653,12 @@ MonoBehaviour:
   BattleInput: {fileID: 461904799}
   DrawPile: {fileID: 886203278}
   DiscardPile: {fileID: 1649393996}
-  CardSlots:
-  - {fileID: 1378499494}
-  - {fileID: 68079758}
-  - {fileID: 66049582}
-  - {fileID: 1032895668}
-  - {fileID: 1808259763}
-  - {fileID: 530782382}
+  CardGrid:
+    r: 2
+    c: 3
+    w: 9.8
+    h: 3.5
+  AnchorParent: {fileID: 568321225}
 --- !u!1 &1378499493
 GameObject:
   m_ObjectHideFlags: 0
@@ -1074,7 +1042,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2441813607269582099
 PrefabInstance:

@@ -8,11 +8,12 @@ namespace Bentendo
 	public class AnimatedSpriteRunner : MonoBehaviour
 	{
         static AnimatedSpriteRunner instance;
+        static bool isApplicationClosing;
         public static AnimatedSpriteRunner Instance
         {
             get
             {
-                if (instance == null)
+                if (instance == null && !isApplicationClosing)
                 {
                     var go = new GameObject("AnimatedSpriteRunner");
                     instance = go.AddComponent<AnimatedSpriteRunner>();
@@ -37,6 +38,11 @@ namespace Bentendo
                     sprite.UpdateSprite(step);
                 }
             }
+        }
+
+        private void OnApplicationQuit()
+        {
+            isApplicationClosing = true;
         }
     }
 }

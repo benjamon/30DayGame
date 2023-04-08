@@ -6,7 +6,7 @@ namespace Bentendo.TTS
 {
 	public interface IEntityProvider
 	{
-		Entity GetEntity();
+		Entity GetEntity(BattleRunner runner);
 		int GetHP();
 		int GetMaxHP();
 		List<Card> GetCards();

@@ -10,13 +10,14 @@ public class LoadingScreen : MonoBehaviour
 
     private void Start()
     {
+        Application.targetFrameRate = 60;
         StartCoroutine(LoadNext());
     }
 
     IEnumerator LoadNext()
     {
         yield return WordProvider.InitSingleton("google10000.txt", 12, 2);
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(.2f);
         SceneManager.LoadScene(nextScene, LoadSceneMode.Single);
     }
 }

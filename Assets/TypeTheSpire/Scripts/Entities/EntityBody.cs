@@ -52,17 +52,5 @@ namespace Bentendo.TTS
             go.transform.position = BodyImage.transform.position;
             Destroy(go, .5f);
         }
-
-        public void StrikeTarget(float duration)
-        {
-            StartCoroutine(StrikeReturn(duration));
-        }
-
-        IEnumerator StrikeReturn(float duration)
-        {
-            yield return Lerper.LerpTo(target.position, duration*.7f);
-            ApplyAction();
-            yield return Lerper.LerpTo(transform.parent.position, duration*.3f);
-        }
 	}
 }

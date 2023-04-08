@@ -7,11 +7,11 @@ namespace Bentendo.TTS
 	{
 		public EntityDef[] Enemies;
 
-		public Entity[] GetEntities()
+		public Entity[] GetEntities(BattleRunner runner)
         {
 			var res = new Entity[Enemies.Length];
 			for (int i = 0; i < Enemies.Length; i++)
-				res[i] = new Entity(Enemies[i]);
+				res[i] = new Entity(Enemies[i], runner);
 			return res;
         }
 	}

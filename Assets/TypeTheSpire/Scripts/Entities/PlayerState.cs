@@ -30,7 +30,7 @@ namespace Bentendo.TTS
             return _cards;
         }
 
-        public Entity GetEntity() => new Entity(this);
+        public Entity GetEntity(BattleRunner runner) => new Entity(this, runner);
 
         public int GetHP() => _hp;
 

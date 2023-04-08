@@ -10,10 +10,12 @@ namespace Bentendo.TTS
 		public Deck<Card> Deck { get; private set; }
 		public EntityBody Body { get; private set; }
 		public UnityEvent OnDeceased = new UnityEvent();
+		BattleRunner runner;
 
-		public Entity(IEntityProvider provider)
+		public Entity(IEntityProvider provider, BattleRunner runner)
         {
 			this.Source = provider;
+			this.runner = runner;
 			MaxHP = new Subvar<int>(provider.GetMaxHP());
 			HP = new Subvar<int>(provider.GetHP());
 			Deck = new Deck<Card>(provider.GetCards());
@@ -30,6 +32,11 @@ namespace Bentendo.TTS
 			HP.crnt -= dmg.amount;
 			if (HP.crnt < 0)
 				OnDeceased.Invoke();
+        }
+
+		public void PlayCard(CastInfo info)
+        {
+			runner.PlayCardImminent(this, info);
         }
 	}
 

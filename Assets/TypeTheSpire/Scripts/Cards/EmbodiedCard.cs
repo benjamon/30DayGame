@@ -10,34 +10,51 @@ namespace Bentendo.TTS
 	{
 		public SpriteRenderer Icon;
 		public TMP_Text Title;
-		public WordFX Word;
+		public WordFX FX;
 
 		WordTarget target;
-		Action castAction;
-		
-		public void Setup(Card card, Action castAction)
+		Action<CastInfo> castAction;
+		CastInfo info;
+		Card card;
+
+		public void Setup(Card card, Action<CastInfo> castAction)
         {
+			this.card = card;
             this.castAction = castAction;
 			Title.text = card.def.title;
 			Icon.sprite = card.def.Icon;
         }
 
-		public void ShowWord(string word)
+		public void SetWord(string word)
         {
 			target = new WordTarget(word);
+			info = new CastInfo
+			{
+				card = card,
+				word = word,
+			};
             target.onCompleted += OnComplete;
-			Word.SubscribeWordTarget(target);
+			FX.SubscribeWordTarget(target);
         }
 
 		public void FocusCard(KInput input, char c)
 		{
+			info.timeToType = Time.time;
 			target.ProcessPress(c);
+			target.OnTypo = MakeTypo;
 			input.SetProcessAction(target.ProcessPress);
+		}
+
+		public void MakeTypo()
+        {
+			info.typos++;
+			FX.ProcessTypo();
 		}
 
 		public void OnComplete()
 		{
-			castAction.Invoke();
+			info.timeToType = Time.time - info.timeToType;
+			castAction.Invoke(info);
         }
 	}
 }

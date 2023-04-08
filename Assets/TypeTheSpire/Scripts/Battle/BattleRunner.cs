@@ -16,10 +16,10 @@ namespace Bentendo.TTS
         bool isSetup;
         public bool isRunning { get; private set; }
 
-        public void SetupBattle(IEntityProvider player, BattleEventDef battle)
+        public void SetupBattle(IEntityProvider player, BattleEventDef runner)
         {
-            var p1 = player.GetEntity();
-            battleContext = new BattleContext(battleAnims, this, new Entity[] { p1 }, battle.GetEntities());
+            var p1 = player.GetEntity(this);
+            battleContext = new BattleContext(battleAnims, this, new Entity[] { p1 }, runner.GetEntities(this));
             timeline = new BattleTimeline(this, TICKS_PER_SECOND);
             timelineUI.Setup(timeline);
             cardManager.Setup(battleContext, p1);
@@ -34,14 +34,14 @@ namespace Bentendo.TTS
             timeline.AddTime(Time.deltaTime);
         }
 
-        public BattleAction PlayCard(Entity caster, Card card, int timeUntil)
+        public BattleAction PlayCard(Entity caster, CastInfo info, int timeUntil)
         {
-			return timeline.EnqueueAction(() => card.def.Cast(battleContext, caster, card), timeUntil);
+			return timeline.EnqueueAction(() => info.card.def.Cast(battleContext, caster, info), timeUntil);
 		}
 
-        public void PlayCardImminent(Entity caster, Card card)
+        public void PlayCardImminent(Entity caster, CastInfo info)
         {
-            PlayCard(caster, card, 0);
+            PlayCard(caster, info, 0);
         }
 	}
 }

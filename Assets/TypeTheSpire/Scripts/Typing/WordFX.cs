@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using RDG;
 using static UnityEngine.GraphicsBuffer;
 
 namespace Bentendo.TTS
@@ -15,13 +16,18 @@ namespace Bentendo.TTS
         public Color lastColor;
         public Color notDoneColor;
         public Color inactiveColor;
+        public PhysUtils.bSpring TypoSpring;
+        public float TypoPosition, TypoVelocity;
+        Vector3 targetStartPos;
         string word;
 
         public void SubscribeWordTarget(WordTarget target)
         {
             word = target.word;
-            target.completion.onChanged = UpdateText;
+            target.completion.onChanged = ProcessTypedChar;
+            target.OnTypo = ProcessTypo;
             WordText.text = WrapColor(word, inactiveColor);
+            targetStartPos = WordText.transform.localPosition;
         }
 
         public void Setup(string word)
@@ -30,7 +36,7 @@ namespace Bentendo.TTS
             WordText.text = WrapColor(word, inactiveColor);
         }
 
-        public void UpdateText(int n)
+        public void ProcessTypedChar(int n)
         {
             string str;
             str = WrapColor(word.Substring(0, n), doneColor);
@@ -50,6 +56,29 @@ namespace Bentendo.TTS
             if (n <= word.Length - 2)
                 str += WrapColor(word.Substring(n + 1, word.Length - n - 1), notDoneColor);
             WordText.text = str;
+        }
+
+        Coroutine LastShake;
+        public void ProcessTypo()
+        {
+            if (LastShake != null)
+                StopCoroutine(LastShake);
+            LastShake = StartCoroutine(AnimateTypo());
+        }
+
+        IEnumerator AnimateTypo()
+        {
+            TypoSpring.position = TypoPosition;
+            TypoSpring.velocity = TypoVelocity;
+            var dir = (new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized);
+            Vibration.Vibrate(100, 155, true);
+            while (Mathf.Abs(TypoSpring.velocity) > .01f || Mathf.Abs(TypoPosition) > .01f)
+            {
+                WordText.transform.localPosition = targetStartPos + dir * TypoSpring.position;
+                TypoSpring.Update(Time.deltaTime);
+                yield return null;
+            }
+            WordText.transform.localPosition = targetStartPos;
         }
 
         public string WrapColor(string s, Color c)
