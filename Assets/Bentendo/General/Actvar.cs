@@ -3,7 +3,7 @@ using UnityEngine.Events;
 
 namespace Bentendo
 {
-	public class Actvar<T>
+	public class Actvar<T> where T : IEquatable<T>
 	{
 		public Action<T> onChanged;
 		private T _crnt;
@@ -12,9 +12,12 @@ namespace Bentendo
 			get => _crnt;
 			set
             {
-				_crnt = value;
-				onChanged?.Invoke(_crnt);
-            }
+				if (!value.Equals(_crnt))
+				{
+					_crnt = value;
+					onChanged?.Invoke(_crnt);
+				}
+			}
         }
 		public Actvar(T val)
         {
@@ -33,8 +36,11 @@ namespace Bentendo
 			get => _crnt;
 			set
 			{
-				_crnt = value;
-				onChanged?.Invoke(_crnt);
+				if (!value.Equals(_crnt))
+				{
+					_crnt = value;
+					onChanged?.Invoke(_crnt);
+				}
 			}
 		}
 		public Subvar(T val)
