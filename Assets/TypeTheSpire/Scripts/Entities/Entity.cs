@@ -1,3 +1,4 @@
+using System;
 using UnityEngine.Events;
 
 namespace Bentendo.TTS
@@ -10,12 +11,14 @@ namespace Bentendo.TTS
 		public Deck<Card> Deck { get; private set; }
 		public EntityBody Body { get; private set; }
 		public UnityEvent OnDeceased = new UnityEvent();
+		public bool isLeft { get; private set; }
 		BattleRunner runner;
 
-		public Entity(IEntityProvider provider, BattleRunner runner)
+		public Entity(IEntityProvider provider, BattleRunner runner, bool isLeft)
         {
 			this.Source = provider;
 			this.runner = runner;
+			this.isLeft = isLeft;
 			MaxHP = new Subvar<int>(provider.GetMaxHP());
 			HP = new Subvar<int>(provider.GetHP());
 			Deck = new Deck<Card>(provider.GetCards());
@@ -29,16 +32,22 @@ namespace Bentendo.TTS
 
 		public void ApplyDamage(Damage dmg)
         {
-			HP.crnt -= dmg.amount;
-			if (HP.crnt < 0)
+			HP.Value -= dmg.amount;
+			if (HP.Value < 0)
 				OnDeceased.Invoke();
         }
 
 		public void PlayCard(CastInfo info)
         {
-			runner.PlayCardImminent(this, info);
+			info.source = this;
+			runner.PlayCardImminent(info);
         }
-	}
+
+        internal void AddHealth(int amount)
+        {
+			HP.Value = Math.Min(HP.Value + amount, MaxHP.Value);
+        }
+    }
 
 	public class Damage
 	{

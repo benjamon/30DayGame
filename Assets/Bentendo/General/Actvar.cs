@@ -31,7 +31,7 @@ namespace Bentendo
     {
 		public SubvarEvent<T> onChanged = new SubvarEvent<T>();
 		private T _crnt;
-		public T crnt
+		public T Value
 		{
 			get => _crnt;
 			set
@@ -48,6 +48,6 @@ namespace Bentendo
 			_crnt = val;
 		}
 		public class SubvarEvent<G> : UnityEvent<G> { }
-		public static implicit operator T(Subvar<T> s) => s.crnt;
-	}
+		public static implicit operator T(Subvar<T> s) => s.Value;
+    }
 }

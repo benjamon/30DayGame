@@ -7,6 +7,7 @@ namespace Bentendo
     public class TouchScreenAnchor : MonoBehaviour
     {
         public float ReferenceWidth;
+        public float ReferenceHeight;
         public bool AnchorLeft;
         public bool AboveText;
 
@@ -26,10 +27,10 @@ namespace Bentendo
             transform.position = (Vector2)cam.ScreenToWorldPoint(new Vector2(((AnchorLeft) ? 0f : cam.pixelWidth), testScale * cam.pixelHeight));
         }
 
-        private void OnDrawGizmosSelected()
+        private void OnDrawGizmos()
         {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawWireCube(transform.position + ReferenceWidth * Vector3.right * .5f * transform.localScale.x, new Vector3(ReferenceWidth * transform.localScale.x, 0f, 0f));
+            Gizmos.DrawWireCube(transform.position + (ReferenceWidth * Vector3.right + Vector3.up * ReferenceHeight) * .5f, new Vector3(ReferenceWidth, ReferenceHeight, 0f));
         }
 
 #if !UNITY_EDITOR

@@ -8,6 +8,7 @@ namespace Bentendo.TTS
 	public class EntityUI : MonoBehaviour
 	{
 		public TMP_Text HP_Text;
+		public Color AtMax, BelowMax;
 		int lastHP;
 		int lastMaxHP;
 		public void Setup(Entity e)
@@ -16,6 +17,12 @@ namespace Bentendo.TTS
 			e.MaxHP.onChanged.AddListener(UpdateMaxHP);
 			UpdateHP(e.HP);
 			UpdateMaxHP(e.MaxHP);
+			if (HP_Text.transform.lossyScale.x <= 0f)
+            {
+				var scale = HP_Text.transform.localScale;
+				scale.x = -scale.x;
+				HP_Text.transform.localScale = scale;
+            }
         }
 
 		public void UpdateHP(int hp)
@@ -32,7 +39,8 @@ namespace Bentendo.TTS
 
 		public void UpdateHealthText()
         {
-			HP_Text.text = $"hp {lastHP} max {lastMaxHP}";
+			HP_Text.color = (lastHP != lastMaxHP) ? BelowMax : AtMax;
+			HP_Text.text = lastHP.ToString();
         }
 	}
 }

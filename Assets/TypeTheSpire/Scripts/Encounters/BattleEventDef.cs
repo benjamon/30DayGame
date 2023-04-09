@@ -11,7 +11,7 @@ namespace Bentendo.TTS
         {
 			var res = new Entity[Enemies.Length];
 			for (int i = 0; i < Enemies.Length; i++)
-				res[i] = new Entity(Enemies[i], runner);
+				res[i] = Enemies[i].GetEntity(runner);
 			return res;
         }
 	}

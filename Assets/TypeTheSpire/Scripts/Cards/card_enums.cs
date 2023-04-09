@@ -7,11 +7,7 @@ namespace Bentendo.TTS
     public enum ActionTarget
     {
         SELF,
-        NEAREST,
-        RANDOM,
-        ALL,
-        ALL_ENEMIES,
-        ALL_ALLIED,
+        ENEMY, // nearest
     }
 
     public enum ActionType

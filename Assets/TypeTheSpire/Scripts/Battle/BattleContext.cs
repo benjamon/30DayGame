@@ -9,13 +9,13 @@ namespace Bentendo.TTS
 	{
 		public BattleRunner battleRunner { get; private set; }
 		public BattleAnimator battleAnim { get; private set; }
-		public Entity[] leftEnts;
-		public Entity[] rightEnts;
+		public List<Entity> leftEnts;
+		public List<Entity> rightEnts;
 
 		public BattleContext(BattleAnimator anim, BattleRunner battleRunner, Entity[] leftEnts, Entity[] rightEnts)
         {
-			this.leftEnts = leftEnts;
-			this.rightEnts = rightEnts;
+			this.leftEnts = new List<Entity>(leftEnts);
+			this.rightEnts = new List<Entity>(rightEnts);
 			this.battleAnim = anim;
 			this.battleRunner = battleRunner;
 			anim.Setup(this);

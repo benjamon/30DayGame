@@ -32,10 +32,10 @@ public class VarTests
         Subvar<int> value = new Subvar<int>(crnt);
         value.onChanged.AddListener((int n) => { crnt = n; calls++; });
         Assert.AreEqual((int)value, crnt);
-        value.crnt = 5;
+        value.Value = 5;
         Assert.AreEqual((int)value, crnt);
         Assert.AreEqual(calls, 1);
-        value.crnt = 5;
+        value.Value = 5;
         Assert.AreEqual(calls, 1);
         Assert.AreEqual((int)value, crnt);
     }

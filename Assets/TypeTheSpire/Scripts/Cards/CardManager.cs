@@ -74,7 +74,7 @@ namespace Bentendo.TTS
             }
         }
 
-        private void OnDrawGizmosSelected()
+        private void OnDrawGizmos()
         {
             CardGrid.ForceUpdate();
             var ct = CardGrid.CellCount;

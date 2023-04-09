@@ -14,11 +14,11 @@ namespace Bentendo.TTS
 		public Transform ImminentParent;
 
 		public Vector3 ImminentQueueShift;
+		public Vector3 tickDist;
 
 		List<EventNode> nodes = new List<EventNode>();
 
 		BattleTimeline timeline;
-		Vector3 tickDist;
 		int lastPlaced;
 		bool isSetup;
 
@@ -28,9 +28,7 @@ namespace Bentendo.TTS
 			//tickScale = calculated distance / future_ticks_to_show
 			timeline.OnActionAdded.AddListener(AddNodeToTimeline);
 			timeline.OnActionImminent.AddListener(AddNodeToImminentQueue);
-			tickDist = new Vector3(.1f, 0f, 0f);
 			isSetup = true;
-
         }
 
         private void AddNodeToImminentQueue(BattleAction action)

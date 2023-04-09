@@ -135,8 +135,8 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 4
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -355,6 +355,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HP_Text: {fileID: 2705521790365345394}
+  AtMax: {r: 0.5660378, g: 0, b: 0, a: 1}
+  BelowMax: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &7568213207215101876
 GameObject:
   m_ObjectHideFlags: 0

@@ -16,10 +16,10 @@ namespace Bentendo.TTS
 		public GameObject hitEffect;
 		public CardAction[] actions;
 
-        internal IEnumerator Cast(BattleContext context, Entity self, CastInfo info)
+        internal IEnumerator Cast(BattleContext context, CastInfo info)
         {
 			for (int i = 0; i < actions.Length; i++)
-				yield return context.battleAnim.StartCoroutine(actions[i].Cast(context, self, info.card));
+				yield return context.battleAnim.StartCoroutine(actions[i].Cast(context, info));
         }
     }
 
@@ -41,35 +41,66 @@ namespace Bentendo.TTS
 		
 		public int amount;
 		
-		public IEnumerator Cast(BattleContext context, Entity caster, Card card)
+		public IEnumerator Cast(BattleContext context, CastInfo info)
         {
+			var caster = info.source;
+			var card = info.card;
 			var castLock = new CastLock();
 			if (doNotAnimate)
 			{
-				Apply(context, caster, card);
+				Apply(context, info);
 				yield break;
 			}
 			Action action = () => {
 				castLock.applied = true;
-				Apply(context, caster, card);
+				Apply(context, info);
 			};
 			yield return context.battleAnim.Animate(this, caster, action, context.rightEnts[0].Body.transform, card.def.hitEffect);
 			if (!castLock.applied)
 				action.Invoke();
 		}
 
-		void Apply(BattleContext context, Entity caster, Card card)
+		void Apply(BattleContext context, CastInfo info)
         {
-			Debug.Log("applied");
+			var target = GetTarget(context, info);
+            switch (actionId)
+            {
+                case ActionType.PLAY_CARD:
+                    break;
+                case ActionType.STRIKE:
+					target.ApplyDamage(new Damage(info.source, amount));
+                    break;
+                case ActionType.BLOCK:
+                    break;
+                case ActionType.HEAL:
+					target.AddHealth(amount);
+                    break;
+                case ActionType.APPLY_STATUS:
+                    break;
+                case ActionType.DRAW:
+                    break;
+                case ActionType.DISCARD:
+                    break;
+            }
+        }
+
+        public Entity GetTarget(BattleContext context, CastInfo info)
+        {
+			if (targetId == ActionTarget.SELF)
+				return info.source;
+			if (info.source.isLeft)
+				return context.rightEnts[0];
+			else
+				return context.leftEnts[0];
         }
 
 		class CastLock
         {
 			public bool applied;
         }
-	}
+    }
 
-	[System.Serializable]
+    [System.Serializable]
 	public class WordCost
 	{
 		//enum dictId
@@ -80,9 +111,16 @@ namespace Bentendo.TTS
 
 	public class CastInfo
 	{
+		public Entity source;
 		public Card card;
 		public string word;
 		public float timeToType;
 		public int typos;
+		public CastInfo(Entity src, Card crd)
+        {
+			source = src;
+			card = crd;
+        }
+		public CastInfo() { }
     }
 }

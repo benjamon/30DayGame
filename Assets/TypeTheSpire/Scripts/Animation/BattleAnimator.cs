@@ -21,7 +21,7 @@ namespace Bentendo.TTS
         {
 			this.context = context;
 
-			for (int i = 0, flip = 1; i < context.leftEnts.Length; i++)
+			for (int i = 0, flip = 1; i < context.leftEnts.Count; i++)
             {
 				var ent = context.leftEnts[i];
 				var go = GameObject.Instantiate(BodyPrefab, LeftRoot);
@@ -35,7 +35,7 @@ namespace Bentendo.TTS
 			}
 
 			var flippedOffset = new Vector2(placementOffset.x, -placementOffset.y);
-			for (int i = 0, flip = 1; i < context.rightEnts.Length; i++)
+			for (int i = 0, flip = 1; i < context.rightEnts.Count; i++)
 			{
 				var ent = context.rightEnts[i];
 				var go = GameObject.Instantiate(BodyPrefab, RightRoot);
