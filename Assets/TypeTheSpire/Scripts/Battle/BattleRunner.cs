@@ -16,9 +16,8 @@ namespace Bentendo.TTS
         bool isSetup;
         public bool isRunning { get; private set; }
 
-        public void SetupBattle(IEntityProvider player, BattleEventDef runner)
+        public void SetupBattle(PlayerState pstate, BattleEventDef runner)
         {
-            var pstate = new PlayerState(player);
             var p1 = pstate.GetEntity(this);
             battleContext = new BattleContext(battleAnims, this, new Entity[] { p1 }, runner.GetEntities(this));
             timeline = new BattleTimeline(this, TICKS_PER_SECOND);

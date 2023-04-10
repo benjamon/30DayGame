@@ -22,7 +22,7 @@ namespace Bentendo.TTS
 
         public void Setup(Entity e)
         {
-            BodyImage.sprite = e.Source.GetSprite();
+            e.Source.GetDef().SetupSprite(BodyImage);
         }
 
         //we could support animations and programattic stuff by bringing this logic out

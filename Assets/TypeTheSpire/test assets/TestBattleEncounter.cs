@@ -20,7 +20,10 @@ namespace Bentendo.TTS
                 return;
             }
             else
-            runner.SetupBattle(testPlayer, enemies);
+            {
+                var pstate = new PlayerState(testPlayer);
+                runner.SetupBattle(pstate, enemies);
+            }
         }
     }
 }

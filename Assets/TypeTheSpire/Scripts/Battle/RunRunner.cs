@@ -8,8 +8,8 @@ namespace Bentendo.TTS
 	{
 		public PlayerState playerState;
 		
-
-		public RunRunner(IEntityProvider playerDef, RunGenerationSpec spec)
+		//new run
+		public RunRunner(EntityDef playerDef, RunGenerationSpec spec)
         {
 			playerState = new PlayerState(playerDef);
         }

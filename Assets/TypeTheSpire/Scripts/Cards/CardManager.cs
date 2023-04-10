@@ -58,9 +58,14 @@ namespace Bentendo.TTS
                 playerDeck.AddToDiscard(card);
                 DrawCard(n);
             });
-            string word = words.GetRandom(Random.Range(4, 9));
+#if UNITY_EDITOR
+            int min = 4, max = 9;
+#else
+            int min = 3, max = 6;
+#endif
+            string word = words.GetRandom(Random.Range(min, max));
             while (activeTargets.ContainsKey(word[0]))
-                word = words.GetRandom(Random.Range(4, 9));
+                word = words.GetRandom(Random.Range(min, max));
             ec.SetWord(word);
             activeTargets.Add(word[0], ec);
             embodiedCards.AddLast(ec);

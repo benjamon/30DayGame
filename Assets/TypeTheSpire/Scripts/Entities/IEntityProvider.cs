@@ -10,6 +10,6 @@ namespace Bentendo.TTS
 		int GetHP();
 		int GetMaxHP();
 		List<Card> GetCards();
-		Sprite GetSprite();
+		EntityDef GetDef();
 	}
 }

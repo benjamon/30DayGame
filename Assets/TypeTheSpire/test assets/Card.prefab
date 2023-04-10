@@ -341,7 +341,7 @@ MonoBehaviour:
   WordText: {fileID: 1199383729052694210}
   effect: {fileID: 4583025543330092782, guid: 2c634728731fd114bab934721e5f2f5c, type: 3}
   doneColor: {r: 0.21698111, g: 0.12742522, b: 0.037869345, a: 1}
-  lastColor: {r: 1, g: 0.6443304, b: 0, a: 1}
+  lastColor: {r: 0.8867924, g: 0.40567055, b: 0.012548926, a: 1}
   notDoneColor: {r: 0.5, g: 0.21791041, b: 0.011792451, a: 1}
   inactiveColor: {r: 0, g: 0, b: 0, a: 1}
   TypoSpring:

@@ -21,7 +21,7 @@ namespace Bentendo.TTS
         {
 			this.card = card;
             this.castAction = castAction;
-			Title.text = card.def.title;
+			Title.text = $"{card.def.title} {card.def.actions[0].amount}";
 			Icon.sprite = card.def.Icon;
         }
 

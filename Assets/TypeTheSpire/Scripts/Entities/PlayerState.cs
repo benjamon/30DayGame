@@ -9,14 +9,14 @@ namespace Bentendo.TTS
         List<Card> _cards;
         int _maxHP;
         int _hp;
-        Sprite _sprite;
+        EntityDef _def;
 
-        public PlayerState(IEntityProvider playerDef)
+        public PlayerState(EntityDef playerDef)
         {
             _maxHP = playerDef.GetMaxHP();
             _hp = playerDef.GetHP();
             _cards = playerDef.GetCards();
-            _sprite = playerDef.GetSprite();
+            _def = playerDef;
         }
 
         public void UpdateHealthToEntity(Entity e)
@@ -30,12 +30,12 @@ namespace Bentendo.TTS
             return _cards;
         }
 
+        public EntityDef GetDef() => _def;
+
         public Entity GetEntity(BattleRunner runner) => new Entity(this, runner, true);
 
         public int GetHP() => _hp;
 
         public int GetMaxHP() => _maxHP;
-
-        public Sprite GetSprite() => _sprite;
     }
 }
