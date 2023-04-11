@@ -17,7 +17,7 @@ public class LoadingScreen : MonoBehaviour
     IEnumerator LoadNext()
     {
         yield return WordProvider.InitSingleton("google10000.txt", 12, 2);
-        yield return new WaitForSeconds(.2f);
+        yield return new WaitForSeconds(.15f);
         SceneManager.LoadScene(nextScene, LoadSceneMode.Single);
     }
 }

@@ -219,7 +219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dfc6e9d233dca740b32113f0d48f1ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &461904798
+--- !u!1 &494805364
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -227,42 +227,42 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 461904800}
-  - component: {fileID: 461904799}
+  - component: {fileID: 494805365}
+  - component: {fileID: 494805366}
   m_Layer: 0
-  m_Name: KeyboardInput
+  m_Name: KInput
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &461904799
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 461904798}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f57300a38cdd1743b9436c860fbde5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &461904800
+--- !u!4 &494805365
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 461904798}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.7520719, y: -1.464653, z: -0.23938179}
+  m_GameObject: {fileID: 494805364}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1302.1543, y: 1110.238, z: -9.341898}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &494805366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 494805364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f57300a38cdd1743b9436c860fbde5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &568321224
 GameObject:
   m_ObjectHideFlags: 0
@@ -523,7 +523,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CardPrefab: {fileID: 1199383729443901694, guid: 5c975604b0565074b87f4da5d8a63795, type: 3}
-  BattleInput: {fileID: 461904799}
+  BattleInput: {fileID: 494805366}
   DrawPile: {fileID: 886203278}
   DiscardPile: {fileID: 1649393996}
   CardGrid:
@@ -542,7 +542,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1523625179}
   - component: {fileID: 1523625178}
-  - component: {fileID: 1523625180}
   m_Layer: 0
   m_Name: BattleRunner
   m_TagString: Untagged
@@ -580,21 +579,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1523625180
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1523625177}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c76b35b8943266488fd7a5e78e2cea9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  runner: {fileID: 1523625178}
-  testPlayer: {fileID: 11400000, guid: 32dad0180628cfe4782cf58b811c7a3a, type: 2}
-  enemies: {fileID: 11400000, guid: ad3ef519c3c85af49b5ae57be28535b5, type: 2}
 --- !u!1001 &1649393994
 PrefabInstance:
   m_ObjectHideFlags: 0
