@@ -6,6 +6,7 @@ namespace Bentendo.TTS
 {
     public class PlayerState : IEntityProvider
     {
+        public EntityStats PlayerStats;
         List<Card> _cards;
         int _maxHP;
         int _hp;
@@ -17,18 +18,17 @@ namespace Bentendo.TTS
             _hp = playerDef.GetHP();
             _cards = playerDef.GetCards();
             _def = playerDef;
+            PlayerStats = new EntityStats(playerDef.GetStats());
         }
 
         public void UpdateHealthToEntity(Entity e)
         {
-            _maxHP = e.MaxHP;
             _hp = e.HP;
         }
 
-        public List<Card> GetCards()
-        {
-            return _cards;
-        }
+        public EntityStats GetStats() => new EntityStats(PlayerStats);
+
+        public List<Card> GetCards() => _cards;
 
         public EntityDef GetDef() => _def;
 

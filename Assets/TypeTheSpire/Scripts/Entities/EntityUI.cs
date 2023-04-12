@@ -8,15 +8,18 @@ namespace Bentendo.TTS
 	public class EntityUI : MonoBehaviour
 	{
 		public TMP_Text HP_Text;
+		public TMP_Text Armor_Text;
 		public Color AtMax, BelowMax;
 		int lastHP;
 		int lastMaxHP;
 		public void Setup(Entity e)
         {
 			e.HP.onChanged.AddListener(UpdateHP);
-			e.MaxHP.onChanged.AddListener(UpdateMaxHP);
+			e.Stats.MaxHP.onChanged.AddListener(UpdateMaxHP);
+			e.Armor.onChanged.AddListener(UpdateArmor);
 			UpdateHP(e.HP);
-			UpdateMaxHP(e.MaxHP);
+			UpdateMaxHP(e.Stats.MaxHP);
+			UpdateArmor(e.Armor);
 			if (HP_Text.transform.lossyScale.x <= 0f)
             {
 				var scale = HP_Text.transform.localScale;
@@ -24,6 +27,8 @@ namespace Bentendo.TTS
 				HP_Text.transform.localScale = scale;
             }
         }
+
+		public void UpdateArmor(int armor) => Armor_Text.text = (armor == 0) ? "" : armor.ToString();
 
 		public void UpdateHP(int hp)
         {

@@ -8,7 +8,7 @@ namespace Bentendo.TTS
 	{
 		Entity GetEntity(BattleRunner runner);
 		int GetHP();
-		int GetMaxHP();
+		EntityStats GetStats();
 		List<Card> GetCards();
 		EntityDef GetDef();
 	}

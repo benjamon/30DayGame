@@ -49,7 +49,7 @@ namespace Bentendo.TTS
             run.playerState.UpdateHealthToEntity(battleContext.leftEnts[0]);
             if (run.current == null)
                 return;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            SceneManager.LoadScene("TTS_Reward");
         }
 
         public void LoseGame()
