@@ -250,6 +250,12 @@ MonoBehaviour:
   - rewardType: 2
     cardReward: {fileID: 11400000, guid: 6b0383342d2340f44b4e6cd0c47800a3, type: 2}
     amount: 0
+  - rewardType: 3
+    cardReward: {fileID: 0}
+    amount: 2
+  - rewardType: 4
+    cardReward: {fileID: 0}
+    amount: 10
   specialRewards: []
   RewardButtons:
   - {fileID: 1513300928}
@@ -445,7 +451,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.00012207}
+  m_AnchoredPosition: {x: 0, y: 0.00012207031}
   m_SizeDelta: {x: 0, y: -0.00024414}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &618260292

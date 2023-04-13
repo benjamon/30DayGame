@@ -63,9 +63,13 @@ namespace Bentendo.TTS
             switch (rewardType)
             {
                 case RewardType.BonusDamage:
-                    return amount + " Bonus Damage";
+                    return "+" + amount + " Bonus Damage";
                 case RewardType.BaseArmor:
-                    return amount + " Base Armor";
+                    return "+" + amount + " Base Armor";
+                case RewardType.MaxHP:
+                    return "+" + amount + " Max HP";
+                case RewardType.HP:
+                    return "Heal " + amount + " HP";
                 case RewardType.Card:
                     return "Card: " + cardReward.title;
             }
@@ -82,6 +86,12 @@ namespace Bentendo.TTS
                 case RewardType.BaseArmor:
                     RunRunner.Instance.playerState.PlayerStats.BaseArmor.Value += amount;
                     break;
+                case RewardType.MaxHP:
+                    RunRunner.Instance.playerState.PlayerStats.MaxHP.Value += amount;
+                    break;
+                case RewardType.HP:
+                    RunRunner.Instance.playerState.HP.Value += amount;
+                    break;
                 case RewardType.Card:
                     RunRunner.Instance.playerState.GetCards().Add(new Card(cardReward));
                     break;
@@ -94,5 +104,7 @@ namespace Bentendo.TTS
 		BonusDamage,
 		BaseArmor,
 		Card,
+        MaxHP,
+        HP,
     }
 }

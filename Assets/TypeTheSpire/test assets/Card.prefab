@@ -212,8 +212,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30
-  m_fontSizeBase: 30
+  m_fontSize: 34
+  m_fontSizeBase: 34
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -222,7 +222,7 @@ MonoBehaviour:
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 8
+  m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -285,6 +285,7 @@ GameObject:
   - component: {fileID: 1199383729443901693}
   - component: {fileID: 1199383729443901692}
   - component: {fileID: 1559868388391626060}
+  - component: {fileID: -8440853757576362060}
   m_Layer: 0
   m_Name: Card
   m_TagString: Untagged
@@ -340,9 +341,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WordText: {fileID: 1199383729052694210}
   effect: {fileID: 4583025543330092782, guid: 2c634728731fd114bab934721e5f2f5c, type: 3}
-  doneColor: {r: 0.21698111, g: 0.12742522, b: 0.037869345, a: 1}
-  lastColor: {r: 0.8867924, g: 0.40567055, b: 0.012548926, a: 1}
-  notDoneColor: {r: 0.5, g: 0.21791041, b: 0.011792451, a: 1}
+  doneColor: {r: 0.764151, g: 0.667399, b: 0.5803222, a: 1}
+  lastColor: {r: 1, g: 0.448642, b: 0.0141509175, a: 1}
+  notDoneColor: {r: 0.9056604, g: 0.86570704, b: 0.7390531, a: 1}
   inactiveColor: {r: 0, g: 0, b: 0, a: 1}
   TypoSpring:
     k: 500
@@ -350,6 +351,22 @@ MonoBehaviour:
     mass: 1
   TypoPosition: 0.2
   TypoVelocity: 3
+--- !u!111 &-8440853757576362060
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1199383729443901694}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 3d94d5697fe09f04ea8322f5d4e69db1, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 3d94d5697fe09f04ea8322f5d4e69db1, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &1199383729560409062
 GameObject:
   m_ObjectHideFlags: 0
@@ -409,7 +426,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -6949577767020631076, guid: 411212b9eee6c034a8ee8552a4786098, type: 2}
+  - {fileID: -5325147018855314694, guid: 87169b92257eaa442a7cb68fb1d3e538, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -453,15 +470,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: Stone Wall
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 411212b9eee6c034a8ee8552a4786098, type: 2}
-  m_sharedMaterial: {fileID: -6949577767020631076, guid: 411212b9eee6c034a8ee8552a4786098, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 87169b92257eaa442a7cb68fb1d3e538, type: 2}
+  m_sharedMaterial: {fileID: -5325147018855314694, guid: 87169b92257eaa442a7cb68fb1d3e538, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4286092995
-  m_fontColor: {r: 0.764151, g: 0.58908594, b: 0.47218764, a: 1}
+    rgba: 4287203721
+  m_fontColor: {r: 0.5377358, g: 0.5377358, b: 0.5377358, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -484,7 +501,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535

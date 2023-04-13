@@ -14,6 +14,7 @@ namespace Bentendo.TTS
 		public string description;
 		public WordCost cost;
 		public GameObject hitEffect;
+		public GameObject cardPrefab;
 		public CardAction[] actions;
 
         internal IEnumerator Cast(BattleContext context, CastInfo info)
@@ -71,6 +72,7 @@ namespace Bentendo.TTS
 					target.ApplyDamage(new Damage(info.source, amount));
                     break;
                 case ActionType.BLOCK:
+					target.ApplyArmor(amount);
                     break;
                 case ActionType.HEAL:
 					target.AddHealth(amount);

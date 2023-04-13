@@ -72,11 +72,12 @@ namespace Bentendo.TTS
         {
 			playing = true;
 			var imm = imminentActions;
-			while (imm.TryDequeue(out var crnt))
+			while (imm.TryPeek(out var crnt))
 			{
 				crnt.OnCastStart.Invoke();
 				yield return runner.StartCoroutine(crnt.func.Invoke());
 				crnt.OnCastComplete.Invoke();
+				imm.Dequeue();
             }
 			playing = false;
         }

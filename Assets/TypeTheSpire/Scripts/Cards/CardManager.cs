@@ -44,7 +44,7 @@ namespace Bentendo.TTS
                 playerDeck.Shuffle();
             if (!playerDeck.TryDrawNext(out Card card))
                 throw new System.Exception("fuckin thing SUCKS aint got no CARDS in it (attempted to draw from empty deck)");
-            var go = GameObject.Instantiate(CardPrefab, transform);
+            var go = GameObject.Instantiate((card.def.cardPrefab == null) ? CardPrefab : card.def.cardPrefab, transform);
             go.transform.localPosition = CardGrid.GetPosition(n);
             go.transform.localScale = Vector3.one;
             var ec = go.GetComponent<EmbodiedCard>();
