@@ -18,6 +18,7 @@ namespace Bentendo.TTS
 		public UnityEvent OnDeceased = new UnityEvent();
 		public UnityEvent OnBlocked = new UnityEvent();
 		public bool isLeft { get; private set; }
+		public bool isAlive { get; private set; }
 		BattleRunner runner;
 
 		public Entity(IEntityProvider provider, BattleRunner runner, bool isLeft)
@@ -29,6 +30,7 @@ namespace Bentendo.TTS
 			HP = new Subvar<int>(provider.GetHP());
 			Deck = new Deck<Card>(provider.GetCards());
 			Armor.Value = Stats.BaseArmor;
+			isAlive = true;
         }
 
 		public void SetBody(EntityBody body)
@@ -56,8 +58,11 @@ namespace Bentendo.TTS
 			Armor.Value = Stats.BaseArmor;
 
 			HP.Value -= amount;
-			if (HP.Value <= 0)
+			if (isAlive && HP.Value <= 0)
+			{
+				isAlive = false;
 				OnDeceased.Invoke();
+			}
         }
 
 		public void PlayCard(CastInfo info)

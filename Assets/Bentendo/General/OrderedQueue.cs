@@ -55,6 +55,26 @@ namespace Bentendo
 			return false;
 		}
 
+		public bool TryRemoveItem(Item item)
+		{
+			if (next.item == item)
+			{
+				Dequeue();
+				return true;
+			}
+			var crnt = next.next;
+			while (crnt != null)
+			{
+				if (crnt.item == item)
+				{
+					crnt.AttachNeighbors();
+					return true;
+				}
+				crnt = crnt.prev;
+			}
+			return false;
+		}
+
 		public void Enqueue(Item item)
         {
 			Node node = new Node(item);

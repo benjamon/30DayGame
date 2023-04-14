@@ -10,6 +10,7 @@ namespace Bentendo.TTS
         public SpriteRenderer BodyImage;
         public GameObject HitEffect;
         public LerpTrolley Lerper;
+        public AudioSource DeathSound;
 		Animation anim;
         Action nextAction;
         Transform target;
@@ -23,6 +24,7 @@ namespace Bentendo.TTS
         public void Setup(Entity e)
         {
             e.Source.GetDef().SetupSprite(BodyImage);
+            e.OnDeceased.AddListener(() => DeathSound.Play());
         }
 
         //we could support animations and programattic stuff by bringing this logic out

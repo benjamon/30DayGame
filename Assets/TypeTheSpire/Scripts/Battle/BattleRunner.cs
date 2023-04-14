@@ -45,29 +45,33 @@ namespace Bentendo.TTS
 
         public void WinRound()
         {
-            run.MoveToNextBattle();
-            run.playerState.UpdateHealthToEntity(battleContext.leftEnts[0]);
-            if (run.current == null)
-                return;
-            SceneManager.LoadScene("TTS_Reward");
+            cardManager.DisableInput();
+            run.playerState.UpdateHealthToEntity(battleContext.leftEnts[0]); run.SelectNextBattle();
+            StartCoroutine(LoadSceneOnWin());
+        }
+
+        IEnumerator LoadSceneOnWin()
+        {
+            yield return new WaitForSeconds(5f);
+            SceneManager.LoadScene((run.current == null) ? "TTS_WIN" : "TTS_Reward");
         }
 
         public void LoseGame()
         {
-            Application.Quit();
+            run.StartNewGame();
         }
 
         public IEnumerator PlayEnemyHand(Entity e)
         {
-            while (true)
+            while (e.isAlive)
             {
                 if (e.Deck.DrawPileEmpty())
                     e.Deck.Shuffle();
                 if (!e.Deck.TryDrawNext(out Card card))
                     throw new System.Exception("enemy out of cards");
-                PlayCard(new CastInfo(e, card), 5);
+                PlayCard(new CastInfo(e, card), 4);
                 e.Deck.AddToDiscard(card);
-                yield return new WaitForSeconds(5f);
+                yield return new WaitForSeconds(4f);
             }
         }
 
@@ -80,7 +84,7 @@ namespace Bentendo.TTS
 
         public BattleAction PlayCard(CastInfo info, int timeUntil)
         {
-			return timeline.EnqueueAction(() => info.card.def.Cast(battleContext, info), timeUntil);
+			return timeline.EnqueueAction(info.source, () => info.card.def.Cast(battleContext, info), timeUntil);
 		}
 
         public void PlayCardImminent(CastInfo info)

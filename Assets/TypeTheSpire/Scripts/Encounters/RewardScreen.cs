@@ -78,22 +78,24 @@ namespace Bentendo.TTS
 
         public void ApplyReward()
         {
+            var player = RunRunner.Instance.playerState;
             switch (rewardType)
             {
                 case RewardType.BonusDamage:
-                    RunRunner.Instance.playerState.PlayerStats.BonusDamage.Value += amount;
+                    player.PlayerStats.BonusDamage.Value += amount;
                     break;
                 case RewardType.BaseArmor:
-                    RunRunner.Instance.playerState.PlayerStats.BaseArmor.Value += amount;
+                    player.PlayerStats.BaseArmor.Value += amount;
                     break;
                 case RewardType.MaxHP:
-                    RunRunner.Instance.playerState.PlayerStats.MaxHP.Value += amount;
+                    player.PlayerStats.MaxHP.Value += amount;
+                    player.HP.Value = Mathf.Min(player.PlayerStats.MaxHP, player.HP + amount);
                     break;
                 case RewardType.HP:
-                    RunRunner.Instance.playerState.HP.Value += amount;
+                    player.HP.Value = Mathf.Min(player.PlayerStats.MaxHP, player.HP + amount);
                     break;
                 case RewardType.Card:
-                    RunRunner.Instance.playerState.GetCards().Add(new Card(cardReward));
+                    player.GetCards().Add(new Card(cardReward));
                     break;
             }
         }

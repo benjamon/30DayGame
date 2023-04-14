@@ -15,7 +15,7 @@ namespace Bentendo.TTS
 		public BattleActionEvent OnActionAdded = new BattleActionEvent();
 		public BattleActionEvent OnActionImminent = new BattleActionEvent();
 
-		OrderedQueue<BattleAction> futureActions = new OrderedQueue<BattleAction>(val => val.tick);
+		OrderedQueue<BattleAction> futureActions = new OrderedQueue<BattleAction>(val => val.executeOnTick);
 		Queue<BattleAction> imminentActions = new Queue<BattleAction>();
 		BattleRunner runner;
 
@@ -26,9 +26,9 @@ namespace Bentendo.TTS
 			TicksPerSecond = ticksPerSecond;
         }
 
-		public BattleAction EnqueueAction(Func<IEnumerator> func, int ticksUntil)
+		public BattleAction EnqueueAction(Entity source, Func<IEnumerator> func, int ticksUntil)
         {
-			var ba = new BattleAction(CurrentTick + ticksUntil, func);
+			var ba = new BattleAction(source, CurrentTick + ticksUntil, func);
 			if (ticksUntil <= 0)
             {
 				OnActionImminent.Invoke(ba);
@@ -39,10 +39,17 @@ namespace Bentendo.TTS
 			} else
             {
 				futureActions.Enqueue(ba);
+				ba.OnCancelled.AddListener(() => RemoveAction(ba));
 				OnActionAdded.Invoke(ba);
 			}
 			return ba;
         }
+
+		void RemoveAction(BattleAction ba)
+		{
+			if (ba.Status == BattleActionStatus.Future)
+				futureActions.TryRemoveItem(ba);
+		}
 
 		public void AddTime(float delta)
         {
@@ -56,7 +63,7 @@ namespace Bentendo.TTS
         {
 			CurrentTick++;
 			var crnt = futureActions.Peek();
-			while (crnt != null && CurrentTick >= crnt.tick)
+			while (crnt != null && CurrentTick >= crnt.executeOnTick)
             {
 				imminentActions.Enqueue(futureActions.Dequeue());
 				OnActionImminent.Invoke(crnt);
@@ -74,9 +81,7 @@ namespace Bentendo.TTS
 			var imm = imminentActions;
 			while (imm.TryPeek(out var crnt))
 			{
-				crnt.OnCastStart.Invoke();
-				yield return runner.StartCoroutine(crnt.func.Invoke());
-				crnt.OnCastComplete.Invoke();
+				yield return runner.StartCoroutine(crnt.InvokeActionRoutine());
 				imm.Dequeue();
             }
 			playing = false;
@@ -88,7 +93,7 @@ namespace Bentendo.TTS
     public class BattleAction
     {
         int _tick;
-        public int tick
+        public int executeOnTick
         {
             get => _tick;
             set
@@ -96,21 +101,66 @@ namespace Bentendo.TTS
                 _tick = value;
                 OnTimeChanged.Invoke(_tick);
             }
-        }
+		}
+		public BattleActionStatus Status
+		{
+			get; private set;
+		}
 
-        public Func<IEnumerator> func;
-        public UnityEvent OnImminent = new UnityEvent();
-        public UnityEvent OnRemoved = new UnityEvent();
+		public UnityEvent OnImminent = new UnityEvent();
+        public UnityEvent OnCancelled = new UnityEvent();
         public UnityEvent OnCastStart = new UnityEvent();
         public UnityEvent OnCastComplete = new UnityEvent();
         public TimeChangeEvent OnTimeChanged = new TimeChangeEvent();
 
-        public BattleAction(int time, Func<IEnumerator> func)
+		Entity source;
+		Func<IEnumerator> actionRoutine;
+
+		public BattleAction(Entity source, int time, Func<IEnumerator> func)
         {
             this._tick = time;
-            this.func = func;
-        }
+            this.actionRoutine = func;
+			this.source = source;
+			this.Status = BattleActionStatus.Future;
+			source.OnDeceased.AddListener(CancelAction);
+		}
+
+		public IEnumerator InvokeActionRoutine()
+        {
+			if (Status == BattleActionStatus.Cancelled)
+				yield break;
+			Status = BattleActionStatus.Casting;
+			OnCastStart.Invoke();
+			yield return actionRoutine.Invoke();
+			OnCastComplete.Invoke();
+			Status = BattleActionStatus.Completed;
+			source.OnDeceased.RemoveListener(CancelAction);
+		}
+
+		public void SetImminent()
+		{
+			Status = BattleActionStatus.Imminent;
+			OnImminent.Invoke();
+		}
+
+		public void CancelAction()
+		{
+			if (Status >= BattleActionStatus.Casting)
+				return;
+			source.OnDeceased.RemoveListener(CancelAction);
+			OnCancelled.Invoke();
+			Status = BattleActionStatus.Cancelled;
+		}
 
         public class TimeChangeEvent : UnityEvent<int> { }
+    }
+
+	public enum BattleActionStatus
+    {
+		Future,
+		Imminent,
+		Casting,
+		Completed,
+		Cancelled,
     }
 }

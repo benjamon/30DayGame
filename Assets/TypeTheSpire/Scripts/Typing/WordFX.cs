@@ -12,6 +12,7 @@ namespace Bentendo.TTS
 	{
 		public TMP_Text WordText;
 		public GameObject effect;
+        public AudioSource TypoSound;
         public Color doneColor;
         public Color lastColor;
         public Color notDoneColor;
@@ -64,6 +65,7 @@ namespace Bentendo.TTS
             if (LastShake != null)
                 StopCoroutine(LastShake);
             LastShake = StartCoroutine(AnimateTypo());
+            TypoSound.Play();
         }
 
         IEnumerator AnimateTypo()

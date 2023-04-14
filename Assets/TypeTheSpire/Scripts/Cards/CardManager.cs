@@ -59,9 +59,9 @@ namespace Bentendo.TTS
                 DrawCard(n);
             });
 #if UNITY_EDITOR
-            int min = 4, max = 9;
+            int min = 5, max = 10;
 #else
-            int min = 3, max = 6;
+            int min = 4, max = 6;
 #endif
             string word = words.GetRandom(Random.Range(min, max));
             while (activeTargets.ContainsKey(word[0]))
@@ -77,6 +77,11 @@ namespace Bentendo.TTS
             {
                 activeTargets[c].FocusCard(BattleInput, c);
             }
+        }
+
+        public void DisableInput()
+        {
+            BattleInput.gameObject.SetActive(false);
         }
 
         private void OnDrawGizmos()

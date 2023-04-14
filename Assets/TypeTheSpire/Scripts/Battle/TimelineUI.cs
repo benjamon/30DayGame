@@ -16,7 +16,9 @@ namespace Bentendo.TTS
 		public Vector3 ImminentQueueShift;
 		public Vector3 tickDist;
 
-		List<EventNode> nodes = new List<EventNode>();
+		List<EventNode> futureNodes = new List<EventNode>();
+
+		List<EventNode> imminentNodes = new List<EventNode>();
 
 		BattleTimeline timeline;
 		int lastPlaced;
@@ -34,21 +36,19 @@ namespace Bentendo.TTS
         private void AddNodeToImminentQueue(BattleAction action)
 		{
 			var go = GameObject.Instantiate(ImminentPrefab, ImminentParent);
-			var en = new EventNode(go, action, ImminentQueueShift);
+			var en = new EventNode(go, action, imminentNodes, ImminentQueueShift);
 			action.OnCastStart.AddListener(() => {
 				en.KillNode();
 				ImminentParent.position -= ImminentQueueShift;
 			});
 			en.PlaceNode(lastPlaced++);
-			nodes.Add(en);
 		}
 
         public void AddNodeToTimeline(BattleAction action) 
 		{
 			var go = GameObject.Instantiate(EventPrefab, TimelineParent);
-			var en = new EventNode(go, action, tickDist);
+			var en = new EventNode(go, action, futureNodes, tickDist);
 			action.OnImminent.AddListener(en.KillNode);
-			nodes.Add(en);
 		}
 
         private void Update()
@@ -64,26 +64,49 @@ namespace Bentendo.TTS
 			public GameObject visual;
 
 			Vector3 stepShift;
+			List<EventNode> nodeList;
 
-			public EventNode(GameObject visual, BattleAction action, Vector3 stepShift)
+			public EventNode(GameObject visual, BattleAction action, List<EventNode> nodeList, Vector3 stepShift)
             {
 				this.action = action;
 				this.visual = visual;
 				this.stepShift = stepShift;
-				PlaceNode(action.tick);
+				this.nodeList = nodeList;
+				nodeList.Add(this);
+				PlaceNode(action.executeOnTick);
 				action.OnTimeChanged.AddListener(PlaceNode);
-            }
+				action.OnCancelled.AddListener(CancelAction);
+			}
 
 			public void KillNode()
             {
 				//return to pool lol
 				GameObject.Destroy(visual);
+				nodeList.Remove(this);
             }
 
 			public void PlaceNode(int tick)
 			{
 				visual.transform.localPosition = tick * stepShift;
 			}
+
+			void CancelAction()
+			{
+				switch (action.Status)
+				{
+					case BattleActionStatus.Future:
+					case BattleActionStatus.Imminent:
+						Debug.Log("canceling " + action.Status.ToString() + " action");
+						KillNode();
+						break;
+					case BattleActionStatus.Casting:
+						throw new Exception("cancelling during cast not yet implemented");
+					case BattleActionStatus.Completed:
+						throw new Exception("tried canceling node when status completed");
+					case BattleActionStatus.Cancelled:
+						throw new Exception("tried canceling node when status completed");
+				}
+			}
         }
-	}
+    }
 }

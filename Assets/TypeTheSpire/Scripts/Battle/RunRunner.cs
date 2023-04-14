@@ -34,17 +34,23 @@ namespace Bentendo.TTS
             current = spec.Generate();
         }
 
-        public void MoveToNextBattle()
+        public bool SelectNextBattle()
         {
             if (current.NextNodes.Count == 0)
             {
-                SceneManager.LoadScene("TTS_WIN");
                 current = null;
-                return;
+                return false;
             }
 
             current = current.NextNodes[0];
-            SceneManager.LoadScene("TTS", LoadSceneMode.Single);
+            return true;
+        }
+
+        public void StartNewGame()
+        {
+            Instance = null;
+            SceneManager.LoadScene("TTS_Start");
+            GameObject.Destroy(gameObject);
         }
 	}
 }
