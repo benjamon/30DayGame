@@ -95,7 +95,6 @@ GameObject:
   - component: {fileID: 1199383729052694213}
   - component: {fileID: 1199383729052694209}
   - component: {fileID: 1199383729052694210}
-  - component: {fileID: 9063159632975045987}
   m_Layer: 0
   m_Name: Target
   m_TagString: Untagged
@@ -143,7 +142,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -5509036939802058853, guid: 776ca2542525c564baec3c36e0d28d1a, type: 2}
+  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -187,8 +186,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Misbehavior
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 776ca2542525c564baec3c36e0d28d1a, type: 2}
-  m_sharedMaterial: {fileID: -5509036939802058853, guid: 776ca2542525c564baec3c36e0d28d1a, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -212,17 +211,17 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 34
-  m_fontSizeBase: 34
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: 4
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -257,23 +256,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 1199383729052694209}
   m_maskType: 0
---- !u!114 &9063159632975045987
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1199383729052694214}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b36efec0ed17fa942be5a4078a7dcb8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  options:
-  - {fileID: 11400000, guid: d7236dbe69d667b429afc910981c1f17, type: 2}
-  - {fileID: 11400000, guid: 776ca2542525c564baec3c36e0d28d1a, type: 2}
-  - {fileID: 11400000, guid: 411212b9eee6c034a8ee8552a4786098, type: 2}
-  - {fileID: 11400000, guid: f4da1521ac7b13f499be997a21ec3125, type: 2}
 --- !u!1 &1199383729443901694
 GameObject:
   m_ObjectHideFlags: 0

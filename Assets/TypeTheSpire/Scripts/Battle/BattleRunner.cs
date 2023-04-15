@@ -52,7 +52,7 @@ namespace Bentendo.TTS
 
         IEnumerator LoadSceneOnWin()
         {
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(3.5f);
             SceneManager.LoadScene((run.current == null) ? "TTS_WIN" : "TTS_Reward");
         }
 
@@ -84,7 +84,7 @@ namespace Bentendo.TTS
 
         public BattleAction PlayCard(CastInfo info, int timeUntil)
         {
-			return timeline.EnqueueAction(info.source, () => info.card.def.Cast(battleContext, info), timeUntil);
+			return timeline.EnqueueAction(info.source, () => info.card.def.Cast(battleContext, info), info.card.def.Icon, timeUntil);
 		}
 
         public void PlayCardImminent(CastInfo info)

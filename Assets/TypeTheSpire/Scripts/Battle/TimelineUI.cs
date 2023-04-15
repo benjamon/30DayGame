@@ -76,6 +76,8 @@ namespace Bentendo.TTS
 				PlaceNode(action.executeOnTick);
 				action.OnTimeChanged.AddListener(PlaceNode);
 				action.OnCancelled.AddListener(CancelAction);
+				if (action.icon != null)
+					visual.GetComponentInChildren<SpriteRenderer>().sprite = action.icon;
 			}
 
 			public void KillNode()

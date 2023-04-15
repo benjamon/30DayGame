@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace Bentendo.TTS
@@ -26,9 +27,9 @@ namespace Bentendo.TTS
 			TicksPerSecond = ticksPerSecond;
         }
 
-		public BattleAction EnqueueAction(Entity source, Func<IEnumerator> func, int ticksUntil)
+		public BattleAction EnqueueAction(Entity source, Func<IEnumerator> func, Sprite icon, int ticksUntil)
         {
-			var ba = new BattleAction(source, CurrentTick + ticksUntil, func);
+			var ba = new BattleAction(source, CurrentTick + ticksUntil, func, icon);
 			if (ticksUntil <= 0)
             {
 				OnActionImminent.Invoke(ba);
@@ -113,15 +114,18 @@ namespace Bentendo.TTS
         public UnityEvent OnCastComplete = new UnityEvent();
         public TimeChangeEvent OnTimeChanged = new TimeChangeEvent();
 
+		public Sprite icon;
+
 		Entity source;
 		Func<IEnumerator> actionRoutine;
 
-		public BattleAction(Entity source, int time, Func<IEnumerator> func)
+		public BattleAction(Entity source, int time, Func<IEnumerator> func, Sprite icon)
         {
             this._tick = time;
             this.actionRoutine = func;
 			this.source = source;
 			this.Status = BattleActionStatus.Future;
+			this.icon = icon;
 			source.OnDeceased.AddListener(CancelAction);
 		}
 

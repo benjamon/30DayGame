@@ -8,6 +8,7 @@ namespace Bentendo.TTS
 	public class BattleAnimator : MonoBehaviour
 	{
 		public GameObject BodyPrefab;
+		public GameObject UIPrefab;
 		public Transform LeftRoot;
 		public Transform RightRoot;
 		public string DefaultAnimation;
@@ -30,7 +31,10 @@ namespace Bentendo.TTS
 					go.transform.localPosition = placementOffset * flip * ((i+1) / 2);
 				var ebod = go.GetComponent<EntityBody>();
 				ent.SetBody(ebod);
-				go.GetComponent<EntityUI>().Setup(ent);
+				var uigo = GameObject.Instantiate(UIPrefab, null);
+				uigo.transform.position = go.transform.position;
+				uigo.transform.parent = go.transform;
+				uigo.GetComponent<EntityUI>().Setup(ent);
 				flip *= -1;
 			}
 
@@ -44,7 +48,10 @@ namespace Bentendo.TTS
 					go.transform.localPosition = flippedOffset * flip * ((i + 1) / 2);
 				var ebod = go.GetComponent<EntityBody>();
 				ent.SetBody(ebod);
-				go.GetComponent<EntityUI>().Setup(ent);
+				var uigo = GameObject.Instantiate(UIPrefab, null);
+				uigo.transform.position = go.transform.position;
+				uigo.transform.parent = go.transform;
+				uigo.GetComponent<EntityUI>().Setup(ent);
 				flip *= -1;
 			}
 		}

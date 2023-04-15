@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4133334964533850462}
   - component: {fileID: 6417466705823545225}
-  - component: {fileID: 9112128631026365087}
   m_Layer: 0
   m_Name: timeline_triangle
   m_TagString: Untagged
@@ -85,19 +84,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &9112128631026365087
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7039227588707171826}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b42da4416ee8f140976865061b88708, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  options:
-  - {fileID: 1065436903, guid: ce611a8eccb48314f8436002d7c0c3b5, type: 3}
-  - {fileID: -888708906, guid: ce611a8eccb48314f8436002d7c0c3b5, type: 3}
-  - {fileID: 517375231, guid: ce611a8eccb48314f8436002d7c0c3b5, type: 3}
