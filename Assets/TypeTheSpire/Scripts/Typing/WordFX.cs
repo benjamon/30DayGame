@@ -85,18 +85,7 @@ namespace Bentendo.TTS
 
         public string WrapColor(string s, Color c)
         {
-            return $"<color={ColorToHexString(c)}>{s}</color>";
-        }
-
-        public static string ColorToHexString(Color color)
-        {
-            int r = (int)(color.r * 255);
-            int g = (int)(color.g * 255);
-            int b = (int)(color.b * 255);
-            int a = (int)(color.a * 255);
-
-            string hex = string.Format("#{0:X2}{1:X2}{2:X2}{3:X2}", r, g, b, a);
-            return hex;
+            return $"<color={ColorUtil.ColorToHexString(c)}>{s}</color>";
         }
 
         public Vector2 GetLetterCenter(int x)

@@ -19,6 +19,7 @@ namespace Bentendo.TTS
         APPLY_STATUS,
         DRAW,
         DISCARD,
+        MODIFY_STAT,
     }
 
     public enum StatusEffect
@@ -39,5 +40,12 @@ namespace Bentendo.TTS
         SYMBOLS,
         PRONOUNS,
         SCIENCE,
+    }
+
+    public enum StatID
+    {
+        MAX_HP,
+        BASE_ARMOR,
+        BONUS_DAMAGE,
     }
 }

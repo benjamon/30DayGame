@@ -26,6 +26,7 @@ namespace Bentendo.TTS
 			this.player = player;
 			words = WordProvider.Instance;
 			playerDeck = player.Deck;
+            playerDeck.Shuffle();
             BattleInput.SetProcessAction(FindActiveCard);
             FillSlots();
         }

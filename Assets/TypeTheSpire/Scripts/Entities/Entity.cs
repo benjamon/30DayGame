@@ -115,5 +115,19 @@ namespace Bentendo.TTS
 			BaseArmor = new Subvar<int>(stats.BaseArmor);
 			BonusDamage = new Subvar<int>(stats.BonusDamage);
 		}
-	}
+
+		public Subvar<int> GetStat(StatID id)
+        {
+            switch (id)
+            {
+                case StatID.MAX_HP:
+					return MaxHP;
+                case StatID.BASE_ARMOR:
+					return BaseArmor;
+                case StatID.BONUS_DAMAGE:
+				default:
+					return BonusDamage;
+            }
+        }
+    }
 }

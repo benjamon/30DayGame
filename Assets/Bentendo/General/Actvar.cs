@@ -20,9 +20,14 @@ namespace Bentendo
 			}
         }
 		public Actvar(T val)
-        {
+		{
 			_crnt = val;
-        }
+		}
+
+		public override string ToString()
+		{
+			return _crnt.ToString();
+		}
 
 		public static implicit operator T(Actvar<T> a) => a.crnt;
 	}
@@ -47,7 +52,12 @@ namespace Bentendo
         {
 			_crnt = val;
 		}
-		public class SubvarEvent<G> : UnityEvent<G> { }
+
+        public override string ToString()
+        {
+            return _crnt.ToString();
+        }
+        public class SubvarEvent<G> : UnityEvent<G> { }
 		public static implicit operator T(Subvar<T> s) => s.Value;
     }
 }

@@ -240,22 +240,32 @@ MonoBehaviour:
   rewards:
   - rewardType: 0
     cardReward: {fileID: 0}
+    targetStat: 1
+    amount: 1
+  - rewardType: 0
+    cardReward: {fileID: 0}
+    targetStat: 2
     amount: 1
   - rewardType: 1
-    cardReward: {fileID: 0}
-    amount: 1
-  - rewardType: 2
     cardReward: {fileID: 11400000, guid: 485efe03723377146ac5e07af5329510, type: 2}
+    targetStat: 0
     amount: 0
-  - rewardType: 2
+  - rewardType: 1
     cardReward: {fileID: 11400000, guid: 6b0383342d2340f44b4e6cd0c47800a3, type: 2}
+    targetStat: 0
     amount: 0
-  - rewardType: 3
+  - rewardType: 0
     cardReward: {fileID: 0}
+    targetStat: 0
     amount: 2
-  - rewardType: 4
+  - rewardType: 2
     cardReward: {fileID: 0}
+    targetStat: 0
     amount: 10
+  - rewardType: 1
+    cardReward: {fileID: 11400000, guid: 0bc1daf5d859ade4581b0d965ef44978, type: 2}
+    targetStat: 0
+    amount: 0
   specialRewards: []
   RewardButtons:
   - {fileID: 1513300928}

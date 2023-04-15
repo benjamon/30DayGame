@@ -30,6 +30,7 @@ namespace Bentendo.TTS
 		public ActionType actionId;
 		public ActionTarget targetId;
 		public StatusEffect statusType;
+		public StatID targetStat;
 		public string animationId;
 		public bool doNotAnimate;
 
@@ -83,10 +84,13 @@ namespace Bentendo.TTS
                     break;
                 case ActionType.DISCARD:
                     break;
+				case ActionType.MODIFY_STAT:
+					target.Stats.GetStat(targetStat).Value += amount;
+					break;
             }
-        }
+		}
 
-        public Entity GetTarget(BattleContext context, CastInfo info)
+		public Entity GetTarget(BattleContext context, CastInfo info)
         {
 			if (targetId == ActionTarget.SELF)
 				return info.source;

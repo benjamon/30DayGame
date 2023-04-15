@@ -56,18 +56,15 @@ namespace Bentendo.TTS
     {
 		public RewardType rewardType;
 		public CardDef cardReward;
+        public StatID targetStat;
 		public int amount;
 
         public override string ToString()
         {
             switch (rewardType)
             {
-                case RewardType.BonusDamage:
-                    return "+" + amount + " Bonus Damage";
-                case RewardType.BaseArmor:
-                    return "+" + amount + " Base Armor";
-                case RewardType.MaxHP:
-                    return "+" + amount + " Max HP";
+                case RewardType.ModifyStat:
+                    return "+" + amount + targetStat.ToString();
                 case RewardType.HP:
                     return "Heal " + amount + " HP";
                 case RewardType.Card:
@@ -81,15 +78,10 @@ namespace Bentendo.TTS
             var player = RunRunner.Instance.playerState;
             switch (rewardType)
             {
-                case RewardType.BonusDamage:
-                    player.PlayerStats.BonusDamage.Value += amount;
-                    break;
-                case RewardType.BaseArmor:
-                    player.PlayerStats.BaseArmor.Value += amount;
-                    break;
-                case RewardType.MaxHP:
-                    player.PlayerStats.MaxHP.Value += amount;
-                    player.HP.Value = Mathf.Min(player.PlayerStats.MaxHP, player.HP + amount);
+                case RewardType.ModifyStat:
+                    player.PlayerStats.GetStat(targetStat).Value += amount;
+                    if (targetStat == StatID.MAX_HP)
+                        player.HP.Value = Mathf.Min(player.PlayerStats.MaxHP, player.HP + amount);
                     break;
                 case RewardType.HP:
                     player.HP.Value = Mathf.Min(player.PlayerStats.MaxHP, player.HP + amount);
@@ -103,10 +95,8 @@ namespace Bentendo.TTS
 
     public enum RewardType
     {
-		BonusDamage,
-		BaseArmor,
+		ModifyStat,
 		Card,
-        MaxHP,
         HP,
     }
 }
