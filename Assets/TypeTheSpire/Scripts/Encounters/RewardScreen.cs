@@ -64,11 +64,11 @@ namespace Bentendo.TTS
             switch (rewardType)
             {
                 case RewardType.ModifyStat:
-                    return "+" + amount + targetStat.ToString();
+                    return $"+{amount} {Benums.Stringify(targetStat)}";
                 case RewardType.HP:
-                    return "Heal " + amount + " HP";
+                    return $"Heal {amount} HP";
                 case RewardType.Card:
-                    return "Card: " + cardReward.title;
+                    return $"Card: {cardReward.title}";
             }
             return "empty";
         }

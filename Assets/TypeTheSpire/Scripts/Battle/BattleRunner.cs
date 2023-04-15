@@ -14,6 +14,7 @@ namespace Bentendo.TTS
         public CardManager cardManager;
         BattleTimeline timeline;
         BattleContext battleContext;
+        Entity player;
         bool isSetup;
         public bool isRunning { get; private set; }
         RunRunner run;
@@ -30,13 +31,13 @@ namespace Bentendo.TTS
 
         public void SetupBattle(PlayerState pstate, BattleEventDef runner)
         {
-            var p1 = pstate.GetEntity(this);
-            p1.OnDeceased.AddListener(LoseGame);
-            battleContext = new BattleContext(battleAnims, this, new Entity[] { p1 }, runner.GetEntities(this));
+            player = pstate.GetEntity(this);
+            player.OnDeceased.AddListener(LoseGame);
+            battleContext = new BattleContext(battleAnims, this, new Entity[] { player }, runner.GetEntities(this));
             battleContext.rightEnts[0].OnDeceased.AddListener(WinRound);
             timeline = new BattleTimeline(this, TICKS_PER_SECOND);
             timelineUI.Setup(timeline);
-            cardManager.Setup(battleContext, p1);
+            cardManager.Setup(battleContext, player);
             isSetup = true;
             isRunning = true;
             foreach (var e in battleContext.rightEnts)
@@ -61,8 +62,12 @@ namespace Bentendo.TTS
             run.StartNewGame();
         }
 
+        int baseAttackTime = 4;
+        int baseAttackDelay = 1;
+
         public IEnumerator PlayEnemyHand(Entity e)
         {
+            yield return new WaitForSeconds(baseAttackDelay - e.Source.GetDef().Initiative + player.Stats.Speed);
             while (e.isAlive)
             {
                 if (e.Deck.DrawPileEmpty())
@@ -71,7 +76,7 @@ namespace Bentendo.TTS
                     throw new System.Exception("enemy out of cards");
                 PlayCard(new CastInfo(e, card), 4);
                 e.Deck.AddToDiscard(card);
-                yield return new WaitForSeconds(4f);
+                yield return new WaitForSeconds(baseAttackTime + e.Source.GetDef().Speed + player.Stats.Speed);
             }
         }
 

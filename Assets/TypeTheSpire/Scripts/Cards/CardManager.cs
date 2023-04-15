@@ -70,6 +70,8 @@ namespace Bentendo.TTS
             ec.SetWord(word);
             activeTargets.Add(word[0], ec);
             embodiedCards.AddLast(ec);
+            DrawPile.UpdatePile(null, playerDeck.DrawPile.Count);
+            DiscardPile.UpdatePile(null, playerDeck.Discard.Count);
         }
 
 		public void FindActiveCard(char c)

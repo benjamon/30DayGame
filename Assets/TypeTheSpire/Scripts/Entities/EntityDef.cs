@@ -11,6 +11,8 @@ namespace Bentendo.TTS
 		public int MaxHP;
 		public int BaseArmor;
 		public int BonusDamage;
+		public int Speed;
+		public int Initiative;
 		public Sprite EntitySprite;
 		public CardDefCollection StarterDeck;
 		public Sprite[] ScribbleFrames;

@@ -101,12 +101,18 @@ namespace Bentendo.TTS
 		public Subvar<int> MaxHP;
 		public Subvar<int> BaseArmor;
 		public Subvar<int> BonusDamage;
+		public Subvar<int> Speed;
+		public Subvar<int> Slow;
+		public Subvar<int> WordCost;
 
 		public EntityStats(int maxHP)
         {
 			MaxHP = new Subvar<int>(maxHP);
 			BaseArmor = new Subvar<int>(0);
 			BonusDamage = new Subvar<int>(0);
+			Speed = new Subvar<int>(0);
+			Slow = new Subvar<int>(0);
+			WordCost = new Subvar<int>(0);
 		}
 
 		public EntityStats(EntityStats stats)
@@ -114,6 +120,9 @@ namespace Bentendo.TTS
 			MaxHP = new Subvar<int>(stats.MaxHP);
 			BaseArmor = new Subvar<int>(stats.BaseArmor);
 			BonusDamage = new Subvar<int>(stats.BonusDamage);
+			Speed = new Subvar<int>(stats.Speed);
+			Slow = new Subvar<int>(stats.Slow);
+			WordCost = new Subvar<int>(stats.WordCost);
 		}
 
 		public Subvar<int> GetStat(StatID id)
@@ -121,13 +130,30 @@ namespace Bentendo.TTS
             switch (id)
             {
                 case StatID.MAX_HP:
-					return MaxHP;
+                    return MaxHP;
                 case StatID.BASE_ARMOR:
-					return BaseArmor;
+                    return BaseArmor;
+                case StatID.SPEED:
+					return Speed;
+                case StatID.SLOW:
+					return Slow;
+                case StatID.WORD_COST:
+					return WordCost;
                 case StatID.BONUS_DAMAGE:
-				default:
-					return BonusDamage;
+                default:
+                    return BonusDamage;
             }
         }
-    }
+	}
+
+	public enum StatID
+	{
+		MAX_HP,
+		BASE_ARMOR,
+		BONUS_DAMAGE,
+		SPEED,
+		SLOW,
+		WORD_COST,
+	}
+
 }

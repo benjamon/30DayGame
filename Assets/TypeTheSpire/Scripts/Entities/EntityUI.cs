@@ -24,6 +24,8 @@ namespace Bentendo.TTS
 			stats_subtext = new Subtext(Stats);
 			stats_subtext.Subscribe(e.Stats.BonusDamage, ".dmg");
 			stats_subtext.Subscribe(e.Stats.BaseArmor, ".arm");
+			stats_subtext.Subscribe(e.Stats.WordCost, ".wrd");
+			stats_subtext.Subscribe(e.Stats.Speed, ".spd");
 			//new Subtext(Armor, e.Armor);
 			if (HP.transform.lossyScale.x <= 0f)
             {

@@ -8,11 +8,13 @@ namespace Bentendo.TTS
 	[CustomPropertyDrawer(typeof(Reward))]
 	public class RewardPropertyDrawer : PropertyDrawer
 	{
-        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent zzz)
         {
-            base.OnGUI(position, property, label);
             var rewardType = property.FindPropertyRelative("rewardType");
+            var label = new GUIContent(((RewardType)rewardType.intValue).ToString());
             EditorGUI.BeginProperty(position, label, property);
+            base.OnGUI(position, property, label);
+            EditorGUI.PrefixLabel(position, label);
             var rect = new Rect(position.position + new Vector2(0f, EditorGUIUtility.singleLineHeight), new Vector2(position.size.x, EditorGUIUtility.singleLineHeight));
             EditorGUI.PropertyField(rect, rewardType);
             var amt = property.FindPropertyRelative("amount");

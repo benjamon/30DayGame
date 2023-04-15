@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 namespace Bentendo.TTS
@@ -7,12 +8,11 @@ namespace Bentendo.TTS
 	public class CardPileUI : MonoBehaviour
 	{
 		public SpriteRenderer CoverImage;
-		public float CardHeight = 0.1f;
+		public TMP_Text text;
 
-		public void Setup(Sprite cover, int count)
+		public void UpdatePile(Sprite cover, int count)
 		{
-			CoverImage.sprite = cover;
-			CoverImage.transform.position = Vector3.up * count * CardHeight;
+			text.text = count.ToString();
 		}
-	}
+    }
 }

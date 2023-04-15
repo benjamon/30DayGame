@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Bentendo.TTS
@@ -41,11 +42,15 @@ namespace Bentendo.TTS
         PRONOUNS,
         SCIENCE,
     }
-
-    public enum StatID
+    public class Benums
     {
-        MAX_HP,
-        BASE_ARMOR,
-        BONUS_DAMAGE,
+        public static string Stringify(StatID id)
+        {
+            var words = id.ToString().Split('_');    
+            words = words
+                .Select(word => char.ToUpper(word[0]) + word.Substring(1))
+                .ToArray();
+            return string.Join(' ', words);
+        }
     }
 }
