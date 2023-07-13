@@ -26,7 +26,7 @@ public class Deck<T>
             Discard.Add(DrawPile.Dequeue());
         while (Discard.Count > 0)
         {
-            int n = UnityEngine.Random.Range(0, Discard.Count - 1);
+            int n = UnityEngine.Random.Range(0, Discard.Count);
             DrawPile.Enqueue(Discard[n]);
             Discard.RemoveAt(n);
         }

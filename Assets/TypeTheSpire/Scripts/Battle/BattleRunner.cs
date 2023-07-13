@@ -26,7 +26,7 @@ namespace Bentendo.TTS
             if (RunRunner.Instance == null)
                 SceneManager.LoadScene(1);
             run = RunRunner.Instance;
-            SetupBattle(run.playerState, run.current.Encounter);
+            SetupBattle(run.PlayerState, run.Current.Encounter);
         }
 
         public void SetupBattle(PlayerState pstate, BattleEventDef runner)
@@ -47,14 +47,14 @@ namespace Bentendo.TTS
         public void WinRound()
         {
             cardManager.DisableInput();
-            run.playerState.UpdateHealthToEntity(battleContext.leftEnts[0]); run.SelectNextBattle();
+            run.PlayerState.UpdateHealthToEntity(battleContext.leftEnts[0]); run.SelectNextBattle();
             StartCoroutine(LoadSceneOnWin());
         }
 
         IEnumerator LoadSceneOnWin()
         {
             yield return new WaitForSeconds(3.5f);
-            SceneManager.LoadScene((run.current == null) ? "TTS_WIN" : "TTS_Reward");
+            SceneManager.LoadScene((run.Current == null) ? "TTS_WIN" : "TTS_Reward");
         }
 
         public void LoseGame()

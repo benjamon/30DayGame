@@ -75,7 +75,7 @@ namespace Bentendo.TTS
 
         public void ApplyReward()
         {
-            var player = RunRunner.Instance.playerState;
+            var player = RunRunner.Instance.PlayerState;
             switch (rewardType)
             {
                 case RewardType.ModifyStat:

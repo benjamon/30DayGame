@@ -40,9 +40,9 @@ namespace Bentendo.TTS
 		public void FocusCard(KInput input, char c)
 		{
 			info.timeToType = Time.time;
-			target.ProcessPress(c);
 			target.OnTypo = MakeTypo;
 			input.SetProcessAction(target.ProcessPress);
+			target.ProcessPress(c);
 		}
 
 		public void MakeTypo()

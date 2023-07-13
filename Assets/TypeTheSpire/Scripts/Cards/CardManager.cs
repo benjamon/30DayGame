@@ -18,9 +18,11 @@ namespace Bentendo.TTS
         Deck<Card> playerDeck;
 		Entity player;
 		WordProvider words;
+        int baseWordLength;
 
         public void Setup(BattleContext context, Entity player)
         {
+            baseWordLength = RunRunner.Instance.BaseWordLength;
             transform.localPosition = Vector3.right * AnchorParent.ReferenceWidth * .5f + Vector3.up * CardGrid.height * .5f;
 			this.context = context;
 			this.player = player;
@@ -44,7 +46,7 @@ namespace Bentendo.TTS
             if (playerDeck.DrawPileEmpty())
                 playerDeck.Shuffle();
             if (!playerDeck.TryDrawNext(out Card card))
-                throw new System.Exception("fuckin thing SUCKS aint got no CARDS in it (attempted to draw from empty deck)");
+                throw new System.Exception("attempted drawing card from empty deck");
             var go = GameObject.Instantiate((card.def.cardPrefab == null) ? CardPrefab : card.def.cardPrefab, transform);
             go.transform.localPosition = CardGrid.GetPosition(n);
             go.transform.localScale = Vector3.one;
@@ -59,14 +61,10 @@ namespace Bentendo.TTS
                 playerDeck.AddToDiscard(card);
                 DrawCard(n);
             });
-#if UNITY_EDITOR
-            int min = 5, max = 10;
-#else
-            int min = 4, max = 6;
-#endif
-            string word = words.GetRandom(Random.Range(min, max));
+            int wordLength = baseWordLength + player.Stats.WordLengthModifier + card.def.wordLengthModifier;
+            string word = words.GetRandom(wordLength);
             while (activeTargets.ContainsKey(word[0]))
-                word = words.GetRandom(Random.Range(min, max));
+                word = words.GetRandom(wordLength);
             ec.SetWord(word);
             activeTargets.Add(word[0], ec);
             embodiedCards.AddLast(ec);

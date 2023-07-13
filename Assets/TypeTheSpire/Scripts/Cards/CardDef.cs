@@ -12,7 +12,8 @@ namespace Bentendo.TTS
 		public Sprite Icon;
 		[TextArea(2,4)]
 		public string description;
-		public WordCost cost;
+		[Range(-4,4)]
+		public int wordLengthModifier;
 		public GameObject hitEffect;
 		public GameObject cardPrefab;
 		public CardAction[] actions;

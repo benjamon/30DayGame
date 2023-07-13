@@ -23,7 +23,6 @@ namespace Bentendo
             float idealWidth = cam.ScreenToWorldPoint(new Vector2((!AnchorLeft) ? 0f : cam.pixelWidth, 0f)).x - transform.position.x;
             transform.localScale = Vector3.one * (idealWidth / ReferenceWidth);
             float testScale = Random.Range(.2f, .5f);
-            Debug.Log("test scale: " + testScale);
             transform.position = (Vector2)cam.ScreenToWorldPoint(new Vector2(((AnchorLeft) ? 0f : cam.pixelWidth), testScale * cam.pixelHeight));
         }
 

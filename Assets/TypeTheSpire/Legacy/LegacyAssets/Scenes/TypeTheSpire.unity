@@ -2081,7 +2081,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21a0fa0e3a93f8b4ca1f439bbe2a4988, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  charContainer: {fileID: 0}
   health: {fileID: 1388408214}
   armor: {fileID: 144714250}
   charImage: {fileID: 0}
@@ -2661,9 +2660,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0362f895b9eb3694785d5453f682f0db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ReferenceWidth: 0
+  ReferenceHeight: 0
   AnchorLeft: 1
   AboveText: 0
-  ScaleToFillWidthMeasure: {fileID: 681749477}
 --- !u!4 &1357910798
 Transform:
   m_ObjectHideFlags: 0
@@ -3898,7 +3898,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21a0fa0e3a93f8b4ca1f439bbe2a4988, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  charContainer: {fileID: 0}
   health: {fileID: 1096044308}
   armor: {fileID: 1742880383}
   charImage: {fileID: 1486914835}

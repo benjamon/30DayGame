@@ -8,41 +8,48 @@ namespace Bentendo.TTS
 	public class RunRunner : MonoBehaviour
 	{
         public static RunRunner Instance;
-		public PlayerState playerState;
 
-        public EntityDef tempPlayerDaef;
-        public RunGenerationSpec tempRunSpec;
+        public EntityDef TempPlayerDef;
+        public RunGenerationSpec TempRunSpec;
 
-        public EncounterNode current;
+        public PlayerState PlayerState;
+        public EncounterNode Current;
+        [HideInInspector]
+        public int BaseWordLength;
 
         private void Awake()
         {
             DontDestroyOnLoad(gameObject);
             Instance = this;
+#if UNITY_EDITOR
+            BaseWordLength = 7;
+#else
+            BaseWordLength = 5;
+#endif
         }
 
         public void StartRun()
         {
-            CreateRun(tempPlayerDaef, tempRunSpec);
+            CreateRun(TempPlayerDef, TempRunSpec);
             SceneManager.LoadScene("TTS");
         }
 
         //new run
         public void CreateRun(EntityDef playerDef, RunGenerationSpec spec)
         {
-			playerState = new PlayerState(playerDef);
-            current = spec.Generate();
+			PlayerState = new PlayerState(playerDef);
+            Current = spec.Generate();
         }
 
         public bool SelectNextBattle()
         {
-            if (current.NextNodes.Count == 0)
+            if (Current.NextNodes.Count == 0)
             {
-                current = null;
+                Current = null;
                 return false;
             }
 
-            current = current.NextNodes[0];
+            Current = Current.NextNodes[0];
             return true;
         }
 

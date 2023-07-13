@@ -11,7 +11,10 @@ namespace Bentendo.TTS
 		public int MaxHP;
 		public int BaseArmor;
 		public int BonusDamage;
+		public int WordLength;
+		[Tooltip("time in seconds between each enemy turn")]
 		public int Speed;
+		[Tooltip("time in seconds before the enemy is allowed to act")]
 		public int Initiative;
 		public Sprite EntitySprite;
 		public CardDefCollection StarterDeck;
@@ -26,8 +29,11 @@ namespace Bentendo.TTS
 		public EntityStats GetStats()
         {
 			var stats = new EntityStats(MaxHP);
-			stats.BaseArmor = new Subvar<int>(BaseArmor);
-			stats.BonusDamage = new Subvar<int>(BonusDamage);
+			stats.BaseArmor.Value = BaseArmor;
+			stats.BonusDamage.Value = BonusDamage;
+			stats.WordLengthModifier.Value = WordLength;
+			stats.Speed.Value = Speed;
+			stats.Initiative.Value = Initiative;
 			return stats;
         }
 
